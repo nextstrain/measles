@@ -1,22 +1,25 @@
+import os
+os.environ["AUGUR_RECURSION_LIMIT"] = str(5000)
+
 rule all:
     input:
-        auspice_tree = "auspice/measles_tree.json",
-        auspice_meta = "auspice/measles_meta.json"
+        auspice_tree = "auspice/measles_{genogroup}_{segment}_tree.json",
+        auspice_meta = "auspice/measles_{genogroup}_{segment}_meta.json"
 
-rule files:
-    params:
-        input_fasta = "data/measles.fasta",
-        dropped_strains = "config/dropped_strains.txt",
-        reference = "config/measles_reference.gb",
-        colors = "config/colors.tsv",
-        auspice_config = "config/auspice_config.json"
+input_fasta = "data/sequences_{genogroup}_{segment}.fasta",
+input_meta = "data/metadata_{genogroup}_{segment}.csv",
+dropped_strains = "config/dropped_strains_{genogroup}_{segment}.txt",
+reference = "config/measles_reference_{segment}.gb",
+colors = "config/colors.tsv",
+auspice_config = "config/auspice_config.json"
 
-files = rules.files.params
+def get_min_length(w):
+    return 5000 if w.segment=='genome' else 300
 
 rule download:
     message: "Downloading sequences from fauna"
     output:
-        sequences = "data/measles.fasta"
+        sequences = "data/measles_fauna_{genogroup}_{segment}.fasta"
     params:
         fasta_fields = "strain virus accession collection_date region country division location source locus authors url title journal puburl"
     shell:
@@ -35,8 +38,8 @@ rule parse:
     input:
         sequences = rules.download.output.sequences
     output:
-        sequences = "results/sequences.fasta",
-        metadata = "results/metadata.tsv"
+        sequences = input_fasta,
+        metadata = input_meta
     params:
         fasta_fields = "strain virus accession date region country division city db segment authors url title journal paper_url"
     shell:
@@ -60,14 +63,14 @@ rule filter:
     input:
         sequences = rules.parse.output.sequences,
         metadata = rules.parse.output.metadata,
-        exclude = files.dropped_strains
+        exclude = dropped_strains
     output:
-        sequences = "results/filtered.fasta"
+        sequences = "results/filtered_{genogroup}_{segment}.fasta"
     params:
         group_by = "country year month",
-        sequences_per_group = 20,
+        sequences_per_group = 200,
         min_date = 1950,
-        min_length = 5000
+        min_length = get_min_length
     shell:
         """
         augur filter \
@@ -89,9 +92,9 @@ rule align:
         """
     input:
         sequences = rules.filter.output.sequences,
-        reference = files.reference
+        reference = reference
     output:
-        alignment = "results/aligned.fasta"
+        alignment = "results/aligned_{genogroup}_{segment}.fasta"
     shell:
         """
         augur align \
@@ -107,7 +110,7 @@ rule tree:
     input:
         alignment = rules.align.output.alignment
     output:
-        tree = "results/tree_raw.nwk"
+        tree = "results/tree-raw_{genogroup}_{segment}.nwk"
     shell:
         """
         augur tree \
@@ -129,8 +132,8 @@ rule refine:
         alignment = rules.align.output,
         metadata = rules.parse.output.metadata
     output:
-        tree = "results/tree.nwk",
-        node_data = "results/branch_lengths.json"
+        tree = "results/tree_{genogroup}_{segment}.nwk",
+        node_data = "results/branchlengths_{genogroup}_{segment}.json"
     params:
         coalescent = "opt",
         date_inference = "marginal",
@@ -156,7 +159,7 @@ rule ancestral:
         tree = rules.refine.output.tree,
         alignment = rules.align.output
     output:
-        node_data = "results/nt_muts.json"
+        node_data = "results/ntmuts_{genogroup}_{segment}.json"
     params:
         inference = "joint"
     shell:
@@ -173,9 +176,9 @@ rule translate:
     input:
         tree = rules.refine.output.tree,
         node_data = rules.ancestral.output.node_data,
-        reference = files.reference
+        reference = reference
     output:
-        node_data = "results/aa_muts.json"
+        node_data = "results/aamuts_{genogroup}_{segment}.json"
     shell:
         """
         augur translate \
@@ -193,8 +196,8 @@ rule export:
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
-        colors = files.colors,
-        auspice_config = files.auspice_config
+        colors = colors,
+        auspice_config = auspice_config
     output:
         auspice_tree = rules.all.input.auspice_tree,
         auspice_meta = rules.all.input.auspice_meta

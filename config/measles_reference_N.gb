@@ -1,0 +1,35 @@
+LOCUS       NC_001498                450 bp    DNA              UNK 01-JAN-1980
+DEFINITION  Measles virus, complete genome.
+ACCESSION   NC_001498
+VERSION     NC_001498.1
+KEYWORDS    .
+SOURCE      .
+  ORGANISM  .
+            .
+FEATURES             Location/Qualifiers
+     CDS             1..450
+                     /gene="N"
+                     /codon_start=1
+                     /product="nucleocapsid protein"
+                     /protein_id="NP_056918.1"
+                     /db_xref="GeneID:1489804"
+                     /translation="MATLLRSLALFKRNKDKPPITSGSGGAIRGIKHIIIVPIPGDSS
+                     ITTRSRLLDRLVRLIGNPDVSGPKLTGALIGILSLFVESPGQLIQRITDDPDVSIRLL
+                     EVVQSDQSQSGLTFASRGTNMEDEADQYFSHDDPSSSDQSRSGWFENKEISDIEVQDP
+                     EGFNMILGTILAQIWVLLAKAVTAPDTAADSELRRWIKYTQQRRVVGEFRLERKWLDV
+                     VRNRIAEDLSLRRFMVALILDIKRTPGNKPRIAEMICDIDTYIVEAGLASFILTIKFG
+                     IETMYPALGLHEFAGELSTLESLMNLYQQMGETAPYMVILENSIQNKFSAGSYPLLWS
+                     YAMGVGVELENSMGGLNFGRSYFDPAYFRLGQEMVRRSAGKVSSTLASELGITAEDAR
+                     LVSEIAMHTTEDRISRAVGPRQAQVSFLHGDQSENELPGLGGKEDRRVKQGRGEARES
+                     YRETGSSRASDARAAHPPTSMPLDIDTASESGQDPQDSRRSADALLRLQAMAGILEEQ
+                     GSDTDTPRVYNDRDLLD"
+ORIGIN
+        1 ggagtggaac ttgaaaactc catgggaggt ttgaactttg gtcgatctta ctttgatcca
+       61 gcatatttta gattagggca agagatggtg aggaggtcag ctggaaaggt cagttccaca
+      121 ttggcatccg aactcggtat cactgccgag gatgcaaggc ttgtttcaga gattgcaatg
+      181 catactactg aggacaggat cagtagagcg gtcggaccca gacaagccca agtgtcattt
+      241 ctacacggtg atcaaagtga gaatgagcta ccaggattgg ggggcaagga agataggagg
+      301 gtcaaacagg gtcggggaga agccagggag agctacagag aaaccgggtc cagcagagca
+      361 agtgatgcga gagctgccca tcctccaacc agcatgcccc tagacattga cactgcatcg
+      421 gagtcaggcc aagatccgca ggacagtcga
+//

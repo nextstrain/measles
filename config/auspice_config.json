@@ -19,6 +19,12 @@
       "menuItem":"authors",
       "type":"discrete"
     },
+    "subtype:":{
+      "key":"subtype",
+      "legendTitle":"Subtype",
+      "menuItem":"Subtype",
+      "type":"discrete"
+    },
     "country": {
     },
     "region": {
@@ -30,7 +36,7 @@
   ],
   "defaults": {
     "mapTriplicate": true
-  },  
+  },
   "maintainer": [
     "Trevor Bedford",
     "http://bedford.io/team/trevor-bedford/"
