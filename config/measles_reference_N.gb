@@ -7,6 +7,11 @@ SOURCE      .
   ORGANISM  .
             .
 FEATURES             Location/Qualifiers
+     source          1..450
+                     /organism="Measles morbillivirus"
+                     /mol_type="viral cRNA"
+                     /strain="Ichinose-B95a"
+                     /db_xref="taxon:11234"
      CDS             1..450
                      /gene="N"
                      /codon_start=1

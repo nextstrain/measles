@@ -16,6 +16,10 @@ auspice_config = "config/auspice_config.json"
 def get_min_length(w):
     return 5000 if w.segment=='genome' else 300
 
+def get_rate(w):
+    return 0.0004 if w.segment=='genome' else 0.0006
+
+
 rule download:
     message: "Downloading sequences from fauna"
     output:
@@ -68,7 +72,7 @@ rule filter:
         sequences = "results/filtered_{genogroup}_{segment}.fasta"
     params:
         group_by = "country year month",
-        sequences_per_group = 200,
+        sequences_per_group = 10,
         min_date = 1950,
         min_length = get_min_length
     shell:
@@ -137,7 +141,9 @@ rule refine:
     params:
         coalescent = "opt",
         date_inference = "marginal",
-        clock_filter_iqd = 4
+        clock_filter_iqd = 4,
+        clock_rate = get_rate,
+        clock_std_dev = 0.0002
     shell:
         """
         augur refine \
@@ -149,6 +155,8 @@ rule refine:
             --timetree \
             --coalescent {params.coalescent} \
             --date-confidence \
+            --clock-rate {params.clock_rate} \
+            --clock-std-dev {params.clock_std_dev} \
             --date-inference {params.date_inference} \
             --clock-filter-iqd {params.clock_filter_iqd}
         """
@@ -208,7 +216,8 @@ rule export:
             --metadata {input.metadata} \
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --colors {input.colors} \
-            --extra-traits country region \
+            --minify-json \
+            --extra-traits country region subtype \
             --auspice-config {input.auspice_config} \
             --output-tree {output.auspice_tree} \
             --output-meta {output.auspice_meta}

@@ -19,7 +19,7 @@
       "menuItem":"authors",
       "type":"discrete"
     },
-    "subtype:":{
+    "subtype":{
       "key":"subtype",
       "legendTitle":"Subtype",
       "menuItem":"Subtype",
