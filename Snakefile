@@ -17,7 +17,7 @@ def get_min_length(w):
     return 5000 if w.segment=='genome' else 300
 
 def get_rate(w):
-    return 0.0004 if w.segment=='genome' else 0.0006
+    return 0.0005 if w.segment=='genome' else 0.0007
 
 
 rule download:
@@ -143,7 +143,7 @@ rule refine:
         date_inference = "marginal",
         clock_filter_iqd = 4,
         clock_rate = get_rate,
-        clock_std_dev = 0.0002
+        clock_std_dev = 0.00005
     shell:
         """
         augur refine \
