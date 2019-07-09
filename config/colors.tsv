@@ -8,6 +8,8 @@ region  africa #CEB541
 region  europe  #E39B39
 region  south_america #E56C2F
 region  north_america #DC2F24
+region	australia	#4A8CC2
+region	asia	#511EA8
 
 country	china	#511EA8
 country	vietnam	#4236C1

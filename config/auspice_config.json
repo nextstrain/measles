@@ -13,6 +13,8 @@
       "type": "continuous",
       "key": "num_date"
     },
+    "region": {
+    },
     "authors": {
       "key":"authors",
       "legendTitle":"Authors",
@@ -24,10 +26,6 @@
       "legendTitle":"Subtype",
       "menuItem":"Subtype",
       "type":"discrete"
-    },
-    "country": {
-    },
-    "region": {
     }
   },
   "geo": [
@@ -38,12 +36,13 @@
     "mapTriplicate": true
   },
   "maintainer": [
-    "Trevor Bedford",
+    "Trevor Bedford, Eduan Wilkinson, Richard Neher",
     "http://bedford.io/team/trevor-bedford/"
   ],
   "filters": [
     "country",
     "region",
+    "subtype",
     "authors"
   ]
 }
