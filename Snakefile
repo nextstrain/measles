@@ -3,8 +3,13 @@ os.environ["AUGUR_RECURSION_LIMIT"] = str(5000)
 
 rule all:
     input:
-        auspice_tree = "auspice/measles_{genogroup}_{segment}_tree.json",
-        auspice_meta = "auspice/measles_{genogroup}_{segment}_meta.json"
+        auspice_tree1 = "auspice/measles_all_genome_tree.json",
+        auspice_tree2 = "auspice/measles_b3_N_tree.json",
+        auspice_tree3 = "auspice/measles_d4_N_tree.json",
+        auspice_tree4 = "auspice/measles_d8_N_tree.json",
+        auspice_tree5 = "auspice/measles_d9_N_tree.json",
+        auspice_tree6 = "auspice/measles_h1_N_tree.json"
+
 
 input_fasta = "data/sequences_{genogroup}_{segment}.fasta",
 input_meta = "data/metadata_{genogroup}_{segment}.csv",
@@ -207,8 +212,8 @@ rule export:
         colors = colors,
         auspice_config = auspice_config
     output:
-        auspice_tree = rules.all.input.auspice_tree,
-        auspice_meta = rules.all.input.auspice_meta
+        auspice_tree = "auspice/measles_{genogroup}_{segment}_tree.json",
+        auspice_meta = "auspice/measles_{genogroup}_{segment}_meta.json"
     shell:
         """
         augur export \
