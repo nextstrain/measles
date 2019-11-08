@@ -200,12 +200,11 @@ rule export:
         auspice_meta = rules.all.input.auspice_meta
     shell:
         """
-        augur export \
+        augur export v1 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --colors {input.colors} \
-            --extra-traits country region \
             --auspice-config {input.auspice_config} \
             --output-tree {output.auspice_tree} \
             --output-meta {output.auspice_meta}
