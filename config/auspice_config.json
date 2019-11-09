@@ -1,43 +1,40 @@
 {
   "title": "Real-time tracking of measles virus evolution",
-  "color_options": {
+  "colorings": {
     "gt": {
-      "menuItem": "genotype",
-      "legendTitle": "Genotype",
-      "type": "discrete",
-      "key": "genotype"
+      "title": "Genotype",
+      "type": "categorical"
     },
     "num_date": {
-      "menuItem": "date",
-      "legendTitle": "Sampling date",
-      "type": "continuous",
-      "key": "num_date"
+      "title": "Date",
+      "type": "continuous"
     },
-    "authors": {
-      "key":"authors",
-      "legendTitle":"Authors",
-      "menuItem":"authors",
-      "type":"discrete"
+    "author": {
+      "title": "Author",
+      "type": "categorical"
     },
     "country": {
+      "title": "Country",
+      "type": "categorical"
     },
     "region": {
+      "title": "Region",
+      "type": "categorical"
     }
   },
-  "geo": [
+  "geo_resolutions": [
     "country",
     "region"
   ],
-  "defaults": {
-    "mapTriplicate": true
-  },  
-  "maintainer": [
-    "Trevor Bedford",
-    "http://bedford.io/team/trevor-bedford/"
+  "display_defaults": {
+    "map_triplicate": true
+  },
+  "maintainers": [
+    ["Trevor Bedford", "http://bedford.io/team/trevor-bedford/"]
   ],
   "filters": [
     "country",
     "region",
-    "authors"
+    "author"
   ]
 }
