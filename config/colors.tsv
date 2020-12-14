@@ -9,21 +9,22 @@ region	europe	#E39B39
 region	south america	#E56C2F
 region	north america	#DC2F24
 
-country	china	#511EA8
-country	vietnam	#4335BF
-country	south korea	#3F51CC
-country	japan	#416ECE
-country	australia	#4887C6
-country	new zealand	#529BB6
-country	russia	#5FA9A0
-country	gambia	#6EB389
-country	sudan	#81B973
-country	morocco	#95BD61
-country	italy	#AABD52
-country	germany	#BFBB48
-country	france	#D1B340
-country	netherlands	#DEA63B
-country	united kingdom	#E69237
-country	brazil	#E67531
-country	usa	#E1522A
+country	india	#511EA8
+country	china	#4333BE
+country	vietnam	#3F4ECB
+country	south korea	#4169CF
+country	japan	#4682C9
+country	australia	#4F96BB
+country	new zealand	#5AA5A8
+country	russia	#68AF92
+country	gambia	#78B77D
+country	sudan	#8BBB6A
+country	morocco	#9EBE59
+country	italy	#B3BD4D
+country	germany	#C5B945
+country	france	#D5B03F
+country	netherlands	#E0A23A
+country	united kingdom	#E68D36
+country	brazil	#E67231
+country	usa	#E1502A
 country	canada	#DC2F24
