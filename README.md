@@ -6,7 +6,7 @@ This is the [Nextstrain](https://nextstrain.org) build for measles virus, visibl
 The build encompasses fetching data, preparing it for analysis, doing quality
 control, performing analyses, and saving the results in a format suitable for
 visualization (with [auspice][]).  This involves running components of
-Nextstrain such as [fauna][] and [augur][].
+Nextstrain such as [augur][].
 
 All measles-specific steps and functionality for the Nextstrain pipeline should be
 housed in this repository.
@@ -42,22 +42,23 @@ Configuration takes place entirely with the `Snakefile`. This can be read top-to
 specifies its file inputs and output and also its parameters. There is little redirection and each
 rule should be able to be reasoned with on its own.
 
-
+<!--
 ### fauna / RethinkDB credentials
 
 This build starts by pulling sequences from our live [fauna][] database (a RethinkDB instance). This
 requires environment variables `RETHINK_HOST` and `RETHINK_AUTH_KEY` to be set.
+-->
 
-If you don't have access to our database, you can run the build using the
+If you don't have access to our https endpoints, you can run the build using the
 example data provided in this repository.  Before running the build, copy the
 example sequences into the `data/` directory like so:
 
     mkdir -p data/
-    cp example_data/measles.fasta data/
+    cp example_data/* data/.
 
 
 [Nextstrain]: https://nextstrain.org
-[fauna]: https://github.com/nextstrain/fauna
+<!-- [fauna]: https://github.com/nextstrain/fauna -->
 [augur]: https://github.com/nextstrain/augur
 [auspice]: https://github.com/nextstrain/auspice
 [snakemake cli]: https://snakemake.readthedocs.io/en/stable/executable.html#all-options
