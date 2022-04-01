@@ -13,40 +13,31 @@ rule files:
 files = rules.files.params
 
 rule download:
-    message: "Downloading sequences from fauna"
+    message: "Downloading sequences and metadata from data.nextstrain.org"
     output:
-        sequences = "data/measles.fasta"
+        sequences = "data/sequences.fasta.xz",
+        metadata = "data/metadata.tsv.gz"
     params:
-        fasta_fields = "strain virus accession collection_date region country division location source locus authors url title journal puburl"
+        sequences_url = "https://data.nextstrain.org/files/measles/sequences.fasta.xz",
+        metadata_url = "https://data.nextstrain.org/files/measles/metadata.tsv.gz"
     shell:
         """
-        python3 ../fauna/vdb/download.py \
-            --database vdb \
-            --virus measles \
-            --fasta_fields {params.fasta_fields} \
-            --resolve_method choose_genbank \
-            --path $(dirname {output.sequences}) \
-            --fstem $(basename {output.sequences} .fasta)
+        curl -fsSL --compressed {params.sequences_url:q} --output {output.sequences}
+        curl -fsSL --compressed {params.metadata_url:q} --output {output.metadata}
         """
 
-rule parse:
-    message: "Parsing fasta into sequences and metadata"
+rule decompress:
+    message: "Decompressing sequences and metadata"
     input:
-        sequences = rules.download.output.sequences
+        sequences = "data/sequences.fasta.xz",
+        metadata = "data/metadata.tsv.gz"
     output:
-        sequences = "results/sequences.fasta",
-        metadata = "results/metadata.tsv"
-    params:
-        fasta_fields = "strain virus accession date region country division city db segment authors url title journal paper_url",
-        prettify_fields = "region country division city"
+        sequences = "data/sequences.fasta",
+        metadata = "data/metadata.tsv"
     shell:
         """
-        augur parse \
-            --sequences {input.sequences} \
-            --output-sequences {output.sequences} \
-            --output-metadata {output.metadata} \
-            --fields {params.fasta_fields} \
-            --prettify-fields {params.prettify_fields}
+        gzip --decompress --keep {input.metadata}
+        xz --decompress --keep {input.sequences}
         """
 
 rule filter:
@@ -59,8 +50,8 @@ rule filter:
           - minimum genome length of {params.min_length}
         """
     input:
-        sequences = rules.parse.output.sequences,
-        metadata = rules.parse.output.metadata,
+        sequences = rules.decompress.output.sequences,
+        metadata = rules.decompress.output.metadata,
         exclude = files.dropped_strains
     output:
         sequences = "results/filtered.fasta"
@@ -128,7 +119,7 @@ rule refine:
     input:
         tree = rules.tree.output.tree,
         alignment = rules.align.output,
-        metadata = rules.parse.output.metadata
+        metadata = rules.decompress.output.metadata
     output:
         tree = "results/tree.nwk",
         node_data = "results/branch_lengths.json"
@@ -190,7 +181,7 @@ rule export:
     message: "Exporting data files for for auspice"
     input:
         tree = rules.refine.output.tree,
-        metadata = rules.parse.output.metadata,
+        metadata = rules.decompress.output.metadata,
         branch_lengths = rules.refine.output.node_data,
         nt_muts = rules.ancestral.output.node_data,
         aa_muts = rules.translate.output.node_data,
