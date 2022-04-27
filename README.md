@@ -11,7 +11,7 @@ Nextstrain such as [augur][].
 All measles-specific steps and functionality for the Nextstrain pipeline should be
 housed in this repository.
 
-[![Build Status](https://github.com/nextstrain/measles/actions/workflows/ci.yaml/badge.svg?branch=master)](https://github.com/nextstrain/measles/actions/workflows/ci.yaml)
+[![Build Status](https://github.com/nextstrain/measles/actions/workflows/ci.yaml/badge.svg?branch=main)](https://github.com/nextstrain/measles/actions/workflows/ci.yaml)
 
 ## Usage
 
