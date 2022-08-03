@@ -21,7 +21,7 @@ If you're unfamiliar with Nextstrain builds, you may want to follow our
 The easiest way to run this pathogen build is using the [Nextstrain
 command-line tool][nextstrain-cli]:
 
-    nextstrain build .
+    nextstrain build . --cores all
 
 See the [nextstrain-cli README][] for how to install the `nextstrain` command.
 
