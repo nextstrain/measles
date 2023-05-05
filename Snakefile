@@ -13,7 +13,7 @@ rule files:
 files = rules.files.params
 
 rule download:
-    message: "Downloading sequences and metadata from data.nextstrain.org"
+    """Downloading sequences and metadata from data.nextstrain.org"""
     output:
         sequences = "data/sequences.fasta.zst",
         metadata = "data/metadata.tsv.zst"
@@ -27,7 +27,7 @@ rule download:
         """
 
 rule decompress:
-    message: "Decompressing sequences and metadata"
+    """Decompressing sequences and metadata"""
     input:
         sequences = "data/sequences.fasta.zst",
         metadata = "data/metadata.tsv.zst"
@@ -41,14 +41,13 @@ rule decompress:
         """
 
 rule filter:
-    message:
-        """
-        Filtering to
-          - {params.sequences_per_group} sequence(s) per {params.group_by!s}
-          - from {params.min_date} onwards
-          - excluding strains in {input.exclude}
-          - minimum genome length of {params.min_length}
-        """
+    """
+    Filtering to
+      - {params.sequences_per_group} sequence(s) per {params.group_by!s}
+      - from {params.min_date} onwards
+      - excluding strains in {input.exclude}
+      - minimum genome length of {params.min_length}
+    """
     input:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv",
@@ -74,11 +73,10 @@ rule filter:
         """
 
 rule align:
-    message:
-        """
-        Aligning sequences to {input.reference}
-          - filling gaps with N
-        """
+    """
+    Aligning sequences to {input.reference}
+      - filling gaps with N
+    """
     input:
         sequences = "results/filtered.fasta",
         reference = files.reference
@@ -95,7 +93,7 @@ rule align:
         """
 
 rule tree:
-    message: "Building tree"
+    """Building tree"""
     input:
         alignment = "results/aligned.fasta"
     output:
@@ -108,14 +106,13 @@ rule tree:
         """
 
 rule refine:
-    message:
-        """
-        Refining tree
-          - estimate timetree
-          - use {params.coalescent} coalescent timescale
-          - estimate {params.date_inference} node dates
-          - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
-        """
+    """
+    Refining tree
+      - estimate timetree
+      - use {params.coalescent} coalescent timescale
+      - estimate {params.date_inference} node dates
+      - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
+    """
     input:
         tree = "results/tree_raw.nwk",
         alignment = "results/aligned.fasta",
@@ -143,7 +140,7 @@ rule refine:
         """
 
 rule ancestral:
-    message: "Reconstructing ancestral sequences and mutations"
+    """Reconstructing ancestral sequences and mutations"""
     input:
         tree = "results/tree.nwk",
         alignment = "results/aligned.fasta"
@@ -161,7 +158,7 @@ rule ancestral:
         """
 
 rule translate:
-    message: "Translating amino acid sequences"
+    """Translating amino acid sequences"""
     input:
         tree = "results/tree.nwk",
         node_data = "results/nt_muts.json",
@@ -178,7 +175,7 @@ rule translate:
         """
 
 rule export:
-    message: "Exporting data files for for auspice"
+    """Exporting data files for for auspice"""
     input:
         tree = "results/tree.nwk",
         metadata = "data/metadata.tsv",
@@ -202,7 +199,7 @@ rule export:
         """
 
 rule clean:
-    message: "Removing directories: {params}"
+    """Removing directories: {params}"""
     params:
         "results ",
         "auspice"
