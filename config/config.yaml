@@ -1,0 +1,11 @@
+filter: 
+    group_by: "country year month"
+    sequences_per_group: 20
+    min_date: 1950
+    min_length: 5000
+refine:
+    coalescent: "opt"
+    date_inference: "marginal"
+    clock_filter_iqd: 4
+ancestral:
+    inference: "joint"

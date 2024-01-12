@@ -1,3 +1,5 @@
+configfile: "config/config.yaml" 
+
 rule all:
     input:
         auspice_json = "auspice/measles.json",
@@ -55,10 +57,10 @@ rule filter:
     output:
         sequences = "results/filtered.fasta"
     params:
-        group_by = "country year month",
-        sequences_per_group = 20,
-        min_date = 1950,
-        min_length = 5000
+        group_by = config["filter"]["group_by"],
+        sequences_per_group = config["filter"]["sequences_per_group"],
+        min_date = config["filter"]["min_date"],
+        min_length = config["filter"]["min_length"]
     shell:
         """
         augur filter \
@@ -121,9 +123,9 @@ rule refine:
         tree = "results/tree.nwk",
         node_data = "results/branch_lengths.json"
     params:
-        coalescent = "opt",
-        date_inference = "marginal",
-        clock_filter_iqd = 4
+        coalescent = config["refine"]["coalescent"],
+        date_inference = config["refine"]["date_inference"],
+        clock_filter_iqd = config["refine"]["clock_filter_iqd"]
     shell:
         """
         augur refine \
@@ -147,7 +149,7 @@ rule ancestral:
     output:
         node_data = "results/nt_muts.json"
     params:
-        inference = "joint"
+        inference = config["ancestral"]["inference"]
     shell:
         """
         augur ancestral \
