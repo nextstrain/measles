@@ -4,16 +4,6 @@ rule all:
     input:
         auspice_json = "auspice/measles.json",
 
-rule files:
-    params:
-        input_fasta = "data/measles.fasta",
-        dropped_strains = "config/dropped_strains.txt",
-        reference = "config/measles_reference.gb",
-        colors = "config/colors.tsv",
-        auspice_config = "config/auspice_config.json"
-
-files = rules.files.params
-
 rule download:
     """Downloading sequences and metadata from data.nextstrain.org"""
     output:
@@ -53,7 +43,7 @@ rule filter:
     input:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv",
-        exclude = files.dropped_strains
+        exclude = config["files"]["exclude"]
     output:
         sequences = "results/filtered.fasta"
     params:
@@ -81,7 +71,7 @@ rule align:
     """
     input:
         sequences = "results/filtered.fasta",
-        reference = files.reference
+        reference = config["files"]["reference"]
     output:
         alignment = "results/aligned.fasta"
     shell:
@@ -164,7 +154,7 @@ rule translate:
     input:
         tree = "results/tree.nwk",
         node_data = "results/nt_muts.json",
-        reference = files.reference
+        reference = config["files"]["reference"]
     output:
         node_data = "results/aa_muts.json"
     shell:
@@ -184,8 +174,8 @@ rule export:
         branch_lengths = "results/branch_lengths.json",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
-        colors = files.colors,
-        auspice_config = files.auspice_config
+        colors = config["files"]["colors"],
+        auspice_config = config["files"]["auspice_config"]
     output:
         auspice_json = rules.all.input.auspice_json
     shell:
