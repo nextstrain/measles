@@ -1,16 +1,8 @@
+configfile: "config/config.yaml" 
+
 rule all:
     input:
         auspice_json = "auspice/measles.json",
-
-rule files:
-    params:
-        input_fasta = "data/measles.fasta",
-        dropped_strains = "config/dropped_strains.txt",
-        reference = "config/measles_reference.gb",
-        colors = "config/colors.tsv",
-        auspice_config = "config/auspice_config.json"
-
-files = rules.files.params
 
 rule download:
     """Downloading sequences and metadata from data.nextstrain.org"""
@@ -51,14 +43,14 @@ rule filter:
     input:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv",
-        exclude = files.dropped_strains
+        exclude = config["files"]["exclude"]
     output:
         sequences = "results/filtered.fasta"
     params:
-        group_by = "country year month",
-        sequences_per_group = 20,
-        min_date = 1950,
-        min_length = 5000
+        group_by = config["filter"]["group_by"],
+        sequences_per_group = config["filter"]["sequences_per_group"],
+        min_date = config["filter"]["min_date"],
+        min_length = config["filter"]["min_length"]
     shell:
         """
         augur filter \
@@ -79,7 +71,7 @@ rule align:
     """
     input:
         sequences = "results/filtered.fasta",
-        reference = files.reference
+        reference = config["files"]["reference"]
     output:
         alignment = "results/aligned.fasta"
     shell:
@@ -121,9 +113,9 @@ rule refine:
         tree = "results/tree.nwk",
         node_data = "results/branch_lengths.json"
     params:
-        coalescent = "opt",
-        date_inference = "marginal",
-        clock_filter_iqd = 4
+        coalescent = config["refine"]["coalescent"],
+        date_inference = config["refine"]["date_inference"],
+        clock_filter_iqd = config["refine"]["clock_filter_iqd"]
     shell:
         """
         augur refine \
@@ -147,7 +139,7 @@ rule ancestral:
     output:
         node_data = "results/nt_muts.json"
     params:
-        inference = "joint"
+        inference = config["ancestral"]["inference"]
     shell:
         """
         augur ancestral \
@@ -162,7 +154,7 @@ rule translate:
     input:
         tree = "results/tree.nwk",
         node_data = "results/nt_muts.json",
-        reference = files.reference
+        reference = config["files"]["reference"]
     output:
         node_data = "results/aa_muts.json"
     shell:
@@ -182,8 +174,8 @@ rule export:
         branch_lengths = "results/branch_lengths.json",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
-        colors = files.colors,
-        auspice_config = files.auspice_config
+        colors = config["files"]["colors"],
+        auspice_config = config["files"]["auspice_config"]
     output:
         auspice_json = rules.all.input.auspice_json
     shell:
