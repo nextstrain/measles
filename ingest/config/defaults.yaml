@@ -110,6 +110,7 @@ curate:
     'date_updated',
     'sra_accessions',
     'authors',
+    'abbr_authors',
     'institution',
   ]
 
