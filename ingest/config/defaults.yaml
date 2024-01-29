@@ -29,6 +29,7 @@ ncbi_datasets_fields:
   - submitter-names
   - submitter-affiliation
   - submitter-country
+  - virus-name
 
 # Config parameters related to the curate pipeline
 curate:
@@ -59,6 +60,7 @@ curate:
     submitter-names: authors
     submitter-affiliation: institution
     submitter-country: submitter_country
+    virus-name: virus_name
   # Standardized strain name regex
   # Currently accepts any characters because we do not have a clear standard for strain names across pathogens
   strain_regex: '^.+$'
@@ -99,6 +101,7 @@ curate:
   metadata_columns: [
     'accession',
     'strain',
+    'virus_name',
     'date',
     'region',
     'country',
