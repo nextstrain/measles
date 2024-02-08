@@ -20,10 +20,6 @@ to provide the correct parameter.
     - Only returns metadata fields that are available through NCBI Datasets
     - Only works for viral genomes
 
-2. Fetch from Entrez (https://www.ncbi.nlm.nih.gov/books/NBK25501/)
-    - requires `entrez_search_term` config
-    - Returns all available data via a GenBank file
-    - Requires a custom script to parse the necessary fields from the GenBank file
 """
 
 
