@@ -7,7 +7,7 @@ REQUIRED INPUTS:
 
 OUTPUTS:
 
-    metadata    = results/subset_metadata.tsv
+    metadata    = results/metadata.tsv
     sequences   = results/sequences.fasta
 
 """
@@ -61,7 +61,7 @@ rule curate:
         all_geolocation_rules="data/all-geolocation-rules.tsv",
         annotations=config["curate"]["annotations"],
     output:
-        metadata="results/all_metadata.tsv",
+        metadata="data/all_metadata.tsv",
         sequences="results/sequences.fasta",
     log:
         "logs/curate.txt",
@@ -118,7 +118,7 @@ rule curate:
 
 rule subset_metadata:
     input:
-        metadata="results/all_metadata.tsv",
+        metadata="data/all_metadata.tsv",
     output:
         subset_metadata="results/metadata.tsv",
     params:
