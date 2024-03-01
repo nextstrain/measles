@@ -1,8 +1,8 @@
 files:
-    exclude: "config/dropped_strains.txt"
-    reference: "config/measles_reference.gb"
-    colors: "config/colors.tsv"
-    auspice_config: "config/auspice_config.json"
+    exclude: "defaults/dropped_strains.txt"
+    reference: "defaults/measles_reference.gb"
+    colors: "defaults/colors.tsv"
+    auspice_config: "defaults/auspice_config.json"
 filter: 
     group_by: "country year month"
     sequences_per_group: 20
