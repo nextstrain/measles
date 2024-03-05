@@ -8,9 +8,13 @@ filter:
     sequences_per_group: 20
     min_date: 1950
     min_length: 5000
+    strain_id: "accession"
 refine:
     coalescent: "opt"
     date_inference: "marginal"
     clock_filter_iqd: 4
+    strain_id: "accession"    
 ancestral:
     inference: "joint"
+export:
+    strain_id: "accession"

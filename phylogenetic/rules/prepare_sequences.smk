@@ -9,8 +9,8 @@ rule download:
         sequences = "data/sequences.fasta.zst",
         metadata = "data/metadata.tsv.zst"
     params:
-        sequences_url = "https://data.nextstrain.org/files/measles/sequences.fasta.zst",
-        metadata_url = "https://data.nextstrain.org/files/measles/metadata.tsv.zst"
+        sequences_url = "https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst",
+        metadata_url = "https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst"
     shell:
         """
         curl -fsSL --compressed {params.sequences_url:q} --output {output.sequences}
@@ -49,18 +49,20 @@ rule filter:
         group_by = config["filter"]["group_by"],
         sequences_per_group = config["filter"]["sequences_per_group"],
         min_date = config["filter"]["min_date"],
-        min_length = config["filter"]["min_length"]
+        min_length = config["filter"]["min_length"],
+        strain_id = config["filter"]["strain_id"]
     shell:
         """
         augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
             --exclude {input.exclude} \
             --output {output.sequences} \
             --group-by {params.group_by} \
             --sequences-per-group {params.sequences_per_group} \
             --min-date {params.min_date} \
-            --min-length {params.min_length}
+            --min-length {params.min_length} 
         """
 
 rule align:
