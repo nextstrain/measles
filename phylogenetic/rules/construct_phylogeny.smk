@@ -35,19 +35,21 @@ rule refine:
     params:
         coalescent = config["refine"]["coalescent"],
         date_inference = config["refine"]["date_inference"],
-        clock_filter_iqd = config["refine"]["clock_filter_iqd"]
+        clock_filter_iqd = config["refine"]["clock_filter_iqd"],
+        strain_id = config["strain_id_field"]
     shell:
         """
         augur refine \
             --tree {input.tree} \
             --alignment {input.alignment} \
             --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
             --output-tree {output.tree} \
             --output-node-data {output.node_data} \
             --timetree \
             --coalescent {params.coalescent} \
             --date-confidence \
             --date-inference {params.date_inference} \
-            --clock-filter-iqd {params.clock_filter_iqd}
+            --clock-filter-iqd {params.clock_filter_iqd} 
         """
         

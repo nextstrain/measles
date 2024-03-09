@@ -49,18 +49,20 @@ rule filter:
         group_by = config["filter"]["group_by"],
         sequences_per_group = config["filter"]["sequences_per_group"],
         min_date = config["filter"]["min_date"],
-        min_length = config["filter"]["min_length"]
+        min_length = config["filter"]["min_length"],
+        strain_id = config["strain_id_field"]
     shell:
         """
         augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
             --exclude {input.exclude} \
             --output {output.sequences} \
             --group-by {params.group_by} \
             --sequences-per-group {params.sequences_per_group} \
             --min-date {params.min_date} \
-            --min-length {params.min_length}
+            --min-length {params.min_length} 
         """
 
 rule align:

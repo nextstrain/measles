@@ -1,3 +1,4 @@
+strain_id_field: "accession"
 files:
     exclude: "defaults/dropped_strains.txt"
     reference: "defaults/measles_reference.gb"
@@ -11,6 +12,6 @@ filter:
 refine:
     coalescent: "opt"
     date_inference: "marginal"
-    clock_filter_iqd: 4
+    clock_filter_iqd: 4  
 ancestral:
     inference: "joint"
