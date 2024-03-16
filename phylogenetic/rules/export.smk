@@ -17,11 +17,14 @@ rule export:
         auspice_config = config["files"]["auspice_config"]
     output:
         auspice_json = rules.all.input.auspice_json
+    params:
+        strain_id = config["strain_id_field"]
     shell:
         """
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --colors {input.colors} \
             --auspice-config {input.auspice_config} \

@@ -1,13 +1,9 @@
-region	china	#4042C7
-region	southeast_asia	#4274CE
-region	south_asia	#5199B7
-region	japan_korea	#69B091
-region	oceania	#88BB6C
-region	west asia	#ADBD51
-region	africa	#CEB541
-region	europe	#E39B39
-region	south america	#E56C2F
-region	north america	#DC2F24
+region	Asia	#447CCD
+region	Oceania	#5EA9A1
+region	Africa	#8ABB6A
+region	Europe	#BEBB48
+region	South America	#E29E39
+region	North America	#E2562B
 
 country	india	#511EA8
 country	china	#4333BE
