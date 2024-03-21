@@ -4,7 +4,7 @@ configfile: "defaults/config.yaml"
 
 rule all:
     input:
-        auspice_json = "auspice/measles.json",
+        auspice_json = expand("auspice/measles_{gene}.json", gene=genes)
 
 include: "rules/prepare_sequences.smk"
 include: "rules/prepare_sequences_N450.smk"
