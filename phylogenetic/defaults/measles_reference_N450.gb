@@ -1,0 +1,69 @@
+LOCUS       NC_001498                450 bp    cRNA    linear   VRL 13-AUG-2018
+DEFINITION  Measles virus, complete genome.
+ACCESSION   NC_001498 REGION: 1233..1682
+VERSION     NC_001498.1
+DBLINK      Project: 15025
+            BioProject: PRJNA485481
+KEYWORDS    RefSeq.
+SOURCE      Measles morbillivirus
+  ORGANISM  Measles morbillivirus
+            Viruses; Riboviria; Orthornavirae; Negarnaviricota;
+            Haploviricotina; Monjiviricetes; Mononegavirales; Paramyxoviridae;
+            Orthoparamyxovirinae; Morbillivirus; Morbillivirus hominis.
+REFERENCE   1  (sites)
+  AUTHORS   Rima,B.K. and Duprex,W.P.
+  TITLE     The measles virus replication cycle
+  JOURNAL   Curr. Top. Microbiol. Immunol. 329, 77-102 (2009)
+   PUBMED   19198563
+REFERENCE   2
+  AUTHORS   Takeuchi,K., Miyajima,N., Kobune,F. and Tashiro,M.
+  TITLE     Comparative nucleotide sequence analyses of the entire genomes of
+            B95a cell-isolated and vero cell-isolated measles viruses from the
+            same patient
+  JOURNAL   Virus Genes 20 (3), 253-257 (2000)
+   PUBMED   10949953
+REFERENCE   3  (bases 1 to 450)
+  CONSRTM   NCBI Genome Project
+  TITLE     Direct Submission
+  JOURNAL   Submitted (01-AUG-2000) National Center for Biotechnology
+            Information, NIH, Bethesda, MD 20894, USA
+REFERENCE   4  (bases 1 to 450)
+  AUTHORS   Takeuchi,K., Tanabayashi,K. and Tashiro,M.
+  TITLE     Direct Submission
+  JOURNAL   Submitted (10-JUL-1998) Kaoru Takeuchi, National Institute of
+            Infectious Diseases, Viral Disease and Vaccine Contorol; 4-7-1
+            Gakuen, Musashi-murayama, Tokyo 208-0011, Japan
+            (E-mail:ktake@nih.go.jp, Tel:81-42-561-0771(ex.530),
+            Fax:81-42-567-5631)
+COMMENT     REVIEWED REFSEQ: This record has been curated by NCBI staff. The
+            reference sequence was derived from AB016162.
+            Sequence updated (21-Jul-1998)
+            Sequence updated (11-Dec-1998).
+            COMPLETENESS: full length.
+FEATURES             Location/Qualifiers
+     source          1..450
+                     /organism="Measles morbillivirus"
+                     /mol_type="viral cRNA"
+                     /strain="Ichinose-B95a"
+                     /db_xref="taxon:11234"
+     CDS             <1..>450
+                     /gene="N"
+                     /codon_start=1
+                     /product="nucleocapsid protein"
+                     /protein_id="NP_056918.1"
+                     /db_xref="GeneID:1489804"
+                     /translation="VSSTLASELGITAEDAR
+                     LVSEIAMHTTEDRISRAVGPRQAQVSFLHGDQSENELPGLGGKEDRRVKQGRGEARES
+                     YRETGSSRASDARAAHPPTSMPLDIDTASESGQDPQDSRRSADALLRLQAMAGILEEQ
+                     GSDTDTPRVYNDRDLLD"
+ORIGIN      
+        1 gtcagttcca cattggcatc cgaactcggt atcactgccg aggatgcaag gcttgtttca
+       61 gagattgcaa tgcatactac tgaggacagg atcagtagag cggtcggacc cagacaagcc
+      121 caagtgtcat ttctacacgg tgatcaaagt gagaatgagc taccaggatt ggggggcaag
+      181 gaagatagga gggtcaaaca gggtcgggga gaagccaggg agagctacag agaaaccggg
+      241 tccagcagag caagtgatgc gagagctgcc catcctccaa ccagcatgcc cctagacatt
+      301 gacactgcat cggagtcagg ccaagatccg caggacagtc gaaggtcagc tgacgccctg
+      361 ctcaggctgc aagccatggc aggaatcttg gaagaacaag gctcagacac ggacacccct
+      421 agggtataca atgacagaga tcttctagac
+//
+
