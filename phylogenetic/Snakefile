@@ -1,3 +1,5 @@
+genes = ['N450', 'genome']
+
 configfile: "defaults/config.yaml" 
 
 rule all:

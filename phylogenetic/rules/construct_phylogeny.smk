@@ -7,9 +7,9 @@ See Augur's usage docs for these commands for more details.
 rule tree:
     """Building tree"""
     input:
-        alignment = "results/aligned.fasta"
+        alignment = "results/aligned_{gene}.fasta"
     output:
-        tree = "results/tree_raw.nwk"
+        tree = "results/tree_raw_{gene}.nwk"
     shell:
         """
         augur tree \
@@ -26,12 +26,12 @@ rule refine:
       - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
     """
     input:
-        tree = "results/tree_raw.nwk",
-        alignment = "results/aligned.fasta",
+        tree = "results/tree_raw_{gene}.nwk",
+        alignment = "results/aligned_{gene}.fasta",
         metadata = "data/metadata.tsv"
     output:
-        tree = "results/tree.nwk",
-        node_data = "results/branch_lengths.json"
+        tree = "results/tree_{gene}.nwk",
+        node_data = "results/branch_lengths_{gene}.json"
     params:
         coalescent = config["refine"]["coalescent"],
         date_inference = config["refine"]["date_inference"],
