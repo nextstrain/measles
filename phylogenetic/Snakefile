@@ -5,6 +5,7 @@ rule all:
         auspice_json = "auspice/measles.json",
 
 include: "rules/prepare_sequences.smk"
+include: "rules/prepare_sequences_N450.smk"
 include: "rules/construct_phylogeny.smk"
 include: "rules/annotate_phylogeny.smk"
 include: "rules/export.smk"

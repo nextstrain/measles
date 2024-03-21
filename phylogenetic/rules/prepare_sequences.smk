@@ -74,7 +74,7 @@ rule align:
         sequences = "results/filtered.fasta",
         reference = config["files"]["reference"]
     output:
-        alignment = "results/aligned.fasta"
+        alignment = "results/aligned_genome.fasta"
     shell:
         """
         augur align \
