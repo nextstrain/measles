@@ -37,9 +37,7 @@
     "region"
   ],
   "display_defaults": {
-    "map_triplicate": true,
-    "distance_measure": "div",
-    "layout": "unrooted"
+    "map_triplicate": true
   },
   "filters": [
     "country",
