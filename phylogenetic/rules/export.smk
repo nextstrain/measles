@@ -8,11 +8,11 @@ See Augur's usage docs for these commands for more details.
 rule export:
     """Exporting data files for for auspice"""
     input:
-        tree = "results/tree_{gene}.nwk",
+        tree = "results/{gene}/tree.nwk",
         metadata = "data/metadata.tsv",
-        branch_lengths = "results/branch_lengths_{gene}.json",
-        nt_muts = "results/nt_muts_{gene}.json",
-        aa_muts = "results/aa_muts_{gene}.json",
+        branch_lengths = "results/{gene}/branch_lengths.json",
+        nt_muts = "results/{gene}/nt_muts.json",
+        aa_muts = "results/{gene}/aa_muts.json",
         colors = config["files"]["colors"],
         auspice_config = lambda wildcard: "defaults/auspice_config.json" if wildcard.gene in ["genome"] else "defaults/auspice_config_N450.json"
 

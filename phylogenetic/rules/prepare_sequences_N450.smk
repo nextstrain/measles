@@ -9,7 +9,7 @@ rule align_and_extract_N450:
         sequences = "data/sequences.fasta",
         reference = config["files"]["reference_N450_fasta"]
     output:
-        sequences = "results/sequences_N450.fasta"
+        sequences = "results/N450/sequences.fasta"
     params:
         min_length = config['filter_N450']['min_length']
     shell:
@@ -32,11 +32,11 @@ rule filter_N450:
       - excluding strains with missing region, country or date metadata
     """
     input:
-        sequences = "results/sequences_N450.fasta",
+        sequences = "results/N450/sequences.fasta",
         metadata = "data/metadata.tsv",
         exclude = config["files"]["exclude"]
     output:
-        sequences = "results/aligned_N450.fasta"
+        sequences = "results/N450/aligned.fasta"
     params:
         group_by = config['filter_N450']['group_by'],
         subsample_max_sequences = config["filter_N450"]["subsample_max_sequences"],
