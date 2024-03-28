@@ -17,11 +17,6 @@
       "type": "continuous"
     },
     {
-      "key": "author",
-      "title": "Author",
-      "type": "categorical"
-    },
-    {
       "key": "country",
       "title": "Country",
       "type": "categorical"
@@ -42,6 +37,9 @@
   "filters": [
     "country",
     "region",
+    "author"
+  ],
+  "metadata_columns": [
     "author"
   ]
 }
