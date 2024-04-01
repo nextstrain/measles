@@ -44,7 +44,7 @@ rule filter:
         metadata = "data/metadata.tsv",
         exclude = config["files"]["exclude"]
     output:
-        sequences = "results/filtered.fasta"
+        sequences = "results/genome/filtered.fasta"
     params:
         group_by = config["filter"]["group_by"],
         sequences_per_group = config["filter"]["sequences_per_group"],
@@ -71,10 +71,10 @@ rule align:
       - filling gaps with N
     """
     input:
-        sequences = "results/filtered.fasta",
+        sequences = "results/genome/filtered.fasta",
         reference = config["files"]["reference"]
     output:
-        alignment = "results/aligned.fasta"
+        alignment = "results/genome/aligned.fasta"
     shell:
         """
         augur align \

@@ -2,13 +2,21 @@ strain_id_field: "accession"
 files:
     exclude: "defaults/dropped_strains.txt"
     reference: "defaults/measles_reference.gb"
+    reference_N450: "defaults/measles_reference_N450.gb"
+    reference_N450_fasta: "defaults/measles_reference_N450.fasta"
     colors: "defaults/colors.tsv"
     auspice_config: "defaults/auspice_config.json"
+    auspice_config_N450: "defaults/auspice_config_N450.json"
 filter: 
     group_by: "country year month"
     sequences_per_group: 20
     min_date: 1950
     min_length: 5000
+filter_N450:
+    group_by: "country year"
+    subsample_max_sequences: 3000
+    min_date: 1950
+    min_length: 400
 refine:
     coalescent: "opt"
     date_inference: "marginal"

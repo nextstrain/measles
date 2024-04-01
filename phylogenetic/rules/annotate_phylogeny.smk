@@ -8,10 +8,10 @@ See Augur's usage docs for these commands for more details.
 rule ancestral:
     """Reconstructing ancestral sequences and mutations"""
     input:
-        tree = "results/tree.nwk",
-        alignment = "results/aligned.fasta"
+        tree = "results/{gene}/tree.nwk",
+        alignment = "results/{gene}/aligned.fasta"
     output:
-        node_data = "results/nt_muts.json"
+        node_data = "results/{gene}/nt_muts.json"
     params:
         inference = config["ancestral"]["inference"]
     shell:
@@ -26,11 +26,11 @@ rule ancestral:
 rule translate:
     """Translating amino acid sequences"""
     input:
-        tree = "results/tree.nwk",
-        node_data = "results/nt_muts.json",
-        reference = config["files"]["reference"]
+        tree = "results/{gene}/tree.nwk",
+        node_data = "results/{gene}/nt_muts.json",
+        reference = lambda wildcard: "defaults/measles_reference.gb" if wildcard.gene in ["genome"] else "defaults/measles_reference_{gene}.gb"
     output:
-        node_data = "results/aa_muts.json"
+        node_data = "results/{gene}/aa_muts.json"
     shell:
         """
         augur translate \

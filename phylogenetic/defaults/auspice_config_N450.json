@@ -4,7 +4,7 @@
     {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
     {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
   ],
-  "build_url": "https://github.com/nextstrain/measles",  
+  "build_url": "https://github.com/nextstrain/measles",
   "colorings": [
     {
       "key": "gt",
