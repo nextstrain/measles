@@ -48,3 +48,17 @@ example data provided in this repository.  To run the build by copying the
 example sequences into the `data/` directory, use the following:
 
     nextstrain build .  --configfile profiles/ci/profiles_config.yaml
+
+### Deploying build
+
+To run the workflow and automatically deploy the build to nextstrain.org,
+you will need to have AWS credentials to run the following:
+
+```
+nextstrain build \
+    --env AWS_ACCESS_KEY_ID \
+    --env AWS_SECRET_ACCESS_KEY \
+    . \
+        deploy_all \
+        --configfile build-configs/nextstrain-automation/config.yaml
+```
