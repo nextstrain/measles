@@ -15,12 +15,12 @@ rule export:
         aa_muts = "results/{gene}/aa_muts.json",
         colors = config["files"]["colors"],
         auspice_config = lambda wildcard: "defaults/auspice_config.json" if wildcard.gene in ["genome"] else "defaults/auspice_config_N450.json"
-
     output:
         auspice_json = "auspice/measles_{gene}.json",
         root_sequence = "auspice/measles_{gene}_root-sequence.json"
     params:
-        strain_id = config["strain_id_field"]
+        strain_id = config["strain_id_field"],
+        metadata_columns = config["export"]["metadata_columns"]
     shell:
         """
         augur export v2 \
@@ -29,8 +29,8 @@ rule export:
             --metadata-id-columns {params.strain_id} \
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --colors {input.colors} \
+            --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \
             --include-root-sequence \
             --output {output.auspice_json}
         """
-        

@@ -20,6 +20,8 @@ filter_N450:
 refine:
     coalescent: "opt"
     date_inference: "marginal"
-    clock_filter_iqd: 4  
+    clock_filter_iqd: 4
 ancestral:
     inference: "joint"
+export:
+    metadata_columns: "strain division location"
