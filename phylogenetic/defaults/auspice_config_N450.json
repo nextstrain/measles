@@ -25,7 +25,12 @@
       "key": "region",
       "title": "Region",
       "type": "categorical"
-    }
+    },
+    {
+      "key": "strain",
+      "title": "Strain name",
+      "type": "categorical"
+    }    
   ],
   "geo_resolutions": [
     "country",
