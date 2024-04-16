@@ -17,8 +17,7 @@ rule export:
         auspice_config = lambda wildcard: "defaults/auspice_config.json" if wildcard.gene in ["genome"] else "defaults/auspice_config_N450.json"
 
     output:
-        auspice_json = "auspice/measles_{gene}.json",
-        root_sequence = "auspice/measles_{gene}_root-sequence.json"
+        auspice_json = "auspice/measles_{gene}.json"
     params:
         strain_id = config["strain_id_field"]
     shell:
@@ -30,7 +29,6 @@ rule export:
             --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
             --colors {input.colors} \
             --auspice-config {input.auspice_config} \
-            --include-root-sequence \
+            --include-root-sequence-inline \
             --output {output.auspice_json}
         """
-        
