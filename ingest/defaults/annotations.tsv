@@ -4,3 +4,23 @@
 # If there are multiple annotations for the same id and field, then the last value is used
 # Lines starting with '#' are treated as comments
 # Any '#' after the field value are treated as comments.
+#
+# Vaccine strain information from Parks et al. Comparison of predicted amino acid
+# sequences of measles virus strains in the Edmonston vaccine lineage
+# https://doi.org/10.1128/jvi.75.2.910-920.2001
+AF266288.2	strain	Measles strain Edmonston WT
+AF266288.2	date	1954
+AF266288.2	region	North America
+AF266288.2	country	USA
+AF266288.2	division	Massachusetts
+AF266288.2	location	Boston
+AF266287.1	strain	Measles vaccine strain Moraten
+AF266287.1	date	1954
+AF266290.1	strain	Measles vaccine strain Zagreb
+AF266290.1	date	1954
+AF266289.1	strain	Measles vaccine strain Rubeovax
+AF266289.1	date	1954
+AF266291.1	strain	Measles vaccine strain Schwarz
+AF266291.1	date	1954
+AF266286.1	strain	Measles vaccine strain AIK-C
+AF266286.1	date	1954
