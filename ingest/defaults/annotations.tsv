@@ -14,16 +14,22 @@ AF266288	region	North America
 AF266288	country	USA
 AF266288	division	Massachusetts
 AF266288	location	Boston
+AF266288	genotype_ncbi	A
 AF266287	strain	Measles vaccine strain Moraten
 AF266287	date	1954
+AF266287	genotype_ncbi	A
 AF266290	strain	Measles vaccine strain Zagreb
 AF266290	date	1954
+AF266290	genotype_ncbi	A
 AF266289	strain	Measles vaccine strain Rubeovax
 AF266289	date	1954
+AF266289	genotype_ncbi	A
 AF266291	strain	Measles vaccine strain Schwarz
 AF266291	date	1954
+AF266291	genotype_ncbi	A
 AF266286	strain	Measles vaccine strain AIK-C
 AF266286	date	1954
+AF266286	genotype_ncbi	A
 #
 # WHO genotype reference strains
 # Information from https://www.who.int/publications/i/item/WER8709
@@ -56,6 +62,34 @@ U64582	is_reference	TRUE
 X84865	is_reference	TRUE
 X84872	is_reference	TRUE
 X84879	is_reference	TRUE
+AF045212	genotype_ncbi	H1
+AF045217	genotype_ncbi	H2
+AF079555	genotype_ncbi	D5
+AF171232	genotype_ncbi	G2
+AF243450	genotype_ncbi	D7
+AF280803	genotype_ncbi	D8
+AF481485	genotype_ncbi	D9
+AJ232203	genotype_ncbi	B3
+AY037020	genotype_ncbi	D7
+AY043459	genotype_ncbi	C1
+AY184217	genotype_ncbi	G3
+AY923185	genotype_ncbi	D10
+D01005	genotype_ncbi	D1
+GU440571	genotype_ncbi	D11
+L46750	genotype_ncbi	D6
+L46753	genotype_ncbi	B3
+L46758	genotype_ncbi	D5
+M89921	genotype_ncbi	C2
+U01974	genotype_ncbi	G1
+U01976	genotype_ncbi	D4
+U01977	genotype_ncbi	D3
+U01987	genotype_ncbi	A
+U01994	genotype_ncbi	B2
+U01998	genotype_ncbi	B1
+U64582	genotype_ncbi	D2
+X84865	genotype_ncbi	F
+X84872	genotype_ncbi	C2
+X84879	genotype_ncbi	E
 AF045212	strain	MVi/Hunan.CHN/0.93/7
 AF045217	strain	MVi/Beijing.CHN/0.94/1
 AF079555	strain	MVi/Bangkok.THA/0.93/1

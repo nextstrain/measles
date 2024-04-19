@@ -118,6 +118,7 @@ curate:
     'authors',
     'abbr_authors',
     'institution',
+    'genotype_ncbi',
     'is_reference'
   ]
-
+  genotype_field: "virus_name"

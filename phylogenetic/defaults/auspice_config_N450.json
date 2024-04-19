@@ -27,6 +27,11 @@
       "type": "categorical"
     },
     {
+      "key": "genotype_ncbi",
+      "title": "Genotype (NCBI)",
+      "type": "categorical"
+    },
+    {
       "key": "is_reference",
       "title": "WHO reference",
       "type": "categorical"
