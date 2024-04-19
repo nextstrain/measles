@@ -25,6 +25,11 @@
       "key": "region",
       "title": "Region",
       "type": "categorical"
+    },
+    {
+      "key": "is_reference",
+      "title": "WHO reference",
+      "type": "categorical"
     }
   ],
   "geo_resolutions": [

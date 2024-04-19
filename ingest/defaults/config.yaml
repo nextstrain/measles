@@ -62,6 +62,7 @@ curate:
     submitter-affiliation: institution
     submitter-country: submitter_country
     virus-name: virus_name
+    is_reference: is_reference
   # Standardized strain name regex
   # Currently accepts any characters because we do not have a clear standard for strain names across pathogens
   strain_regex: '^.+$'
@@ -117,5 +118,6 @@ curate:
     'authors',
     'abbr_authors',
     'institution',
+    'is_reference'
   ]
 
