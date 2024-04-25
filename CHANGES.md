@@ -1,4 +1,5 @@
 # CHANGELOG
+* 25 April 2024: Add specific sequences and metadata to the measles trees, including WHO reference sequences, vaccine strains, and genotypes reported on NCBI [PR #26](https://github.com/nextstrain/measles/pull/26)
 * 10 April 2024: Add a single GH Action workflow to automate the ingest and phylogenetic workflows [PR #22](https://github.com/nextstrain/measles/pull/22)
 * 2 April 2024: Add nextstrain-automation build-configs for deploying the final Auspice dataset of the phylogenetic workflow [PR #21](https://github.com/nextstrain/measles/pull/21)
 * 1 April 2024: Create a "N450" tree using the 450 nucleotides encoding the carboxyl-terminal 150 amino acids of the nucleoprotein, which is highly represented on NCBI for measles. [PR #20](https://github.com/nextstrain/measles/pull/20)
