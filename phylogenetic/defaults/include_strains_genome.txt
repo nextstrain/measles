@@ -1,0 +1,9 @@
+# Vaccine strain information from Parks et al. Comparison of predicted amino acid
+# sequences of measles virus strains in the Edmonston vaccine lineage
+# https://doi.org/10.1128/jvi.75.2.910-920.2001
+AF266288
+AF266287
+AF266290
+AF266289
+AF266291
+AF266286

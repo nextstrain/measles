@@ -1,6 +1,8 @@
 strain_id_field: "accession"
 files:
     exclude: "defaults/dropped_strains.txt"
+    include_genome: "defaults/include_strains_genome.txt"
+    include_N450: "defaults/include_strains_N450.txt"
     reference: "defaults/measles_reference.gb"
     reference_N450: "defaults/measles_reference_N450.gb"
     reference_N450_fasta: "defaults/measles_reference_N450.fasta"

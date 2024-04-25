@@ -42,7 +42,8 @@ rule filter:
     input:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv",
-        exclude = config["files"]["exclude"]
+        exclude = config["files"]["exclude"],
+        include = config["files"]["include_genome"]
     output:
         sequences = "results/genome/filtered.fasta"
     params:

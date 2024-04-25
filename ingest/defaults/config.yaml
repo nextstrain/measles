@@ -45,6 +45,7 @@ curate:
   # This is the first step in the pipeline, so any references to field names in the configs below should use the new field names
   field_map:
     accession: accession
+    accession_version: accession_version
     sourcedb: database
     sra-accs: sra_accessions
     isolate-lineage: strain
@@ -61,6 +62,7 @@ curate:
     submitter-affiliation: institution
     submitter-country: submitter_country
     virus-name: virus_name
+    is_reference: is_reference
   # Standardized strain name regex
   # Currently accepts any characters because we do not have a clear standard for strain names across pathogens
   strain_regex: '^.+$'
@@ -100,6 +102,7 @@ curate:
   # The list of metadata columns to keep in the final output of the curation pipeline.
   metadata_columns: [
     'accession',
+    'accession_version',
     'strain',
     'virus_name',
     'date',
@@ -115,5 +118,7 @@ curate:
     'authors',
     'abbr_authors',
     'institution',
+    'genotype_ncbi',
+    'is_reference'
   ]
-
+  genotype_field: "virus_name"

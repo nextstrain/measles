@@ -34,7 +34,8 @@ rule filter_N450:
     input:
         sequences = "results/N450/sequences.fasta",
         metadata = "data/metadata.tsv",
-        exclude = config["files"]["exclude"]
+        exclude = config["files"]["exclude"],
+        include = config["files"]["include_N450"]
     output:
         sequences = "results/N450/aligned.fasta"
     params:

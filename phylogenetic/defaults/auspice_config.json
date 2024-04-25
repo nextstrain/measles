@@ -25,6 +25,11 @@
       "key": "region",
       "title": "Region",
       "type": "categorical"
+    },
+    {
+      "key": "genotype_ncbi",
+      "title": "Genotype (NCBI)",
+      "type": "categorical"
     }
   ],
   "geo_resolutions": [

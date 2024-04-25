@@ -82,6 +82,7 @@ rule curate:
         annotations_id=config["curate"]["annotations_id"],
         id_field=config["curate"]["output_id_field"],
         sequence_field=config["curate"]["output_sequence_field"],
+        genotype_field=config["curate"]["genotype_field"],
     shell:
         """
         (cat {input.sequences_ndjson} \
@@ -105,6 +106,7 @@ rule curate:
                 --abbr-authors-field {params.abbr_authors_field} \
             | ./vendored/apply-geolocation-rules \
                 --geolocation-rules {input.all_geolocation_rules} \
+            | ./bin/parse-measles-genotype-names.py --genotype-field {params.genotype_field} \
             | ./vendored/merge-user-metadata \
                 --annotations {input.annotations} \
                 --id-field {params.annotations_id} \

@@ -4,3 +4,28 @@ region	Africa	#8ABB6A
 region	Europe	#BEBB48
 region	South America	#E29E39
 region	North America	#E2562B
+
+genotype_ncbi	A	#5E1D9D
+genotype_ncbi	B1	#4B26B1
+genotype_ncbi	B2	#4138C3
+genotype_ncbi	B3	#3F4FCC
+genotype_ncbi	C1	#4065CF
+genotype_ncbi	C2	#447ACD
+genotype_ncbi	D1	#4A8BC3
+genotype_ncbi	D2	#529AB6
+genotype_ncbi	D3	#5BA6A6
+genotype_ncbi	D4	#66AE95
+genotype_ncbi	D5	#73B583
+genotype_ncbi	D6	#81B973
+genotype_ncbi	D7	#91BC64
+genotype_ncbi	D8	#A1BE58
+genotype_ncbi	D9	#B1BD4E
+genotype_ncbi	D10	#C0BA47
+genotype_ncbi	D11	#CEB541
+genotype_ncbi	E	#DAAD3D
+genotype_ncbi	F	#E19F3A
+genotype_ncbi	G1	#E68E36
+genotype_ncbi	G2	#E67832
+genotype_ncbi	G3	#E35F2D
+genotype_ncbi	H1	#DF4328
+genotype_ncbi	H2	#DB2823

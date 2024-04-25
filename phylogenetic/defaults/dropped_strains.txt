@@ -1,2 +1,2 @@
-HM562901.1 # temara.MOR/24.03
-HM562900.1 # Mvs/Toulon.FRA/08.07
+HM562901 # temara.MOR/24.03
+HM562900 # Mvs/Toulon.FRA/08.07
