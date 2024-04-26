@@ -1,0 +1,40 @@
+# Vaccine strain information from Parks et al. Comparison of predicted amino acid
+# sequences of measles virus strains in the Edmonston vaccine lineage
+# https://doi.org/10.1128/jvi.75.2.910-920.2001
+AF266288
+AF266287
+AF266290
+AF266289
+AF266291
+AF266286
+#
+# WHO genotype reference strains
+# Information from https://www.who.int/publications/i/item/WER8709
+AF045212
+AF045217
+AF079555
+AF171232
+AF243450
+AF280803
+AF481485
+AJ232203
+AY037020
+AY043459
+AY184217
+AY923185
+D01005
+GU440571
+L46750
+L46753
+L46758
+M89921
+U01974
+U01976
+U01977
+U01987
+U01994
+U01998
+U64582
+X84865
+X84872
+X84879
