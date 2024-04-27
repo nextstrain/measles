@@ -38,3 +38,16 @@ U64582
 X84865
 X84872
 X84879
+#
+# Rare genotypes
+# Including these to boost representation of these genotypes in the nextclade tree
+AF410989  #Rare genotype: E
+MG912591  #Rare genotype: G2
+AY037009  #Rare genotype: G2
+AY037043  #Rare genotype: H2
+AY037026  #Rare genotype: H2
+AY037028  #Rare genotype: D2
+FJ668380  #Rare genotype: D10
+MN017369  #Rare genotype: D11
+KC968467  #Rare genotype: D11
+KC968354  #Rare genotype: D11

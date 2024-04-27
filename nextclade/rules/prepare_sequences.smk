@@ -31,24 +31,39 @@ rule decompress:
         zstd -d -c {input.metadata} > {output.metadata}
         """
 
-rule filter:
-    """
-    Filtering to
-      - {params.sequences_per_group} sequence(s) per {params.group_by!s}
-      - from {params.min_date} onwards
-      - excluding strains in {input.exclude}
-      - minimum genome length of {params.min_length}
-    """
+rule align_and_extract_N450:
     input:
         sequences = "data/sequences.fasta",
+        reference = config["files"]["reference_N450_fasta"]
+    output:
+        sequences = "results/sequences_N450.fasta"
+    params:
+        min_seed_cover = config['align_and_extract_N450']['min_seed_cover'],
+        min_length = config['align_and_extract_N450']['min_length']
+    threads: workflow.cores
+    shell:
+        """
+        nextclade3 run \
+           --jobs {threads} \
+           --input-ref {input.reference} \
+           --output-fasta {output.sequences} \
+           --min-seed-cover {params.min_seed_cover} \
+           --min-length {params.min_length} \
+           --silent \
+           {input.sequences}
+        """
+
+rule filter:
+    input:
+        sequences = "results/sequences_N450.fasta",
         metadata = "data/metadata.tsv",
         exclude = config["files"]["exclude"],
-        include = config["files"]["include_genome"]
+        include = config["files"]["include"]
     output:
-        sequences = "results/genome/filtered.fasta"
+        sequences = "results/aligned.fasta"
     params:
         group_by = config["filter"]["group_by"],
-        sequences_per_group = config["filter"]["sequences_per_group"],
+        subsample_max_sequences = config["filter"]["subsample_max_sequences"],
         min_date = config["filter"]["min_date"],
         min_length = config["filter"]["min_length"],
         strain_id = config["strain_id_field"]
@@ -59,30 +74,11 @@ rule filter:
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
             --exclude {input.exclude} \
+            --include {input.include} \
             --output {output.sequences} \
             --group-by {params.group_by} \
-            --sequences-per-group {params.sequences_per_group} \
+            --subsample-max-sequences {params.subsample_max_sequences} \
             --min-date {params.min_date} \
-            --min-length {params.min_length} 
+            --min-length {params.min_length} \
+            --query='genotype_ncbi!=""'
         """
-
-rule align:
-    """
-    Aligning sequences to {input.reference}
-      - filling gaps with N
-    """
-    input:
-        sequences = "results/genome/filtered.fasta",
-        reference = config["files"]["reference"]
-    output:
-        alignment = "results/genome/aligned.fasta"
-    shell:
-        """
-        augur align \
-            --sequences {input.sequences} \
-            --reference-sequence {input.reference} \
-            --output {output.alignment} \
-            --fill-gaps \
-            --remove-reference
-        """
-        
