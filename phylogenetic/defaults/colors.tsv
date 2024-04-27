@@ -1,10 +1,12 @@
+# Regions: These fields are identical to those in nextclade/defaults/colors.tsv. Any changes to one should also be made to the other.
 region	Asia	#447CCD
 region	Oceania	#5EA9A1
 region	Africa	#8ABB6A
 region	Europe	#BEBB48
 region	South America	#E29E39
 region	North America	#E2562B
-
+#
+# MeV Genotypes reported in NCBI GenBank metadata: These fields are identical to those in nextclade/defaults/colors.tsv. Any changes to one should also be made to the other.
 genotype_ncbi	A	#5E1D9D
 genotype_ncbi	B1	#4B26B1
 genotype_ncbi	B2	#4138C3

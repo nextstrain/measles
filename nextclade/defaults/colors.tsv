@@ -1,10 +1,12 @@
+# Regions: These fields are identical to those in phylogenetic/defaults/colors.tsv. Any changes to one should also be made to the other.
 region	Asia	#447CCD
 region	Oceania	#5EA9A1
 region	Africa	#8ABB6A
 region	Europe	#BEBB48
 region	South America	#E29E39
 region	North America	#E2562B
-
+#
+# MeV Genotypes reported in NCBI GenBank metadata: These fields are identical to those in phylogenetic/defaults/colors.tsv. Any changes to one should also be made to the other.
 genotype_ncbi	A	#5E1D9D
 genotype_ncbi	B1	#4B26B1
 genotype_ncbi	B2	#4138C3
@@ -29,3 +31,29 @@ genotype_ncbi	G2	#E67832
 genotype_ncbi	G3	#E35F2D
 genotype_ncbi	H1	#DF4328
 genotype_ncbi	H2	#DB2823
+#
+# MeV Genotypes assigned by augur clades
+clade_membership	A	#5E1D9D
+clade_membership	B1	#4B26B1
+clade_membership	B2	#4138C3
+clade_membership	B3	#3F4FCC
+clade_membership	C1	#4065CF
+clade_membership	C2	#447ACD
+clade_membership	D1	#4A8BC3
+clade_membership	D2	#529AB6
+clade_membership	D3	#5BA6A6
+clade_membership	D4	#66AE95
+clade_membership	D5	#73B583
+clade_membership	D6	#81B973
+clade_membership	D7	#91BC64
+clade_membership	D8	#A1BE58
+clade_membership	D9	#B1BD4E
+clade_membership	D10	#C0BA47
+clade_membership	D11	#CEB541
+clade_membership	E	#DAAD3D
+clade_membership	F	#E19F3A
+clade_membership	G1	#E68E36
+clade_membership	G2	#E67832
+clade_membership	G3	#E35F2D
+clade_membership	H1	#DF4328
+clade_membership	H2	#DB2823

@@ -6,17 +6,18 @@ See Augur's usage docs for these commands for more details.
 """
 
 rule export:
-    """Exporting data files for for auspice"""
+    """Exporting data files for auspice"""
     input:
-        tree = "results/{gene}/tree.nwk",
+        tree = "results/tree.nwk",
         metadata = "data/metadata.tsv",
-        branch_lengths = "results/{gene}/branch_lengths.json",
-        nt_muts = "results/{gene}/nt_muts.json",
-        aa_muts = "results/{gene}/aa_muts.json",
+        branch_lengths = "results/branch_lengths.json",
+        clades = "results/clades.json",
+        nt_muts = "results/nt_muts.json",
+        aa_muts = "results/aa_muts.json",
         colors = config["files"]["colors"],
-        auspice_config = lambda wildcard: "defaults/auspice_config.json" if wildcard.gene in ["genome"] else "defaults/auspice_config_N450.json"
+        auspice_config = config["files"]["auspice_config"]
     output:
-        auspice_json = "auspice/measles_{gene}.json"
+        auspice_json = "auspice/measles.json"
     params:
         strain_id = config["strain_id_field"],
         metadata_columns = config["export"]["metadata_columns"]
@@ -26,7 +27,7 @@ rule export:
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {input.clades} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \

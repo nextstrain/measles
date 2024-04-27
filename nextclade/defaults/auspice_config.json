@@ -35,6 +35,11 @@
       "key": "is_reference",
       "title": "WHO reference",
       "type": "categorical"
+    }, 
+    { 
+      "key": "clade_membership", 
+      "title": "Genotype (augur clades)", 
+      "type": "categorical" 
     }
   ],
   "geo_resolutions": [

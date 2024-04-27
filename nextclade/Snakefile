@@ -1,10 +1,8 @@
-genes = ['N450', 'genome']
-
 configfile: "defaults/config.yaml" 
 
 rule all:
     input:
-        auspice_json = expand("auspice/measles_{gene}.json", gene=genes)
+        auspice_json = "auspice/measles.json"
 
 include: "rules/prepare_sequences.smk"
 include: "rules/construct_phylogeny.smk"
