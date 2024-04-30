@@ -1,0 +1,15 @@
+{
+	"files": {
+	  "reference": "measles_reference_N450.fasta",
+	  "pathogenJson": "pathogen.json",
+	  "genomeAnnotation": "measles_reference_N450.gff3",
+	  "treeJson": "measles_nextclade.json"
+	},
+	"attributes": {
+	  "name": "Measles"
+	},
+	"schemaVersion": "3.0.0",
+	"version": {
+	  "tag": "unreleased"
+	}
+  }
