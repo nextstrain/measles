@@ -35,6 +35,11 @@
       "key": "is_reference",
       "title": "WHO reference",
       "type": "categorical"
+    },
+    {
+      "key": "clade",
+      "title": "Genotype (Nextclade)",
+      "type": "categorical"
     }
   ],
   "geo_resolutions": [

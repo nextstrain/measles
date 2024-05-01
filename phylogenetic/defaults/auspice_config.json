@@ -30,6 +30,11 @@
       "key": "genotype_ncbi",
       "title": "Genotype (NCBI)",
       "type": "categorical"
+    },
+    {
+      "key": "clade",
+      "title": "Genotype (Nextclade)",
+      "type": "categorical"
     }
   ],
   "geo_resolutions": [
