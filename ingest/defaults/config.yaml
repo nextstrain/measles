@@ -122,3 +122,9 @@ curate:
     'is_reference'
   ]
   genotype_field: "virus_name"
+nextclade:
+  dataset_name: "measles"
+  min_length: 400
+  min_seed_cover: 0.01
+  field_map: "defaults/nextclade_field_map.tsv"
+  id_field: "seqName"

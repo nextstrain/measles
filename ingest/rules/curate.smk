@@ -122,7 +122,7 @@ rule subset_metadata:
     input:
         metadata="data/all_metadata.tsv",
     output:
-        subset_metadata="results/metadata.tsv",
+        subset_metadata="data/subset_metadata.tsv",
     params:
         metadata_fields=",".join(config["curate"]["metadata_columns"]),
     shell:
