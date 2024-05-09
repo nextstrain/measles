@@ -9,26 +9,26 @@
 # sequences of measles virus strains in the Edmonston vaccine lineage
 # https://doi.org/10.1128/jvi.75.2.910-920.2001
 AF266288	strain	Measles strain Edmonston WT
-AF266288	date	1954
+AF266288	date	1954-XX-XX
 AF266288	region	North America
 AF266288	country	USA
 AF266288	division	Massachusetts
 AF266288	location	Boston
 AF266288	genotype_ncbi	A
 AF266287	strain	Measles vaccine strain Moraten
-AF266287	date	1954
+AF266287	date	1954-XX-XX
 AF266287	genotype_ncbi	A
 AF266290	strain	Measles vaccine strain Zagreb
-AF266290	date	1954
+AF266290	date	1954-XX-XX
 AF266290	genotype_ncbi	A
 AF266289	strain	Measles vaccine strain Rubeovax
-AF266289	date	1954
+AF266289	date	1954-XX-XX
 AF266289	genotype_ncbi	A
 AF266291	strain	Measles vaccine strain Schwarz
-AF266291	date	1954
+AF266291	date	1954-XX-XX
 AF266291	genotype_ncbi	A
 AF266286	strain	Measles vaccine strain AIK-C
-AF266286	date	1954
+AF266286	date	1954-XX-XX
 AF266286	genotype_ncbi	A
 #
 # WHO genotype reference strains
@@ -118,31 +118,31 @@ U64582	strain	MVi/Johannesburg.ZAF/0.88/1
 X84865	strain	MVs/Madrid.ESP/0.94(SSPE)
 X84872	strain	MVi/Erlangen.DEU/0.90
 X84879	strain	MVi/Goettingen.DEU/0.71
-AF045212	date	1993
-AF045217	date	1994
-AF079555	date	1993
+AF045212	date	1993-XX-XX
+AF045217	date	1994-XX-XX
+AF079555	date	1993-XX-XX
 AF171232	date	1997-12-01
 AF243450	date	1985-04-15
 AF280803	date	1994-07-25
 AF481485	date	1999-03-22
-AJ232203	date	1997
+AJ232203	date	1997-XX-XX
 AY037020	date	1999-12-13
-AY043459	date	1984
+AY043459	date	1984-XX-XX
 AY184217	date	2002-04-22
 AY923185	date	2001-12-17
-D01005	date	1974
+D01005	date	1974-XX-XX
 GU440571	date	2009-11-16
-L46750	date	1994
-L46753	date	1994
-L46758	date	1993
-M89921	date	1977
-U01974	date	1983
-U01976	date	1989
-U01977	date	1989
-U01987	date	1954
-U01994	date	1984
+L46750	date	1994-XX-XX
+L46753	date	1994-XX-XX
+L46758	date	1993-XX-XX
+M89921	date	1977-XX-XX
+U01974	date	1983-XX-XX
+U01976	date	1989-XX-XX
+U01977	date	1989-XX-XX
+U01987	date	1954-XX-XX
+U01994	date	1984-XX-XX
 U01998	date	1983-03-21
-U64582	date	1988
-X84865	date	1994
-X84872	date	1990
-X84879	date	1971
+U64582	date	1988-XX-XX
+X84865	date	1994-XX-XX
+X84872	date	1990-XX-XX
+X84879	date	1971-XX-XX
