@@ -31,7 +31,6 @@ rule refine:
         metadata = "data/metadata.tsv"
     output:
         tree = "results/tree.nwk",
-        node_data = "results/branch_lengths.json"
     params:
         coalescent = config["refine"]["coalescent"],
         date_inference = config["refine"]["date_inference"],
@@ -45,7 +44,6 @@ rule refine:
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
             --output-tree {output.tree} \
-            --output-node-data {output.node_data} \
             --timetree \
             --coalescent {params.coalescent} \
             --date-confidence \
