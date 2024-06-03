@@ -12,6 +12,11 @@
       "type": "categorical"
     },
     {
+      "key": "num_date",
+      "title": "Date",
+      "type": "continuous"
+    },
+    {
       "key": "clade_membership",
       "title": "MeV Genotype (Nextstrain)",
       "type": "categorical"

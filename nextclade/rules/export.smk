@@ -10,6 +10,7 @@ rule export:
     input:
         tree = "results/tree.nwk",
         metadata = "data/metadata.tsv",
+        branch_lengths = "results/branch_lengths.json",
         clades = "results/clades.json",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
@@ -26,7 +27,7 @@ rule export:
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.nt_muts} {input.aa_muts} {input.clades} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {input.clades} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \
