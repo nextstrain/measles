@@ -55,8 +55,6 @@ jobs:
         NEXTSTRAIN_DOCKER_IMAGE: ${{ inputs.ingest_image }}
       run: |
         nextstrain build \
-          --env AWS_ACCESS_KEY_ID \
-          --env AWS_SECRET_ACCESS_KEY \
           ingest \
             upload_all \
             --configfile build-configs/nextstrain-automation/config.yaml
@@ -128,8 +126,6 @@ jobs:
         NEXTSTRAIN_DOCKER_IMAGE: ${{ inputs.phylogenetic_image }}
       run: |
         nextstrain build \
-          --env AWS_ACCESS_KEY_ID \
-          --env AWS_SECRET_ACCESS_KEY \
           phylogenetic \
             deploy_all \
             --configfile build-configs/nextstrain-automation/config.yaml
