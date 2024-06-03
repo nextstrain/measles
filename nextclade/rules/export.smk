@@ -10,7 +10,7 @@ rule export:
     input:
         tree = "results/tree.nwk",
         metadata = "data/metadata.tsv",
-        branch_lengths = "results/branch_lengths.json",
+        branch_lengths = "results/branch_lengths_div_only.json",
         clades = "results/clades.json",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
