@@ -17,8 +17,8 @@
       "type": "continuous"
     },
     {
-      "key": "country",
-      "title": "Country",
+      "key": "clade",
+      "title": "MeV Genotype (Nextstrain)",
       "type": "categorical"
     },
     {
@@ -27,8 +27,13 @@
       "type": "categorical"
     },
     {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
       "key": "genotype_ncbi",
-      "title": "Genotype (NCBI)",
+      "title": "MeV Genotype (GenBank metadata)",
       "type": "categorical"
     },
     {
@@ -42,11 +47,13 @@
     "region"
   ],
   "display_defaults": {
-    "map_triplicate": true
+    "map_triplicate": true,
+    "color_by": "clade"
   },
   "filters": [
-    "country",
+    "clade",
     "region",
+    "country",
     "author"
   ],
   "metadata_columns": [

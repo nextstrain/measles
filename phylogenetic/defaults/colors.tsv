@@ -31,3 +31,29 @@ genotype_ncbi	G2	#E67832
 genotype_ncbi	G3	#E35F2D
 genotype_ncbi	H1	#DF4328
 genotype_ncbi	H2	#DB2823
+#
+# MeV Genotypes assigned by Nextclade
+clade	A	#5E1D9D
+clade	B1	#4B26B1
+clade	B2	#4138C3
+clade	B3	#3F4FCC
+clade	C1	#4065CF
+clade	C2	#447ACD
+clade	D1	#4A8BC3
+clade	D2	#529AB6
+clade	D3	#5BA6A6
+clade	D4	#66AE95
+clade	D5	#73B583
+clade	D6	#81B973
+clade	D7	#91BC64
+clade	D8	#A1BE58
+clade	D9	#B1BD4E
+clade	D10	#C0BA47
+clade	D11	#CEB541
+clade	E	#DAAD3D
+clade	F	#E19F3A
+clade	G1	#E68E36
+clade	G2	#E67832
+clade	G3	#E35F2D
+clade	H1	#DF4328
+clade	H2	#DB2823
