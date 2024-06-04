@@ -26,6 +26,7 @@ rule all:
 # by build specific rules.
 include: "rules/fetch_from_ncbi.smk"
 include: "rules/curate.smk"
+include: "rules/nextclade.smk"
 
 
 # Allow users to import custom rules provided via the config.
