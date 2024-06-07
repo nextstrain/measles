@@ -58,3 +58,17 @@ rule clades:
             --clades {input.clade_defs} \
             --output {output.clades}
         """
+
+rule timeout:
+    input: "results/branch_lengths.json"
+    output: "results/branch_lengths_div_only.json"
+    run:
+        import json
+        with open(input[0], 'r') as fh:
+            data = json.load(fh)        
+        new_nodes = {}
+        for name, attrs in data['nodes'].items():
+            new_nodes[name] = {'mutation_length': attrs.get('mutation_length')}
+        data['nodes'] = new_nodes
+        with open(output[0], 'w') as fh:
+            json.dump(data, fh, indent=2)
