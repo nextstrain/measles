@@ -1,4 +1,5 @@
 # CHANGELOG
+* 7 June 2024: Assign genotypes using Nextclade dataset and visualize on tree [PR #36](https://github.com/nextstrain/measles/pull/36)
 * 9 May 2024: Create a N450 tree that can be used as part of a Nextclade dataset to assign genotypes to measles samples based on criteria outlined by the WHO [PR #28](https://github.com/nextstrain/measles/pull/28)
 * 25 April 2024: Add specific sequences and metadata to the measles trees, including WHO reference sequences, vaccine strains, and genotypes reported on NCBI [PR #26](https://github.com/nextstrain/measles/pull/26)
 * 10 April 2024: Add a single GH Action workflow to automate the ingest and phylogenetic workflows [PR #22](https://github.com/nextstrain/measles/pull/22)

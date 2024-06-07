@@ -122,3 +122,7 @@ curate:
     'is_reference'
   ]
   genotype_field: "virus_name"
+nextclade:
+  dataset_name: "nextstrain/measles/N450/WHO-2012"
+  field_map: "defaults/nextclade_field_map.tsv"
+  id_field: "seqName"
