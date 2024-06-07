@@ -19,8 +19,7 @@ rule get_nextclade_dataset:
         nextclade3 dataset get \
             --name={params.dataset_name:q} \
             --output-zip={output.dataset} \
-            --verbose \
-            --server=https://data.master.clades.nextstrain.org/v3
+            --verbose
         """
 
 
