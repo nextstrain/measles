@@ -1,8 +1,14 @@
 {
-  "title": "Real-time tracking of measles virus evolution",
+  "title": "Real-time tracking of measles full genome virus evolution",
   "maintainers": [
     {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
     {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
+  ],
+  "data_provenance": [
+    {
+      "name": "GenBank",
+      "url": "https://www.ncbi.nlm.nih.gov/genbank/"
+    }
   ],
   "build_url": "https://github.com/nextstrain/measles",  
   "colorings": [
