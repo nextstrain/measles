@@ -1,33 +1,27 @@
 We gratefully acknowledge the authors, originating and submitting laboratories of the genetic sequences and metadata for sharing their work. Please note that although data generators have generously shared data in an open fashion, that does not mean there should be free license to publish on this data. Data generators should be cited where possible and collaborations should be sought in some circumstances. Please try to avoid scooping someone else's work. Reach out if uncertain.
 
-We maintain three views of MPXV evolution:
+We maintain two views of measles evolution:
 
-The first is [`mpox/lineage-B.1`](https://nextstrain.org/mpox/lineage-B.1), which focuses on lineage B.1 of the global outbreak that started in 2022 and includes as many sequences as possible. Here, we conduct a molecular clock analysis in which evolutionary rate is estimated from the data (with a resulting estimate of ~6 &times; 10<sup>-5</sup> subs per site per year).
+The first is [`measles/genome`](https://nextstrain.org/measles/genome), which uses full genome sequences.
 
-The second is [`mpox/clade-IIb`](https://nextstrain.org/mpox/clade-IIb), which focuses on recent viruses transmitting from human-to-human and includes viruses belonging to clade IIb. All good quality sequences that are not lineage B.1 are included, while lineage B.1 sequences is heavily subsampled to allow non-B.1 diversity to be studied.Here, we also conduct a molecular clock analysis in which evolutionary rate is estimated from the data (with a resulting estimate of ~6 &times; 10<sup>-5</sup> subs per site per year).
-
-The third is [`mpox/all-clades`](https://nextstrain.org/mpox/all-clades), which focuses on broader viral diversity and includes viruses from the animal reservoir and previous human outbreaks, encompassing clades I, IIa and IIb as described in [Happi et al](https://doi.org/10.1371/journal.pbio.3001769) and endorsed by a [WHO convened consultation](https://worldhealthorganization.cmail20.com/t/ViewEmail/d/422BD62D623B6A3D2540EF23F30FEDED/F75AF81C90108C72B4B1B1F623478121?alternativeLink=False).
+The second is [`measles/N450`](https://nextstrain.org/measles/N450), which uses a 450bp region of the N gene ("N450") that is frequently sequenced for measles. Since many more N450 sequences are available on NCBI GenBank than full genome sequences, the N450 phylogeny incorporates more samples than the full genome phylogeny. This phylogeny also includes the [28 reference strains that the WHO has used to define measles genotypes](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1).
 
 #### Analysis
-Our bioinformatic processing workflow can be found at [github.com/nextstrain/mpox](https://github.com/nextstrain/mpox) and includes:
-- sequence alignment by [nextalign](https://docs.nextstrain.org/projects/nextclade/en/stable/user/nextalign-cli.html)
-- masking several regions of the genome, including the first 1350 and last 6422 base pairs and multiple repetitive regions of variable length
+Our bioinformatic processing workflow can be found at [github.com/nextstrain/measles](https://github.com/nextstrain/measles) and includes:
+- sequence alignment by [augur align](https://docs.nextstrain.org/projects/augur/en/stable/usage/cli/align.html) for full genome sequences and [nextclade](https://docs.nextstrain.org/projects/nextclade/en/stable/) for N450 sequences
 - phylogenetic reconstruction using [IQTREE-2](http://www.iqtree.org/)
 - ancestral state reconstruction and temporal inference using [TreeTime](https://github.com/neherlab/treetime)
-- clade assignment via [clade definitions defined here](https://github.com/nextstrain/mpox/blob/master/defaults/clades.tsv), to label broader MPXV clades I, IIa and IIb and to label hMPXV1 lineages A, A.1, A.1.1, etc...
+- genotype assignment using the [measles/N450/WHO-2012 Nextclade dataset](https://clades.nextstrain.org/?dataset-name=nextstrain/measles/N450/WHO-2012) based on [genotype definitions provided by the WHO](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1)
 
 #### Underlying data
-We curate sequence data and metadata from the [NCBI Datasets command line tools](https://www.ncbi.nlm.nih.gov/datasets/docs/v2/download-and-install/),
-using an NCBI Taxonomy ID defined in [ingest/defaults/config.yaml](https://github.com/nextstrain/mpox/blob/master/ingest/defaults/config.yaml), as starting point for these analyses.
+We curate sequence data and metadata from NCBI as starting point for our analyses. Curated sequences and metadata are available as flat files at:
+- [data.nextstrain.org/files/workflows/measles/sequences.fasta.zst](https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst)
+- [data.nextstrain.org/files/workflows/measles/metadata.tsv.zst](https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst)
 
-Curated sequences and metadata are available as flat files at:
-- [data.nextstrain.org/files/workflows/mpox/sequences.fasta.xz](https://data.nextstrain.org/files/workflows/mpox/sequences.fasta.xz)
-- [data.nextstrain.org/files/workflows/mpox/metadata.tsv.gz](https://data.nextstrain.org/files/workflows/mpox/metadata.tsv.gz)
-
-Pairwise alignments with [Nextclade](https://clades.nextstrain.org/) against the [reference sequence MPXV-M5312_HM12_Rivers](https://www.ncbi.nlm.nih.gov/nuccore/NC_063383), insertions relative to the reference, and translated ORFs are available at
-- [data.nextstrain.org/files/workflows/mpox/alignment.fasta.xz](https://data.nextstrain.org/files/workflows/mpox/alignment.fasta.xz)
-- [data.nextstrain.org/files/workflows/mpox/insertions.csv.gz](https://data.nextstrain.org/files/workflows/mpox/insertions.csv.gz)
-- [data.nextstrain.org/files/workflows/mpox/translations.zip](https://data.nextstrain.org/files/workflows/mpox/translations.zip)
+Pairwise alignments with [Nextclade](https://docs.nextstrain.org/projects/nextclade/en/stable) against the N450 region of [reference sequence Ichinose-B95a](https://www.ncbi.nlm.nih.gov/nuccore/NC_001498.1), clade assignments, and N450 region quality control metrics and translations are available at
+- [data.nextstrain.org/files/workflows/measles/alignment.fasta.zst](https://data.nextstrain.org/files/workflows/measles/alignment.fasta.zst)
+- [data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst](https://data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst)
+- [data.nextstrain.org/files/workflows/measles/translations.zip](https://data.nextstrain.org/files/workflows/measles/translations.zip)
 
 #### Reusing code or images
 

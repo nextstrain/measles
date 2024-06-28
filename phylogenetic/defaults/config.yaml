@@ -9,6 +9,7 @@ files:
     colors: "defaults/colors.tsv"
     auspice_config: "defaults/auspice_config.json"
     auspice_config_N450: "defaults/auspice_config_N450.json"
+    description: "defaults/description.md"
 filter:
     group_by: "country year"
     sequences_per_group: 20
