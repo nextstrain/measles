@@ -33,3 +33,13 @@ rule export:
             --include-root-sequence-inline \
             --output {output.auspice_json}
         """
+
+rule final_tip_frequencies:
+    input:
+        tip_freq = "results/{gene}/tip-frequencies.json",
+    output:
+        tip_freq = "auspice/measles_{gene}_tip-frequencies.json"
+    shell:
+        """
+        cp -f {input.tip_freq} {output.tip_freq}
+        """

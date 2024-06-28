@@ -39,3 +39,32 @@ rule translate:
             --reference-sequence {input.reference} \
             --output {output.node_data} \
         """
+
+rule tip_frequencies:
+    """
+    Estimating KDE frequencies for tips
+    """
+    input:
+        tree = "results/{gene}/tree.nwk",
+        metadata = "data/metadata.tsv"
+    params:
+        strain_id = config["strain_id_field"],
+        min_date = config["tip_frequencies"]["min_date"],
+        max_date = config["tip_frequencies"]["max_date"],
+        narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
+        wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
+    output:
+        tip_freq = "results/{gene}/tip-frequencies.json"
+    shell:
+        """
+        augur frequencies \
+            --method kde \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
+            --min-date {params.min_date} \
+            --max-date {params.max_date} \
+            --narrow-bandwidth {params.narrow_bandwidth} \
+            --wide-bandwidth {params.wide_bandwidth} \
+            --output {output.tip_freq}
+        """
