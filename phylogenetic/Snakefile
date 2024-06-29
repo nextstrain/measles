@@ -1,10 +1,11 @@
 genes = ['N450', 'genome']
 
-configfile: "defaults/config.yaml" 
+configfile: "defaults/config.yaml"
 
 rule all:
     input:
-        auspice_json = expand("auspice/measles_{gene}.json", gene=genes)
+        auspice_json = expand("auspice/measles_{gene}.json", gene=genes),
+        tip_frequencies_json = expand("auspice/measles_{gene}_tip-frequencies.json", gene=genes)
 
 include: "rules/prepare_sequences.smk"
 include: "rules/prepare_sequences_N450.smk"

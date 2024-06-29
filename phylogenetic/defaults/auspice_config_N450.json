@@ -62,6 +62,12 @@
     "country",
     "author"
   ],
+  "panels": [
+    "tree",
+    "map",
+    "entropy",
+    "frequencies"
+  ],  
   "metadata_columns": [
     "author"
   ]
