@@ -23,8 +23,6 @@ Pairwise alignments with [Nextclade](https://docs.nextstrain.org/projects/nextcl
 - [data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst](https://data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst)
 - [data.nextstrain.org/files/workflows/measles/translations.zip](https://data.nextstrain.org/files/workflows/measles/translations.zip)
 
-#### Reusing code or images
+---
 
-All source code for Auspice, the visualization tool, is freely available under the terms of the [GNU Affero General Public License 3.0](https://github.com/nextstrain/auspice/blob/HEAD/LICENSE.txt).
-
-Screenshots may be used under a [CC-BY-4.0 license](https://creativecommons.org/licenses/by/4.0/) and attribution to nextstrain.org must be provided. A high-quality download option is available by clicking the **DOWNLOAD DATA** button at the bottom of the page and selecting **SCREENSHOT (SVG)**.
+Screenshots may be used under a [CC-BY-4.0 license](https://creativecommons.org/licenses/by/4.0/) and attribution to nextstrain.org must be provided.
