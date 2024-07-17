@@ -37,6 +37,7 @@ rule run_nextclade:
         """
         nextclade3 run \
             {input.sequences} \
+            --verbosity error \
             --input-dataset {input.dataset} \
             --output-tsv {output.nextclade} \
             --output-fasta {output.alignment} \
