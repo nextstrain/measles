@@ -1,5 +1,5 @@
-# Use cached ncbi datasets package to speed up tests and isolate from ncbi servers
-mock_fetch: true
+custom_rules:
+  - "build-configs/ci/copy_example_data.smk"
 
 # Snakemake requires at least one top level key in a config file, so including
 # a bogus key here that should not be used anywhere in the Snakemake workflow

@@ -45,18 +45,9 @@ rule fetch_ncbi_dataset_package:
         """
 
 
-def get_ncbi_dataset_package_path():
-    """
-    Use cached data package in ci to isolate from ncbi server
-    """
-    if config.get("mock_fetch", False):
-        return "test_data/ncbi_dataset.zip"
-    return "data/ncbi_dataset.zip"
-
-
 rule extract_ncbi_dataset_sequences:
     input:
-        dataset_package=get_ncbi_dataset_package_path(),
+        dataset_package="data/ncbi_dataset.zip",
     output:
         ncbi_dataset_sequences=temp("data/ncbi_dataset_sequences.fasta"),
     benchmark:
@@ -70,7 +61,7 @@ rule extract_ncbi_dataset_sequences:
 
 rule format_ncbi_dataset_report:
     input:
-        dataset_package=get_ncbi_dataset_package_path(),
+        dataset_package="data/ncbi_dataset.zip",
     output:
         ncbi_dataset_tsv=temp("data/ncbi_dataset_report.tsv"),
     params:
@@ -116,4 +107,3 @@ rule format_ncbi_datasets_ndjson:
             --duplicate-reporting warn \
             2> {log} > {output.ndjson}
         """
-
