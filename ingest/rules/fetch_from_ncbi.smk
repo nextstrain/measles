@@ -107,4 +107,3 @@ rule format_ncbi_datasets_ndjson:
             --duplicate-reporting warn \
             2> {log} > {output.ndjson}
         """
-
