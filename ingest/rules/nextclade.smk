@@ -30,7 +30,7 @@ rule run_nextclade:
     output:
         nextclade="results/nextclade.tsv",
         alignment="results/alignment.fasta",
-        translations="results/translations.zip",
+        translations="results/translations.tar",
     params:
         translations=lambda w: "results/translations/{cds}.fasta",
     shell:
@@ -42,7 +42,7 @@ rule run_nextclade:
             --output-fasta {output.alignment} \
             --output-translations {params.translations}
 
-        zip -rj {output.translations} results/translations
+        tar caf results/translations.tar results/translations
         """
 
 
