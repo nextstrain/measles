@@ -56,14 +56,12 @@ if isinstance(config["nextclade"]["field_map"], str):
         config["nextclade"]["field_map"] = dict(line.rstrip("\n").split("\t", 1) for line in f if not line.startswith("#"))
 
 
-rule join_metadata_and_nextclade:
+rule nextclade_metadata:
     input:
         nextclade="results/nextclade.tsv",
-        metadata="data/subset_metadata.tsv",
     output:
-        metadata="results/metadata.tsv",
+        nextclade_metadata=temp("results/nextclade_metadata.tsv"),
     params:
-        metadata_id_field=config["curate"]["output_id_field"],
         nextclade_id_field=config["nextclade"]["id_field"],
         nextclade_field_map=[f"{old}={new}" for old, new in config["nextclade"]["field_map"].items()],
         nextclade_fields=",".join(config["nextclade"]["field_map"].values()),
@@ -75,13 +73,28 @@ rule join_metadata_and_nextclade:
             --field-map {params.nextclade_field_map:q} \
             --output-metadata - \
         | tsv-select --header --fields {params.nextclade_fields:q} \
-        | tsv-join -H \
-            --filter-file - \
-            --key-fields {params.nextclade_id_field} \
-            --data-fields {params.metadata_id_field} \
-            --append-fields '*' \
-            --write-all ? \
-            {input.metadata} \
-        | tsv-select -H --exclude {params.nextclade_id_field} \
-            > {output.metadata}
-        """    
+        > {output.nextclade_metadata:q}
+        """
+
+
+rule join_metadata_and_nextclade:
+    input:
+        metadata="data/subset_metadata.tsv",
+        nextclade_metadata="results/nextclade_metadata.tsv",
+    output:
+        metadata="results/metadata.tsv",
+    params:
+        metadata_id_field=config["curate"]["output_id_field"],
+        nextclade_id_field=config["nextclade"]["id_field"],
+    shell:
+        r"""
+        augur merge \
+            --metadata \
+                metadata={input.metadata:q} \
+                nextclade={input.nextclade_metadata:q} \
+            --metadata-id-columns \
+                metadata={params.metadata_id_field:q} \
+                nextclade={params.nextclade_id_field:q} \
+            --output-metadata {output.metadata:q} \
+            --no-source-columns
+        """
