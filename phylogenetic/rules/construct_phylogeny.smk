@@ -53,4 +53,3 @@ rule refine:
             --clock-filter-iqd {params.clock_filter_iqd} \
             --stochastic-resolve
         """
-        
