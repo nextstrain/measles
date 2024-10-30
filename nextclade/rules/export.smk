@@ -14,8 +14,8 @@ rule export:
         clades = "results/clades.json",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
-        colors = config["files"]["colors"],
-        auspice_config = config["files"]["auspice_config"]
+        colors = resolve_config_path(config["files"]["colors"]),
+        auspice_config = resolve_config_path(config["files"]["auspice_config"])
     output:
         auspice_json = "auspice/measles.json"
     params:

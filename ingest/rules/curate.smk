@@ -31,7 +31,7 @@ rule fetch_general_geolocation_rules:
 rule concat_geolocation_rules:
     input:
         general_geolocation_rules="data/general-geolocation-rules.tsv",
-        local_geolocation_rules=config["curate"]["local_geolocation_rules"],
+        local_geolocation_rules=resolve_config_path(config["curate"]["local_geolocation_rules"]),
     output:
         all_geolocation_rules="data/all-geolocation-rules.tsv",
     shell:
@@ -59,7 +59,7 @@ rule curate:
         sequences_ndjson="data/ncbi.ndjson",
         # Change the geolocation_rules input path if you are removing the above two rules
         all_geolocation_rules="data/all-geolocation-rules.tsv",
-        annotations=config["curate"]["annotations"],
+        annotations=resolve_config_path(config["curate"]["annotations"]),
     output:
         metadata="data/all_metadata.tsv",
         sequences="results/sequences.fasta",
@@ -86,28 +86,28 @@ rule curate:
     shell:
         """
         (cat {input.sequences_ndjson} \
-            | ./vendored/transform-field-names \
+            | {workflow.basedir}/vendored/transform-field-names \
                 --field-map {params.field_map} \
             | augur curate normalize-strings \
-            | ./vendored/transform-strain-names \
+            | {workflow.basedir}/vendored/transform-strain-names \
                 --strain-regex {params.strain_regex} \
                 --backup-fields {params.strain_backup_fields} \
             | augur curate format-dates \
                 --date-fields {params.date_fields} \
                 --expected-date-formats {params.expected_date_formats} \
-            | ./vendored/transform-genbank-location \
+            | {workflow.basedir}/vendored/transform-genbank-location \
             | augur curate titlecase \
                 --titlecase-fields {params.titlecase_fields} \
                 --articles {params.articles} \
                 --abbreviations {params.abbreviations} \
-            | ./vendored/transform-authors \
+            | {workflow.basedir}/vendored/transform-authors \
                 --authors-field {params.authors_field} \
                 --default-value {params.authors_default_value} \
                 --abbr-authors-field {params.abbr_authors_field} \
-            | ./vendored/apply-geolocation-rules \
+            | {workflow.basedir}/vendored/apply-geolocation-rules \
                 --geolocation-rules {input.all_geolocation_rules} \
-            | ./bin/parse-measles-genotype-names.py --genotype-field {params.genotype_field} \
-            | ./vendored/merge-user-metadata \
+            | {workflow.basedir}/bin/parse-measles-genotype-names.py --genotype-field {params.genotype_field} \
+            | {workflow.basedir}/vendored/merge-user-metadata \
                 --annotations {input.annotations} \
                 --id-field {params.annotations_id} \
             | augur curate passthru \
