@@ -28,7 +28,7 @@ rule translate:
     input:
         tree = "results/{gene}/tree.nwk",
         node_data = "results/{gene}/nt_muts.json",
-        reference = lambda wildcard: config["files"]["reference" if wildcard.gene == "genome" else f"reference_{wildcard.gene}"]
+        reference = lambda wildcard: resolve_config_path(config["files"]["reference" if wildcard.gene == "genome" else f"reference_{wildcard.gene}"])
     output:
         node_data = "results/{gene}/aa_muts.json"
     shell:
