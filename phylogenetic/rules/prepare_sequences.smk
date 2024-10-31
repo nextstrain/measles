@@ -64,7 +64,7 @@ rule filter:
             --group-by {params.group_by} \
             --sequences-per-group {params.sequences_per_group} \
             --min-date {params.min_date} \
-            --min-length {params.min_length} 
+            --min-length {params.min_length}
         """
 
 rule align:
@@ -86,4 +86,3 @@ rule align:
             --fill-gaps \
             --remove-reference
         """
-        

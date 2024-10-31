@@ -65,7 +65,7 @@ rule timeout:
     run:
         import json
         with open(input[0], 'r') as fh:
-            data = json.load(fh)        
+            data = json.load(fh)
         new_nodes = {}
         for name, attrs in data['nodes'].items():
             new_nodes[name] = {'mutation_length': attrs.get('mutation_length')}

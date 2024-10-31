@@ -1,11 +1,11 @@
 
 # Measles Nextclade Dataset Tree
 
-This workflow creates a phylogenetic tree that can be used as part of a Nextclade dataset to assign genotypes to measles samples based on [criteria outlined by the WHO](https://www.who.int/publications/i/item/WER8709). 
+This workflow creates a phylogenetic tree that can be used as part of a Nextclade dataset to assign genotypes to measles samples based on [criteria outlined by the WHO](https://www.who.int/publications/i/item/WER8709).
 
-The WHO has defined 24 measles genotypes based on N gene and H gene sequences from 28 reference strains. For new measles samples, genotypes can be assigned based on genetic similarity to the reference strains at the "N450" region (a 450 bp region of the N gene). 
+The WHO has defined 24 measles genotypes based on N gene and H gene sequences from 28 reference strains. For new measles samples, genotypes can be assigned based on genetic similarity to the reference strains at the "N450" region (a 450 bp region of the N gene).
 
-The tree created here includes N450 sequences for the 28 reference strains, along with other representative strains for each genotype. 
+The tree created here includes N450 sequences for the 28 reference strains, along with other representative strains for each genotype.
 
 The workflow includes the following steps:
 * Build a tree using samples from the `ingest` output, with the following sampling criteria:
