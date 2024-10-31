@@ -28,7 +28,7 @@ rule translate:
     input:
         tree = "results/{gene}/tree.nwk",
         node_data = "results/{gene}/nt_muts.json",
-        reference = lambda wildcard: "defaults/measles_reference.gb" if wildcard.gene in ["genome"] else "defaults/measles_reference_{gene}.gb"
+        reference = lambda wildcard: config["files"]["reference" if wildcard.gene == "genome" else f"reference_{wildcard.gene}"]
     output:
         node_data = "results/{gene}/aa_muts.json"
     shell:
