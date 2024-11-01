@@ -24,9 +24,9 @@ def parse_args():
 
 def _set_genotype_name(record):
     genotype_name = record["genotype_ncbi"]
-    
+
     genotype_name = genotype_name.replace('Measles virus genotype ', '')
-    genotype_name = re.sub(r'Measles morbillivirus.*$', r'', genotype_name)   
+    genotype_name = re.sub(r'Measles morbillivirus.*$', r'', genotype_name)
     genotype_name = re.sub(r'.*?\[(.*)\]$', r'\1', genotype_name) # If square brackets present at end of string, keep only the text inside the brackets
     genotype_name = re.sub(r'Measles virus MVs.*$', r'', genotype_name)
     genotype_name = re.sub(r'Measles virus MVi.*$', r'', genotype_name)
@@ -34,12 +34,12 @@ def _set_genotype_name(record):
     genotype_name = genotype_name.replace('Measles virus strain ', '')
     genotype_name = re.sub(r'Measles virus.*$', r'', genotype_name)
     genotype_name = re.sub(r'A-vaccine.*$', r'A', genotype_name)
-    genotype_name = re.sub(r'B3.1', r'B3', genotype_name) 
-    genotype_name = re.sub(r'B3.2', r'B3', genotype_name) 
-    genotype_name = re.sub(r'D4a', r'D4', genotype_name) 
-    genotype_name = re.sub(r'D4b', r'D4', genotype_name) 
-    genotype_name = re.sub(r'H1a', r'H1', genotype_name) 
-    genotype_name = re.sub(r'H1b', r'H1', genotype_name) 
+    genotype_name = re.sub(r'B3.1', r'B3', genotype_name)
+    genotype_name = re.sub(r'B3.2', r'B3', genotype_name)
+    genotype_name = re.sub(r'D4a', r'D4', genotype_name)
+    genotype_name = re.sub(r'D4b', r'D4', genotype_name)
+    genotype_name = re.sub(r'H1a', r'H1', genotype_name)
+    genotype_name = re.sub(r'H1b', r'H1', genotype_name)
 
     return (
         genotype_name)
