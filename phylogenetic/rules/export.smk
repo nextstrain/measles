@@ -14,7 +14,7 @@ rule export:
         nt_muts = "results/{gene}/nt_muts.json",
         aa_muts = "results/{gene}/aa_muts.json",
         colors = config["files"]["colors"],
-        auspice_config = lambda wildcard: "defaults/auspice_config.json" if wildcard.gene in ["genome"] else "defaults/auspice_config_N450.json",
+        auspice_config = lambda wildcard: config["files"]["auspice_config" if wildcard.gene == "genome" else f"auspice_config_{wildcard.gene}"],
         description=config["files"]["description"]
     output:
         auspice_json = "auspice/measles_{gene}.json"
