@@ -38,6 +38,11 @@
       "type": "categorical"
     },
     {
+      "key": "division",
+      "title": "Division",
+      "type": "categorical"
+    },
+    {
       "key": "genotype_ncbi",
       "title": "MeV Genotype (GenBank metadata)",
       "type": "categorical"
@@ -49,8 +54,9 @@
     }
   ],
   "geo_resolutions": [
+    "region",
     "country",
-    "region"
+    "division"
   ],
   "display_defaults": {
     "map_triplicate": true,
