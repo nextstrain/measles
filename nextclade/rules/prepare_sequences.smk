@@ -34,7 +34,7 @@ rule decompress:
 rule align_and_extract_N450:
     input:
         sequences = "data/sequences.fasta",
-        reference = config["files"]["reference_N450_fasta"]
+        reference = resolve_config_path(config["files"]["reference_N450_fasta"])
     output:
         sequences = "results/sequences_N450.fasta"
     params:
@@ -57,8 +57,8 @@ rule filter:
     input:
         sequences = "results/sequences_N450.fasta",
         metadata = "data/metadata.tsv",
-        exclude = config["files"]["exclude"],
-        include = config["files"]["include"]
+        exclude = resolve_config_path(config["files"]["exclude"]),
+        include = resolve_config_path(config["files"]["include"])
     output:
         sequences = "results/aligned.fasta"
     params:

@@ -42,8 +42,8 @@ rule filter:
     input:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv",
-        exclude = config["files"]["exclude"],
-        include = config["files"]["include_genome"]
+        exclude = resolve_config_path(config["files"]["exclude"]),
+        include = resolve_config_path(config["files"]["include_genome"])
     output:
         sequences = "results/genome/filtered.fasta"
     params:
@@ -74,7 +74,7 @@ rule align:
     """
     input:
         sequences = "results/genome/filtered.fasta",
-        reference = config["files"]["reference"]
+        reference = resolve_config_path(config["files"]["reference"])
     output:
         alignment = "results/genome/aligned.fasta"
     shell:

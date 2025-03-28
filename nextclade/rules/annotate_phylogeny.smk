@@ -14,7 +14,7 @@ rule ancestral:
         node_data = "results/nt_muts.json"
     params:
         inference = config["ancestral"]["inference"],
-        reference_fasta = config["files"]["reference_N450_fasta"]
+        reference_fasta = resolve_config_path(config["files"]["reference_N450_fasta"])
     shell:
         """
         augur ancestral \
@@ -30,7 +30,7 @@ rule translate:
     input:
         tree = "results/tree.nwk",
         node_data = "results/nt_muts.json",
-        reference = config["files"]["reference_N450"]
+        reference = resolve_config_path(config["files"]["reference_N450"])
     output:
         node_data = "results/aa_muts.json"
     shell:
@@ -47,7 +47,7 @@ rule clades:
         tree = "results/tree.nwk",
         nt_muts = "results/nt_muts.json",
         aa_muts = "results/aa_muts.json",
-        clade_defs = config["files"]["clades"]
+        clade_defs = resolve_config_path(config["files"]["clades"])
     output:
         clades = "results/clades.json"
     shell:
