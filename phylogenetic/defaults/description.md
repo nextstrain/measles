@@ -21,7 +21,7 @@ We curate sequence data and metadata from NCBI as starting point for our analyse
 Pairwise alignments with [Nextclade](https://docs.nextstrain.org/projects/nextclade/en/stable) against the N450 region of [reference sequence Ichinose-B95a](https://www.ncbi.nlm.nih.gov/nuccore/NC_001498.1), clade assignments, and N450 region quality control metrics and translations are available at
 - [data.nextstrain.org/files/workflows/measles/alignment.fasta.zst](https://data.nextstrain.org/files/workflows/measles/alignment.fasta.zst)
 - [data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst](https://data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst)
-- [data.nextstrain.org/files/workflows/measles/translations.zip](https://data.nextstrain.org/files/workflows/measles/translations.zip)
+- [data.nextstrain.org/files/workflows/measles/translations.tar.zst](https://data.nextstrain.org/files/workflows/measles/translations.tar.zst)
 
 ---
 

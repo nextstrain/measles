@@ -21,4 +21,4 @@ files_to_upload:
   sequences.fasta.zst: results/sequences.fasta
   nextclade.tsv.zst: results/nextclade.tsv
   alignment.fasta.zst: results/alignment.fasta
-  translations.zip: results/translations.zip
+  translations.tar.zst: results/translations.tar
