@@ -1,4 +1,4 @@
-include: "../shared/functions.smk"
+include: "../shared/vendored/config.smk"
 
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
 

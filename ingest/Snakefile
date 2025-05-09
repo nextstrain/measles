@@ -3,7 +3,7 @@ This is the main ingest Snakefile that orchestrates the full ingest workflow
 and defines its default outputs.
 """
 # Utility functions shared across all workflows.
-include: "../shared/functions.smk"
+include: "../shared/vendored/config.smk"
 
 
 # Use default configuration values. Extend with Snakemake's --configfile/--config options.
