@@ -33,10 +33,6 @@ ncbi_datasets_fields:
 
 # Config parameters related to the curate pipeline
 curate:
-  # URL pointed to public generalized geolocation rules
-  # For the Nextstrain team, this is currently
-  # 'https://raw.githubusercontent.com/nextstrain/ncov-ingest/master/source-data/gisaid_geoLocationRules.tsv'
-  geolocation_rules_url: "https://raw.githubusercontent.com/nextstrain/ncov-ingest/master/source-data/gisaid_geoLocationRules.tsv"
   # The path to the local geolocation rules for this pathogen.
   # The path should be relative to the working directory (e.g. --directory).
   # If the path doesn't exist in the working directory, the file in the workflow's defaults/ directory it used instead (if it exists).
