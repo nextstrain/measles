@@ -73,6 +73,7 @@ rule curate:
         strain_backup_fields=config["curate"]["strain_backup_fields"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
+        genbank_location_field=config["curate"]["genbank_location_field"],
         articles=config["curate"]["titlecase"]["articles"],
         abbreviations=config["curate"]["titlecase"]["abbreviations"],
         titlecase_fields=config["curate"]["titlecase"]["fields"],
@@ -86,31 +87,31 @@ rule curate:
     shell:
         """
         (cat {input.sequences_ndjson} \
-            | {workflow.basedir}/vendored/transform-field-names \
+            | augur curate rename \
                 --field-map {params.field_map} \
             | augur curate normalize-strings \
-            | {workflow.basedir}/vendored/transform-strain-names \
+            | augur curate transform-strain-name \
                 --strain-regex {params.strain_regex} \
                 --backup-fields {params.strain_backup_fields} \
             | augur curate format-dates \
                 --date-fields {params.date_fields} \
                 --expected-date-formats {params.expected_date_formats} \
-            | {workflow.basedir}/vendored/transform-genbank-location \
+            | augur curate parse-genbank-location \
+                --location-field {params.genbank_location_field:q} \
             | augur curate titlecase \
                 --titlecase-fields {params.titlecase_fields} \
                 --articles {params.articles} \
                 --abbreviations {params.abbreviations} \
-            | {workflow.basedir}/vendored/transform-authors \
+            | augur curate abbreviate-authors \
                 --authors-field {params.authors_field} \
                 --default-value {params.authors_default_value} \
                 --abbr-authors-field {params.abbr_authors_field} \
-            | {workflow.basedir}/vendored/apply-geolocation-rules \
+            | augur curate apply-geolocation-rules \
                 --geolocation-rules {input.all_geolocation_rules} \
             | {workflow.basedir}/bin/parse-measles-genotype-names.py --genotype-field {params.genotype_field} \
-            | {workflow.basedir}/vendored/merge-user-metadata \
+            | augur curate apply-record-annotations \
                 --annotations {input.annotations} \
                 --id-field {params.annotations_id} \
-            | augur curate passthru \
                 --output-metadata {output.metadata} \
                 --output-fasta {output.sequences} \
                 --output-id-field {params.id_field} \

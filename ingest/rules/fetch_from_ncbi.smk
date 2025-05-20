@@ -78,6 +78,7 @@ rule format_ncbi_dataset_report:
             | csvtk add-header -t -n {params.ncbi_datasets_fields:q} \
             | csvtk rename -t -f accession -n accession_version \
             | csvtk -t mutate -f accession_version -n accession -p "^(.+?)\." --at 1 \
+            | csvtk -t mutate2 -n is_reference -e '""' \
             > {output.ncbi_dataset_tsv}
         """
 
