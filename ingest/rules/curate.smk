@@ -13,38 +13,13 @@ OUTPUTS:
 """
 
 
-# The following two rules can be ignored if you choose not to use the
-# generalized geolocation rules that are shared across pathogens.
-# The Nextstrain team will try to maintain a generalized set of geolocation
-# rules that can then be overridden by local geolocation rules per pathogen repo.
-rule fetch_general_geolocation_rules:
-    output:
-        general_geolocation_rules="data/general-geolocation-rules.tsv",
-    params:
-        geolocation_rules_url=config["curate"]["geolocation_rules_url"],
-    shell:
-        """
-        curl {params.geolocation_rules_url} > {output.general_geolocation_rules}
-        """
-
-
-rule concat_geolocation_rules:
-    input:
-        general_geolocation_rules="data/general-geolocation-rules.tsv",
-        local_geolocation_rules=resolve_config_path(config["curate"]["local_geolocation_rules"]),
-    output:
-        all_geolocation_rules="data/all-geolocation-rules.tsv",
-    shell:
-        """
-        cat {input.general_geolocation_rules} {input.local_geolocation_rules} >> {output.all_geolocation_rules}
-        """
-
-
-def format_field_map(field_map: dict[str, str]) -> str:
+def format_field_map(field_map: dict[str, str]) -> list[str]:
     """
-    Format dict to `"key1"="value1" "key2"="value2"...` for use in shell commands.
+    Format entries to the format expected by `augur curate --field-map`.
+    When used in a Snakemake shell block, the list is automatically expanded and
+    spaces are handled by quoted interpolation.
     """
-    return " ".join([f'"{key}"="{value}"' for key, value in field_map.items()])
+    return [f'{key}={value}' for key, value in field_map.items()]
 
 
 # This curate pipeline is based on existing pipelines for pathogen repos using NCBI data.
@@ -57,8 +32,7 @@ def format_field_map(field_map: dict[str, str]) -> str:
 rule curate:
     input:
         sequences_ndjson="data/ncbi.ndjson",
-        # Change the geolocation_rules input path if you are removing the above two rules
-        all_geolocation_rules="data/all-geolocation-rules.tsv",
+        geolocation_rules=resolve_config_path(config["curate"]["local_geolocation_rules"]),
         annotations=resolve_config_path(config["curate"]["annotations"]),
     output:
         metadata="data/all_metadata.tsv",
@@ -73,6 +47,7 @@ rule curate:
         strain_backup_fields=config["curate"]["strain_backup_fields"],
         date_fields=config["curate"]["date_fields"],
         expected_date_formats=config["curate"]["expected_date_formats"],
+        genbank_location_field=config["curate"]["genbank_location_field"],
         articles=config["curate"]["titlecase"]["articles"],
         abbreviations=config["curate"]["titlecase"]["abbreviations"],
         titlecase_fields=config["curate"]["titlecase"]["fields"],
@@ -84,37 +59,40 @@ rule curate:
         sequence_field=config["curate"]["output_sequence_field"],
         genotype_field=config["curate"]["genotype_field"],
     shell:
-        """
-        (cat {input.sequences_ndjson} \
-            | {workflow.basedir}/vendored/transform-field-names \
-                --field-map {params.field_map} \
+        r"""
+        exec &> >(tee {log:q})
+
+        cat {input.sequences_ndjson:q} \
+            | augur curate rename \
+                --field-map {params.field_map:q} \
             | augur curate normalize-strings \
-            | {workflow.basedir}/vendored/transform-strain-names \
-                --strain-regex {params.strain_regex} \
-                --backup-fields {params.strain_backup_fields} \
+            | augur curate transform-strain-name \
+                --strain-regex {params.strain_regex:q} \
+                --backup-fields {params.strain_backup_fields:q} \
             | augur curate format-dates \
-                --date-fields {params.date_fields} \
-                --expected-date-formats {params.expected_date_formats} \
-            | {workflow.basedir}/vendored/transform-genbank-location \
+                --date-fields {params.date_fields:q} \
+                --expected-date-formats {params.expected_date_formats:q} \
+            | augur curate parse-genbank-location \
+                --location-field {params.genbank_location_field:q} \
             | augur curate titlecase \
-                --titlecase-fields {params.titlecase_fields} \
-                --articles {params.articles} \
-                --abbreviations {params.abbreviations} \
-            | {workflow.basedir}/vendored/transform-authors \
-                --authors-field {params.authors_field} \
-                --default-value {params.authors_default_value} \
-                --abbr-authors-field {params.abbr_authors_field} \
-            | {workflow.basedir}/vendored/apply-geolocation-rules \
-                --geolocation-rules {input.all_geolocation_rules} \
-            | {workflow.basedir}/bin/parse-measles-genotype-names.py --genotype-field {params.genotype_field} \
-            | {workflow.basedir}/vendored/merge-user-metadata \
-                --annotations {input.annotations} \
-                --id-field {params.annotations_id} \
-            | augur curate passthru \
-                --output-metadata {output.metadata} \
-                --output-fasta {output.sequences} \
-                --output-id-field {params.id_field} \
-                --output-seq-field {params.sequence_field} ) 2>> {log}
+                --titlecase-fields {params.titlecase_fields:q} \
+                --articles {params.articles:q} \
+                --abbreviations {params.abbreviations:q} \
+            | augur curate abbreviate-authors \
+                --authors-field {params.authors_field:q} \
+                --default-value {params.authors_default_value:q} \
+                --abbr-authors-field {params.abbr_authors_field:q} \
+            | augur curate apply-geolocation-rules \
+                --geolocation-rules {input.geolocation_rules:q} \
+            | {workflow.basedir}/bin/parse-measles-genotype-names.py \
+                --genotype-field {params.genotype_field:q} \
+            | augur curate apply-record-annotations \
+                --annotations {input.annotations:q} \
+                --id-field {params.annotations_id:q} \
+                --output-metadata {output.metadata:q} \
+                --output-fasta {output.sequences:q} \
+                --output-id-field {params.id_field:q} \
+                --output-seq-field {params.sequence_field:q}
         """
 
 
@@ -127,6 +105,6 @@ rule subset_metadata:
         metadata_fields=",".join(config["curate"]["metadata_columns"]),
     shell:
         """
-        tsv-select -H -f {params.metadata_fields} \
+        csvtk cut -t -f {params.metadata_fields} \
             {input.metadata} > {output.subset_metadata}
         """
