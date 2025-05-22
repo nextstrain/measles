@@ -4,9 +4,9 @@
 ; git-subrepo command. See https://github.com/ingydotnet/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/nextstrain/ingest
+	remote = https://github.com/nextstrain/shared
 	branch = main
-	commit = e83c214c308e50062241f00f52954e2a684bdb61
-	parent = 90a70cd6ee151068368878cc0cbf0831302e5237
+	commit = c32a7d31cedb58f87285043a5e69dd9a6c7c0605
+	parent = b0a2e887aee1ebd62db4e89562254da130332ab1
 	method = merge
 	cmdver = 0.4.6

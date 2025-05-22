@@ -33,11 +33,3 @@ The rules directory contains separate Snakefiles (`*.smk`) as modules of the cor
 The modules of the workflow are in separate files to keep the main ingest [Snakefile](Snakefile) succinct and organized.
 Modules are all [included](https://snakemake.readthedocs.io/en/stable/snakefiles/modularization.html#includes)
 in the main Snakefile in the order that they are expected to run.
-
-## Vendored
-
-This repository uses [`git subrepo`](https://github.com/ingydotnet/git-subrepo)
-to manage copies of ingest scripts in [vendored](vendored), from [nextstrain/ingest](https://github.com/nextstrain/ingest).
-
-See [vendored/README.md](vendored/README.md#vendoring) for instructions on how to update
-the vendored scripts.

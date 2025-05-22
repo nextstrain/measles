@@ -1,6 +1,6 @@
 genes = ['N450', 'genome']
 
-include: "../shared/functions.smk"
+include: "../shared/vendored/snakemake/config.smk"
 
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
 

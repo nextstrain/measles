@@ -1,14 +1,11 @@
 strain_id_field: "accession"
 files:
     exclude: "dropped_strains.txt"
-    include_genome: "include_strains_genome.txt"
-    include_N450: "include_strains_N450.txt"
-    reference: "measles_reference.gb"
-    reference_N450: "measles_reference_N450.gb"
-    reference_N450_fasta: "measles_reference_N450.fasta"
+    include: "include_strains_{gene}.txt"
+    reference: "measles_reference_{gene}.gb"
+    reference_fasta: "measles_reference_{gene}.fasta"
     colors: "colors.tsv"
-    auspice_config: "auspice_config.json"
-    auspice_config_N450: "auspice_config_N450.json"
+    auspice_config: "auspice_config_{gene}.json"
     description: "description.md"
 filter:
     group_by: "country year"

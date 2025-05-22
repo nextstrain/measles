@@ -14,7 +14,7 @@ rule export:
         nt_muts = "results/{gene}/nt_muts.json",
         aa_muts = "results/{gene}/aa_muts.json",
         colors = resolve_config_path(config["files"]["colors"]),
-        auspice_config = lambda wildcard: resolve_config_path(config["files"]["auspice_config" if wildcard.gene == "genome" else f"auspice_config_{wildcard.gene}"]),
+        auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
         auspice_json = "auspice/measles_{gene}.json"
