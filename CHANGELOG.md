@@ -1,4 +1,14 @@
 # CHANGELOG
+
+We use this CHANGELOG to document breaking changes, new features, bug fixes,
+and config value changes that may affect both the usage of the workflows and
+the outputs of the workflows.
+
+Changes for this project _do not_ currently follow the [Semantic Versioning rules](https://semver.org/spec/v2.0.0.html).
+Instead, changes appear below grouped by the date they were added to the workflow.
+
+## 2024
+
 * 7 June 2024: Assign genotypes using Nextclade dataset and visualize on tree [PR #36](https://github.com/nextstrain/measles/pull/36)
 * 9 May 2024: Create a N450 tree that can be used as part of a Nextclade dataset to assign genotypes to measles samples based on criteria outlined by the WHO [PR #28](https://github.com/nextstrain/measles/pull/28)
 * 25 April 2024: Add specific sequences and metadata to the measles trees, including WHO reference sequences, vaccine strains, and genotypes reported on NCBI [PR #26](https://github.com/nextstrain/measles/pull/26)
