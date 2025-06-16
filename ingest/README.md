@@ -7,17 +7,49 @@ If you have another data source or private data that needs to be formatted for
 the phylogenetic workflow, then you can use a similar workflow to curate your
 own data.
 
-## Run
+## Usage
 
-From within the `ingest` directory, run the workflow with:
+### With `nextstrain run`
 
-```
-nextstrain build .
-```
+If you haven't set up the measles pathogen, then set it up with:
 
-This produces a `results` directory with the following outputs:
-- sequences.fasta
-- metadata.tsv
+    nextstrain setup measles
+
+Otherwise, make sure you have the latest set up with:
+
+    nextstrain update measles
+
+Run the ingest workflow with:
+
+    nextstrain run measles ingest <analysis-directory>
+
+Your `<analysis-directory>` will contain the workflow's intermediate files
+and two final outputs:
+
+- `results/metadata.tsv`
+- `results/sequences.fasta`
+
+### With `nextstrain build`
+
+If you don't have a local copy of the measles repository, use Git to download it
+
+    git clone https://github.com/nextstrain/measles.git
+
+Otherwise, update your local copy of the workflow with:
+
+    cd measles
+    git pull --ff-only origin master
+
+Run the ingest workflow with
+
+    cd ingest
+    nextstrain build .
+
+The `ingest` directory will contain the workflow's intermediate files
+and two final outputs:
+
+- `results/metadata.tsv`
+- `results/sequences.fasta`
 
 ## Defaults
 
