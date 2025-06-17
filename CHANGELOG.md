@@ -1,4 +1,34 @@
 # CHANGELOG
+
+We use this CHANGELOG to document breaking changes, new features, bug fixes,
+and config value changes that may affect both the usage of the workflows and
+the outputs of the workflows.
+
+Changes for this project _do not_ currently follow the [Semantic Versioning rules](https://semver.org/spec/v2.0.0.html).
+Instead, changes appear below grouped by the date they were added to the workflow.
+
+## 2025
+
+* 4 June 2025: Vendored [nextstrain/shared][] to parse config paths across workflows [#62][]
+* 21 May 2025: ingest - Replace various scripts with new `augur curate` commands [#61][]
+    - Replaces ncov-ingest geolocation rules with built-in `augur curate` geolocation rules
+    - Requires a new `curate.genbank_location_field` config param.
+    - The config param `curate.geolocation_rules_url` is no longer supported
+* 28 March 2025: Added support for `nextstrain run` across all workflows [#55][]
+* 20 March 2025: phylogenetic - Add `division` to geo-resolutions and coloring [#59][]
+
+[#55]: https://github.com/nextstrain/measles/pull/55
+[#59]: https://github.com/nextstrain/measles/pull/59
+[#61]: https://github.com/nextstrain/measles/pull/61
+[#62]: https://github.com/nextstrain/measles/pull/62
+[nextstrain/shared]: https://github.com/nextstrain/shared
+
+## 2024
+
+* 6 November 2024: phylogenetic - Fix "translate" and "export" rules to use references from config [#53][]
+* 19 September 2024: ingest - config `nextclade.field_map` accepts key-value pairs [#52][]
+* 3 July 2024: phylogenetic - Add frequencies panel for N450 build [#42][]
+* 28 June 2024: phylogenetic - Add default description for builds [#41][]
 * 7 June 2024: Assign genotypes using Nextclade dataset and visualize on tree [PR #36](https://github.com/nextstrain/measles/pull/36)
 * 9 May 2024: Create a N450 tree that can be used as part of a Nextclade dataset to assign genotypes to measles samples based on criteria outlined by the WHO [PR #28](https://github.com/nextstrain/measles/pull/28)
 * 25 April 2024: Add specific sequences and metadata to the measles trees, including WHO reference sequences, vaccine strains, and genotypes reported on NCBI [PR #26](https://github.com/nextstrain/measles/pull/26)
@@ -9,3 +39,8 @@
 * 1 March 2024: Add phylogenetic directory to follow the pathogen-repo-guide, and update the CI workflow to match the new file structure. [PR #18](https://github.com/nextstrain/measles/pull/18)
 * 14 February 2024: Add ingest directory from pathogen-repo-guide and make measles-specific modifications. [PR #10](https://github.com/nextstrain/measles/pull/10)
 * 11 January 2024: Use a config file to define hardcoded parameters and file paths, and add a change log. [PR #9](https://github.com/nextstrain/measles/pull/9)
+
+[#41]: https://github.com/nextstrain/measles/pull/41
+[#42]: https://github.com/nextstrain/measles/pull/42
+[#52]: https://github.com/nextstrain/measles/pull/52
+[#53]: https://github.com/nextstrain/measles/pull/53
