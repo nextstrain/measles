@@ -1,0 +1,52 @@
+{
+  "title": "Real-time tracking of measles virus evolution",
+  "maintainers": [
+    {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
+    {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
+  ],
+  "build_url": "https://github.com/nextstrain/measles",
+  "colorings": [
+    {
+      "key": "gt",
+      "title": "Genotype",
+      "type": "categorical"
+    },
+    {
+      "key": "clade_membership",
+      "title": "MeV Genotype (Nextstrain)",
+      "type": "categorical"
+    },
+    {
+      "key": "region",
+      "title": "Region",
+      "type": "categorical"
+    },
+    {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "is_reference",
+      "title": "WHO Reference",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    "country",
+    "region"
+  ],
+  "display_defaults": {
+    "map_triplicate": true,
+    "color_by": "clade_membership"
+  },
+  "filters": [
+    "clade_membership",
+    "region",
+    "country",
+    "author"
+  ],
+  "metadata_columns": [
+    "author"
+  ]
+}
