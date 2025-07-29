@@ -51,3 +51,6 @@ FJ668380  #Rare genotype: D10
 MN017369  #Rare genotype: D11
 KC968467  #Rare genotype: D11
 KC968354  #Rare genotype: D11
+
+JN635410
+JN635409
