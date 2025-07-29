@@ -9,7 +9,7 @@ genome:
       exclude: "defaults/dropped_strains.txt"
       include: "defaults/include_strains.txt"
       group_by: "region genotype_ncbi year"
-      subsample_max_sequences: 500
+      subsample_max_sequences: 800
       min_date: 1950
       min_length: 12000
   strain_id_field: "accession"
