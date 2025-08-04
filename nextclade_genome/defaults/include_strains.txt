@@ -54,3 +54,6 @@ KC968354  #Rare genotype: D11
 
 JN635410
 JN635409
+
+# reference strain
+NC_001498
