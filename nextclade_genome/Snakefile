@@ -3,6 +3,11 @@ include: "../shared/vendored/snakemake/config.smk"
 
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
 
+rule all:
+    input:
+        tree_json = "dataset/genome/tree.json"
+
+
 rule download:
     """Downloading sequences and metadata from data.nextstrain.org"""
     output:
@@ -74,6 +79,7 @@ rule align:
         nextclade3 run \
            --jobs {threads} \
            --input-ref {params.dataset}/reference.fasta \
+           --input-pathogen-json {params.dataset}/pathogen.json \
            --input-annotation {params.dataset}/annotation.gff3 \
            --output-fasta {output.sequences} \
            --output-translations {params.translations}/{{cds}}.fasta \
@@ -207,7 +213,7 @@ rule assemble_dataset:
     input:
         auspice_json = "auspice/measles_{build}.json",
     output:
-        pathogen_json = "dataset/{build}/reference.fasta",
+        reference = "dataset/{build}/reference.fasta",
         tree_json = "dataset/{build}/tree.json"
     params:
         dataset = lambda w: config[w.build]['files']['dataset_files']
