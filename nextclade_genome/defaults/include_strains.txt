@@ -57,3 +57,7 @@ JN635409
 
 # reference strain
 NC_001498
+
+#D6
+DQ227319
+DQ227321
