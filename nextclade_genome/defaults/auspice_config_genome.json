@@ -5,6 +5,25 @@
     {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
   ],
   "build_url": "https://github.com/nextstrain/measles",
+  "extensions": {
+    "nextclade": {
+      "ref_nodes":{
+        "default":"__root__",
+        "search":[
+          {
+            "name": "AF266288",
+            "displayname": "Vaccine strain AF266288 (Edmonston)",
+            "description": "Show mutations relative to the vaccine strain Edmonston",
+            "criteria":[
+              {
+                "node": [{"name": ["AF266288"]}]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
   "colorings": [
     {
       "key": "gt",
