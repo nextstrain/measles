@@ -2,18 +2,22 @@ custom_rules:
   - build-configs/state_focused/state_focused_sampling.smk
 tiers:
     division: "California"
-    contextual: "global"
+    continental: "North America"
 filter:
     group_by_state: "division year"
-    group_by_contextual: "country year"
+    group_by_continental: "country year"
+    group_by_global: "year"
     sequences_per_group_state: 20
-    sequences_per_group_contextual: 20
+    sequences_per_group_continental: 20
+    sequences_per_group_global: 20
     min_date: 1950
     min_length: 5000
 filter_N450:
     group_by_state: "division year"
-    group_by_contextual: "country year"
+    group_by_continental: "country year"
+    group_by_global: "year"
     sequences_per_group_state: 20
-    sequences_per_group_contextual: 2
+    sequences_per_group_continental: 20
+    sequences_per_group_global: 20
     min_date: 1950
     min_length: 400
