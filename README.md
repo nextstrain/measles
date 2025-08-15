@@ -49,8 +49,8 @@
     - The N450 dataset is very large, and useful for genotype identification. These data can help to identify emerging genotypes, and also genotypes that have been declared inactive.
 
 - Additional Resources
-  - Link any additional resources that are helpful in learning about this pathogen
-  - Link Pathogen Genomic Profile if we have one created
+  - [Global Measles and Rubell Laboratory Netowrk](https://www.who.int/europe/initiatives/measles-and-rubella-laboratory-network) 
+  - [Most Recent WHO Measles Nomenclature Update - 2012](https://www.who.int/publications/i/item/WER8709)
 
 ## Scientific Decisions
 
@@ -59,8 +59,8 @@ Nextstrain builds are designed for specific purposes and not all types of builds
 - **Nomenclature**: The nomenclature used in this build to designate clade names is determined by the Global Measles and Rubella Laboratory Network.
 - **Subsampling**: This build incorporates all known sequences from Washington State, XX additional sequences from North America and XX additional samples of global origin.
 - **Root selection**: The root sequence is not specified, but inferred by `augur ancestral`.
-- **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 trees.
-- **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
+- **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 alignments.
+- **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
 
 ## Getting Started
 *(Provide any context new users should know before using this project.) Some high-level features and capabilities specific to this build include:*
@@ -72,12 +72,11 @@ Nextstrain builds are designed for specific purposes and not all types of builds
 *(Provide any information on data sources and the inputs needed to run the build)*
 This build relies on publicly available data sourced from [data sources].
 
-- **Sequence Data**: [Data sources]
-- **Metadata**: [Metadata sources]
+- **Sequence Data**: All sequence data originate from [NCBI](https://www.ncbi.nlm.nih.gov/)
+- **Metadata**: All metadata originate from [NCBI](https://www.ncbi.nlm.nih.gov/)
 - **Expected Inputs**:
-    - `[data_location]/sequences.fasta` (containing viral genome sequences)
-    - `[data_location]/metadata.xls` (with relevant sample information)
-- **Private data, if applicable**:
+    - `measles/phylogenetic/data/sequences.fasta.zst` (containing viral genome sequences)
+    - `measles/phylogenetic/data/metadata.tsv.zst` (with relevant sample information)
 
 ### Setup & Dependencies
 #### Installation
