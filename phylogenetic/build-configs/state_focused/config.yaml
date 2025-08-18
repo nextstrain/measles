@@ -1,7 +1,7 @@
 custom_rules:
   - build-configs/state_focused/state_focused_sampling.smk
 tiers:
-    division: "California"
+    division: "Washington"
     continental: "North America"
 filter:
     group_by_state: "division year"
