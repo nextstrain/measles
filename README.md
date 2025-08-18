@@ -1,4 +1,4 @@
-# Measles Virus (MeV) Washington-Focused Build
+# [Work in Progress!] Measles Virus (MeV) Washington-Focused Build
 
 ## Build Overview
 - **Build Name**: Measles Virus Washington-Focused Build
@@ -90,14 +90,14 @@ nextstrain check-setup
 #### Clone the repository:
 
 ```
-git clone https://github.com/[your-github-repo].git
-cd [your-github-repo]
+git clone https://github.com/DOH-DAH0303/measles.git
+cd measles/phylogenetic/
 ```
 
 ## Run the Build
 *(Explain how to run the build with test data. Example text on how this might be explained is below)*
 
-To test the pipeline with the provided example data located in `[data_location]/` make sure you are located in the build folder `[your-github-repo]` before running the build command:
+To test the pipeline with the provided example data located in `phylogenetic/example_data` make sure you are located in the build folder `phylogenetic` before running the build command:
 
 ```
 nextstrain build .
@@ -105,8 +105,14 @@ nextstrain build .
 
 When you run the build using `nextstrain build .`, Nextstrain uses Snakemake as the workflow manager to automate genomic analyses. The Snakefile in a Nextstrain build defines how raw input data (sequences and metadata) are processed step-by-step in an automated way. Nextstrain builds are powered by Augur (for phylogenetics) and Auspice (for visualization) and Snakemake is used to automate the execution of these steps using Augur and Auspice based on file dependencies.
 
+Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such that a smaller example dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the dataset provided by Nextstrain.
+
 ### Run the Build with Test Data (Optional)
-For builds that do not programmatically pull data from NCBI or another source, include a `test_data/` folder containing a minimal working example of test data that can be successfully executed by the build.
+Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such that a smaller example dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the full dataset provided by Nextstrain.
+
+```
+nextstrain build . --configfile build-configs/ci/config.yaml
+```
 
 ### Expected Outputs
 *(Outline the expected outputs and in which folders to locate them)*
@@ -117,35 +123,33 @@ The file structure of the repository is as follows with `*`" folders denoting fo
 ├── README.md
 ├── Snakefile
 ├── auspice*
-├── clade-labeling
-├── config
-├── new_data
+├── build-configs
+├── data
+├── defaults
+├── example_data
 ├── results*
-└── scripts
+└── rules
 ```
 More details on the file structure of this build can be found here (link to Wiki page that contains contents of  Repository File Structure Overview section).
 
 After successfully running the build there will be two output folders containing the build results.
 
-- `auspice/` folder contains: a .json file
-- `results/` folder contains:
+- `auspice/` folder contains: `measles_genome.json` and `measles_N450.json`. These are the final results viewable by auspice.
+- `results/` folder contains: `genome` and `N450` folders containing intermediate outputs from the respective workflows.
 
 ### Visualize Results
-- Dropping .json into auspice.us
-- `nextstrain view auspice/*.json`
+- Open [auspice.us](auspice.us) in a web browser, and drop `measles_genome.json` or `measles_N450.json` in as input. 
+- Run `nextstrain view .` from your `measles/phylogenetic/` folder.
 
-- Link folks to tree interpretation resources that people can use to make their inferences.
+- For guidance on phylogenetic inference, see [The Applied Genomic Epidemiology Handbook](https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/welcome-to-the-applied-genomic-epidemiology-handbook/).
 
 
 ## Customization for Local Adaptation
- *[Brief overview on how to adapt this build for another jurisdiction, such as a state, city, county, or country. Including links to Readmes in other sections that contain detailed instructions on what and how to modify the files]*
 
-This build can be customized for use by other demes, including as states, cities, counties, or countries.
-
-- What files or folders need to be modified in order to adapt for other jurisdictions? If this is lengthy then you can link to a wiki page tab that goes into detail on how someone might adapt this build for their jurisdiction.
+This build can be customized for use by other states. This is configurable by editing a single file, `measles/phylogenetic/build-configs/state_focused/config.yaml`. To change the focal state, change the `division` on line 4 of the config file. Simply replace "Washington" with your state of interest.
 
 ## Contributing
-For any questions please submit them to our [Discussions](insert link here) page otherwise software issues and requests can be logged as a Git [Issue](insert link here).
+For any questions please submit them to our [Discussions](https://github.com/orgs/NW-PaGe/discussions) page. Software issues and requests can be logged as a Git [Issue](insert link here).
 
 ## License
 This project is licensed under a modified GPL-3.0 License.
