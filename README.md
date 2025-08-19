@@ -115,7 +115,6 @@ nextstrain build . --configfile build-configs/ci/config.yaml
 ```
 
 ### Expected Outputs
-*(Outline the expected outputs and in which folders to locate them)*
 The file structure of the repository is as follows with `*`" folders denoting folders that are the build's expected outputs.
 
 ```
@@ -130,7 +129,7 @@ The file structure of the repository is as follows with `*`" folders denoting fo
 ├── results*
 └── rules
 ```
-More details on the file structure of this build can be found here (link to Wiki page that contains contents of  Repository File Structure Overview section).
+More details on the file structure of this build can be found [here](https://github.com/DOH-DAH0303/measles/wiki)
 
 After successfully running the build there will be two output folders containing the build results.
 
