@@ -2,7 +2,7 @@
 
 ## Build Overview
 - **Build Name**: Measles Virus Washington-Focused Build
-- **Pathogen/Strain**: Measles Virus (MeV)
+- **Pathogen/Strain**: Measles virus (MeV)
 - **Scope**: Full-genome sequences, and N450 (a 450 bp terminal N-protein region) sequences.
 - **Purpose**: This repository contains the Nextstrain build for Measles virus. Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genome are curated for the purposes of inferring strain, epidemiological case linkage, and sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
 
@@ -54,7 +54,7 @@
 
 ## Scientific Decisions
 
-Nextstrain builds are designed for specific purposes and not all types of builds for a particular pathogen will answer the same questions. The following are critical decisions that were made during the development of this build that should be kept in mind when analyzing the data and using this build. *Subsampling, root selection, and reference selection must be included at minimum.*
+Nextstrain builds are designed for specific purposes and not all types of builds for a particular pathogen will answer the same questions. The following are critical decisions that were made during the development of this build that should be kept in mind when analyzing the data and using this build.
 
 - **Nomenclature**: The nomenclature used in this build to designate clade names is determined by the Global Measles and Rubella Laboratory Network.
 - **Subsampling**: This build incorporates all known sequences from Washington State, XX additional sequences from North America and XX additional samples of global origin.
@@ -63,17 +63,15 @@ Nextstrain builds are designed for specific purposes and not all types of builds
 - **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
 
 ## Getting Started
-*(Provide any context new users should know before using this project.) Some high-level features and capabilities specific to this build include:*
 
 - [Feature 1: Feature 1 is helpful because it allows for X]
 - [Feature 2: Feature 2 is helpful because it allows for X]
 
 ### Data Sources & Inputs
-*(Provide any information on data sources and the inputs needed to run the build)*
 This build relies on publicly available data sourced from [data sources].
 
-- **Sequence Data**: All sequence data originate from [NCBI](https://www.ncbi.nlm.nih.gov/)
-- **Metadata**: All metadata originate from [NCBI](https://www.ncbi.nlm.nih.gov/)
+- **Sequence Data**: All sequence data originate from [NCBI](https://www.ncbi.nlm.nih.gov/).
+- **Metadata**: All metadata originate from [NCBI](https://www.ncbi.nlm.nih.gov/).
 - **Expected Inputs**:
     - `measles/phylogenetic/data/sequences.fasta.zst` (containing viral genome sequences)
     - `measles/phylogenetic/data/metadata.tsv.zst` (with relevant sample information)
@@ -95,7 +93,6 @@ cd measles/phylogenetic/
 ```
 
 ## Run the Build
-*(Explain how to run the build with test data. Example text on how this might be explained is below)*
 
 To test the pipeline with the provided example data located in `phylogenetic/example_data` make sure you are located in the build folder `phylogenetic` before running the build command:
 
