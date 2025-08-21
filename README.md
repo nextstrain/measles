@@ -92,27 +92,34 @@ git clone https://github.com/DOH-DAH0303/measles.git
 cd measles/phylogenetic/
 ```
 
-## Run the Build
+## Run the Main Nextstrain Build
 
-To test the pipeline with the provided example data located in `phylogenetic/example_data` make sure you are located in the build folder `phylogenetic` before running the build command:
+Make sure you are located in the build folder `phylogenetic` before running the build command:
 
 ```
-nextstrain build .
+nextstrain build . --configfile build-configs/state_focused/config.yaml
 ```
 
-When you run the build using `nextstrain build .`, Nextstrain uses Snakemake as the workflow manager to automate genomic analyses. The Snakefile in a Nextstrain build defines how raw input data (sequences and metadata) are processed step-by-step in an automated way. Nextstrain builds are powered by Augur (for phylogenetics) and Auspice (for visualization) and Snakemake is used to automate the execution of these steps using Augur and Auspice based on file dependencies.
+When you run the build using the above command, Nextstrain uses Snakemake as the workflow manager to automate genomic analyses. The Snakefile in a Nextstrain build defines how raw input data (sequences and metadata) are processed step-by-step in an automated way. Nextstrain builds are powered by Augur (for phylogenetics) and Auspice (for visualization) and Snakemake is used to automate the execution of these steps using Augur and Auspice based on file dependencies.
 
-Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such that a smaller example dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the dataset provided by Nextstrain.
+Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/state_focused/config.yaml` tweaks the workflow such that samples are pulled preferentially from Washington state, then North America, then globally, with numbers of samples from each layer specified in the `config.yaml`.
+
+When running this build prior to running the `ingest` workflow, data are downloaded from the Nextstrain measles data repository. This repository is updated at regular intervals; however, if you wish to pull the latest data directly from NCBI, you can run the ingest workflow first by running `nextstrain build .` from the `ingest` directory. The state-focused build will always check for data in the `ingest/results` directory, and build preferentially from those. When they are not present, the build pulls data from Nextstrain. If you want to make sure you are always pulling the most recent data from NCBI, navigate to the main `measles/` directory and run the following:
+
+```
+nextstrain build ingest --forceall &&
+nextstrain build phylogenetic --configfile build-configs/state_focused/config.yaml
+```
 
 ### Run the Build with Test Data (Optional)
-Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such that a smaller example dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the full dataset provided by Nextstrain.
+An alternative configuration file is present for running the phylogenetic workflow on a smaller example data set. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such this dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the full dataset provided by Nextstrain.
 
 ```
 nextstrain build . --configfile build-configs/ci/config.yaml
 ```
 
 ### Expected Outputs
-The file structure of the repository is as follows with `*`" folders denoting folders that are the build's expected outputs.
+The file structure of the `phylogenetic/` directory is as follows with `*`" folders denoting folders that are the build's expected outputs.
 
 ```
 .
