@@ -1,9 +1,25 @@
 """
 This file provides custom rules to substitute the default sampling scheme.
 These rules will supercede those included in the 'rules' directory
+Rule 'copy_ingest_results' copies the results from the ingest pipeline.
 Rule 'filter' applies to the whole-genome dataset.
 Rule 'filter_N450' applies to the N450 dataset.
 """
+rule copy_ingest_results:
+    input:
+        sequences="../ingest/results/sequences.fasta",
+        metadata="../ingest/results/metadata.tsv",
+    output:
+        sequences="data/sequences.fasta",
+        metadata="data/metadata.tsv",
+    shell:
+        """
+            cp -f {input.sequences} {output.sequences}
+            cp -f {input.metadata} {output.metadata}
+        """
+
+ruleorder: copy_ingest_results > decompress
+
 rule filter_genomic_state:
     """
     Filtering {params.division} sequences to
