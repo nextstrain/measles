@@ -34,6 +34,7 @@ AF266286	genotype_ncbi	A
 # WHO genotype reference strains
 # Information from https://www.who.int/publications/i/item/WER8709
 # Dates are retrieved from epi-weeks reported within strain names
+# Dates are defined as the first day of the epi-week
 AF045212	is_reference	TRUE
 AF045217	is_reference	TRUE
 AF079555	is_reference	TRUE
@@ -146,3 +147,26 @@ U64582	date	1988-XX-XX
 X84865	date	1994-XX-XX
 X84872	date	1990-XX-XX
 X84879	date	1971-XX-XX
+#
+# Strains with rare genotypes
+# Dates are retrieved from epi-weeks reported within strain names on NCBI
+# Dates are defined as the first day of the epi-week
+# These are force-included in the nextclade tree to boost representation of rare genotypes
+AF410989	genotype_ncbi	E
+AY037009	genotype_ncbi	G2
+AY037043	genotype_ncbi	H2
+AY037026	genotype_ncbi	H2
+AY037028	genotype_ncbi	D2
+FJ668380	genotype_ncbi	D10
+AF410989	strain	MVi/Montreal.CAN/11.87
+AY037009	strain	MVs/California.USA/24.00[G2]
+AY037043	strain	MVi/Alaska.USA/16.00[H2]
+AY037026	strain	MVi/Minnesota.USA/13.97[H2]
+AY037028	strain	MVi/New York.USA/11.00[D2]
+FJ668380	strain	MVi/London.GBR/7.03[D10]
+AF410989	date	1987-03-09
+AY037009	date	2000-06-12
+AY037043	date	2000-04-17
+AY037026	date	1997-03-24
+AY037028	date	2000-03-13
+FJ668380	date	2003-02-10
