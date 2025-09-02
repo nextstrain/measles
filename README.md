@@ -41,7 +41,7 @@
   - Why are genomic data useful for this pathogen:
     - Full-genome data allows for outbreak investigation and identification of case clusters.
     - Most genotypes have been declared inactive. Genomic surveillance can help detect emergence of novel genotypes.
-    - A few sporadic lineage A cases have been observed in recently vaccinated. Placement outside of clade A can rule out vaccination-related infections.
+    - Identification of genotypes outside of clade A can rule out vaccination-related infections.
     - Full genomes can assist in monitoring the effectiveness of established PCR-based diagnostic assays.
     - Vaccine escape has not been observed, but should me monitored.
   - Why N450 data are useful for this pathogen:
