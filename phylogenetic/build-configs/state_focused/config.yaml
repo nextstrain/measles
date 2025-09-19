@@ -5,19 +5,22 @@ subsample:
         samples:
             state:
                 query: division == "Washington"
-                max_sequences: 500
+                max_sequences: 2000
+                min_length: 5000
                 min_date: "1950"
                 exclude:
                     - defaults/dropped_strains.txt
             continental:
                 query: division != "Washington" & region == "North America"
-                max_sequences: 500
+                max_sequences: 2000
+                min_length: 5000
                 min_date: "1950"
                 exclude:
                     - defaults/dropped_strains.txt
             global:
                 query: region != "North America"
-                max_sequences: 500
+                max_sequences: 2000
+                min_length: 5000
                 min_date: "1950"
                 include:
                     - defaults/include_strains_genome.txt
@@ -27,14 +30,14 @@ subsample:
         samples:
             state:
                 query: division == "Washington"
-                max_sequences: 500
+                max_sequences: 2000
                 min_date: "1950"
                 min_length: 400
                 exclude:
                     - defaults/dropped_strains.txt                
             continental:
                 query: division != "Washington" & region == "North America"
-                max_sequences: 5000
+                max_sequences: 2000
                 min_date: "1950"
                 min_length: 400
                 exclude:
