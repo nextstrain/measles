@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2025
 
+* 22 September 2025: Fixed a bug where `rule align` would fail when the reference sequence was present in the output of `rule filter` [#68][]
 * 4 June 2025: Vendored [nextstrain/shared][] to parse config paths across workflows [#62][]
 * 21 May 2025: ingest - Replace various scripts with new `augur curate` commands [#61][]
     - Replaces ncov-ingest geolocation rules with built-in `augur curate` geolocation rules
@@ -21,6 +22,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#59]: https://github.com/nextstrain/measles/pull/59
 [#61]: https://github.com/nextstrain/measles/pull/61
 [#62]: https://github.com/nextstrain/measles/pull/62
+[#68]: https://github.com/nextstrain/measles/pull/68
 [nextstrain/shared]: https://github.com/nextstrain/shared
 
 ## 2024
