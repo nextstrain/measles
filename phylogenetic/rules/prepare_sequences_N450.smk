@@ -11,7 +11,7 @@ rule align_and_extract_N450:
     output:
         sequences = "results/N450/sequences.fasta"
     params:
-        min_length = config['filter_N450']['min_length']
+        min_length = config["align_and_extract_N450"]["min_length"]
     shell:
         """
         nextclade run \
@@ -23,6 +23,7 @@ rule align_and_extract_N450:
            --silent \
            {input.sequences}
         """
+
 rule filter_N450:
     """
     Filtering to
@@ -32,29 +33,21 @@ rule filter_N450:
       - excluding strains with missing region, country or date metadata
     """
     input:
+        config = "results/run_config.yaml",
         sequences = "results/N450/sequences.fasta",
-        metadata = "data/metadata.tsv",
-        exclude = resolve_config_path(config["files"]["exclude"]),
-        include = resolve_config_path(config["files"]["include"])({"gene":"N450"})
+        metadata = "data/metadata.tsv"
     output:
         sequences = "results/N450/aligned.fasta"
     params:
-        group_by = config['filter_N450']['group_by'],
-        subsample_max_sequences = config["filter_N450"]["subsample_max_sequences"],
-        min_date = config["filter_N450"]["min_date"],
-        min_length = config['filter_N450']['min_length'],
+        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "N450"],
         strain_id = config["strain_id_field"]
     shell:
         """
-        augur filter \
+        augur subsample \
+            --config {input.config} \
+            --config-section {params.config_section:q} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --exclude {input.exclude} \
-            --include {input.include} \
-            --output {output.sequences} \
-            --group-by {params.group_by} \
-            --subsample-max-sequences {params.subsample_max_sequences} \
-            --min-date {params.min_date} \
-            --min-length {params.min_length}
+            --output-sequences {output.sequences} \
         """

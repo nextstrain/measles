@@ -7,6 +7,8 @@ configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
 if os.path.exists("config.yaml"):
     configfile: "config.yaml"
 
+include: "rules/config.smk"
+
 rule all:
     input:
         auspice_json = expand("auspice/measles_{gene}.json", gene=genes),
