@@ -9,6 +9,10 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2025
 
+* 24 September 2025: Implemented augur subsample, replacing augur filter steps for both genome and N450 workflows. **This is a breaking change**. [#70][]
+    - Replaces `augur filter` calls with `augur subsample`.
+    - Replaces `filter` and `filter_N450` with `subsample` section in the config.yaml.
+* 24 September 2025: Configuration resolved at run time is now written to `results/run_config.yaml`. [#70][]
 * 22 September 2025: Fixed a bug where `rule align` would fail when the reference sequence was present in the output of `rule filter` [#68][]
 * 4 June 2025: Vendored [nextstrain/shared][] to parse config paths across workflows [#62][]
 * 21 May 2025: ingest - Replace various scripts with new `augur curate` commands [#61][]
@@ -23,6 +27,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#61]: https://github.com/nextstrain/measles/pull/61
 [#62]: https://github.com/nextstrain/measles/pull/62
 [#68]: https://github.com/nextstrain/measles/pull/68
+[#70]: https://github.com/nextstrain/measles/pull/70
 [nextstrain/shared]: https://github.com/nextstrain/shared
 
 ## 2024
