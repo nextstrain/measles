@@ -1,0 +1,169 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Measles Phylogenetic Workflow Configuration
+description: >
+  This is the schema for the Nextstrain measles phylogenetic workflow's configuration file
+type: object
+additionalProperties: false
+
+required:
+  - strain_id_field
+  - files
+  - align_and_extract_N450
+  - refine
+  - ancestral
+  - tip_frequencies
+  - export
+
+anyOf:
+  # 'subsample' is in defaults so it will always be defined, but it is optional
+  # from the workflow's perspective.
+  - required: [subsample]
+  - required: [custom_subsample]
+
+properties:
+  strain_id_field:
+    type: string
+    description: Metadata field with unique identifiers.
+
+  files:
+    type: object
+    description: Input and reference files configuration.
+    additionalProperties: false
+    required:
+      - reference
+      - reference_fasta
+      - colors
+      - auspice_config
+      - description
+    properties:
+      reference:
+        type: string
+        format: filepath
+        description: Reference genome file pattern (supports {gene} wildcard).
+      reference_fasta:
+        type: string
+        format: filepath
+        description: Reference FASTA file pattern (supports {gene} wildcard).
+      colors:
+        type: string
+        format: filepath
+        description: Colors TSV file for visualization.
+      auspice_config:
+        type: string
+        format: filepath
+        description: Auspice configuration file pattern (supports {gene} wildcard).
+      description:
+        type: string
+        format: filepath
+        description: Auspice dataset description markdown file.
+
+  align_and_extract_N450:
+    type: object
+    description: Configuration for N450 alignment and extraction.
+    additionalProperties: false
+    required:
+      - min_length
+    properties:
+      min_length:
+        type: integer
+        description: Minimum sequence length for N450 extraction.
+
+  subsample: &subsample_config
+    type: object
+    description: Subsampling configuration.
+    additionalProperties: false
+    required:
+      - genome
+      - N450
+    properties:
+      genome:
+        $ref: https://nextstrain.org/schemas/augur/subsample-config/v1
+        description: Subsampling configuration for genome sequences.
+      N450:
+        $ref: https://nextstrain.org/schemas/augur/subsample-config/v1
+        description: Subsampling configuration for N450 sequences.
+
+  custom_subsample:
+    <<: *subsample_config
+    description: Custom subsampling configuration. When using --configfile, this is recommended to ignore default subsampling configuration.
+
+  refine:
+    type: object
+    description: Configuration for rule refine / augur refine / TreeTime.
+    additionalProperties: false
+    required:
+      - coalescent
+      - date_inference
+      - clock_filter_iqd
+    properties:
+      coalescent:
+        type: string
+        description: Coalescent model.
+        enum:
+          - const
+          - exp
+          - skyline
+          - opt
+      date_inference:
+        type: string
+        description: Date inference method.
+        enum:
+          - joint
+          - marginal
+      clock_filter_iqd:
+        type: number
+        description: Clock filter IQD threshold.
+
+  ancestral:
+    type: object
+    description: Ancestral sequence reconstruction configuration.
+    additionalProperties: false
+    required:
+      - inference
+    properties:
+      inference:
+        type: string
+        description: Inference method for ancestral sequences.
+        enum:
+          - joint
+          - marginal
+
+  tip_frequencies:
+    type: object
+    description: Tip frequency calculation configuration.
+    additionalProperties: false
+    required:
+      - min_date
+      - max_date
+      - narrow_bandwidth
+      - wide_bandwidth
+    properties:
+      min_date:
+        type: string
+        description: Minimum date for tip frequency calculation. Supports any of Augur's supported date formats.
+      max_date:
+        type: string
+        description: Maximum date for tip frequency calculation. Supports any of Augur's supported date formats.
+      narrow_bandwidth:
+        type: number
+        description: Narrow bandwidth for tip frequencies.
+      wide_bandwidth:
+        type: number
+        description: Wide bandwidth for tip frequencies.
+
+  export:
+    type: object
+    description: Export configuration for Auspice.
+    additionalProperties: false
+    required:
+      - metadata_columns
+    properties:
+      metadata_columns:
+        type: string
+        description: Space-separated list of metadata columns to include in export.
+
+  custom_rules:
+    type: array
+    description: List of custom Snakemake rule files to include.
+    items:
+      type: string
