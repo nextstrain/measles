@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2025
 
+* TBD: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 24 September 2025: Implemented augur subsample, replacing augur filter steps for both genome and N450 workflows. **This is a breaking change**. [#70][]
     - Replaces `augur filter` calls with `augur subsample`.
     - Replaces `filter` and `filter_N450` with `subsample` section in the config.yaml.
@@ -28,6 +29,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#62]: https://github.com/nextstrain/measles/pull/62
 [#68]: https://github.com/nextstrain/measles/pull/68
 [#70]: https://github.com/nextstrain/measles/pull/70
+[#73]: https://github.com/nextstrain/measles/issues/73
 [nextstrain/shared]: https://github.com/nextstrain/shared
 
 ## 2024
