@@ -1,10 +1,14 @@
 strain_id_field: "accession"
 files:
-    reference: "measles_reference_{gene}.gb"
-    reference_fasta: "measles_reference_{gene}.fasta"
     colors: "colors.tsv"
-    auspice_config: "auspice_config_{gene}.json"
     description: "description.md"
+    genome:
+        reference: "measles_reference_genome.gb"
+        auspice_config: "auspice_config_genome.json"
+    N450:
+        reference: "measles_reference_N450.gb"
+        reference_fasta: "measles_reference_N450.fasta"
+        auspice_config: "auspice_config_N450.json"
 align_and_extract_N450:
     min_length: 400
 subsample:

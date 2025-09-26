@@ -28,7 +28,7 @@ rule translate:
     input:
         tree = "results/{gene}/tree.nwk",
         node_data = "results/{gene}/nt_muts.json",
-        reference = resolve_config_path(config["files"]["reference"])
+        reference = lambda w: config["files"][w.gene]["reference"]
     output:
         node_data = "results/{gene}/aa_muts.json"
     shell:

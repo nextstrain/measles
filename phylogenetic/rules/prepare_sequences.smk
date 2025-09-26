@@ -66,7 +66,7 @@ rule align:
     """
     input:
         sequences = "results/genome/filtered.fasta",
-        reference = resolve_config_path(config["files"]["reference"])({"gene": "genome"})
+        reference = config["files"]["genome"]["reference"]
     output:
         alignment = "results/genome/aligned.fasta"
     shell:
