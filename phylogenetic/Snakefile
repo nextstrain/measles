@@ -1,12 +1,11 @@
 genes = ['N450', 'genome']
 
-include: "../shared/vendored/snakemake/config.smk"
-
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
 
 if os.path.exists("config.yaml"):
     configfile: "config.yaml"
 
+include: "../shared/vendored/snakemake/config.smk"
 include: "rules/config.smk"
 
 rule all:
