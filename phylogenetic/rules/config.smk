@@ -5,6 +5,10 @@ OUTPUTS:
 
     results/run_config.yaml
 """
+
+# NOTE: The order is important. Filepaths must be resolved before config is
+# written, otherwise augur subsample will not work.
+
 resolve_filepaths([
     ("subsample", "*", "samples", "*", "include"),
     ("subsample", "*", "samples", "*", "exclude"),
