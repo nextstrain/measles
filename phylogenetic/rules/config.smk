@@ -16,6 +16,11 @@ RUN_CONFIG = f"results/run_config.yaml"
 
 def main():
     resolve_filepaths([
+        ("files", "colors"),
+        ("files", "description"),
+        ("files", "*", "reference"),
+        ("files", "*", "reference_fasta"),
+        ("files", "*", "auspice_config"),
         ("subsample", "*", "samples", "*", "include"),
         ("subsample", "*", "samples", "*", "exclude"),
         ("subsample", "*", "samples", "*", "group_by_weights"),
