@@ -12,7 +12,7 @@ workflows:
       nextstrain run: True
   phylogenetic:
     compatibility:
-      nextstrain run: True
+      nextstrain run: False
   nextclade:
     compatibility:
       nextstrain run: True
