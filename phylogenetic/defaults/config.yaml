@@ -17,8 +17,8 @@ subsample:
                 group_by:
                     - country
                     - year
-                include: defaults/include_strains_genome.txt
-                exclude: defaults/dropped_strains.txt
+                include: include_strains_genome.txt
+                exclude: dropped_strains.txt
     N450:
         samples:
             global:
@@ -28,8 +28,8 @@ subsample:
                 group_by:
                     - country
                     - year
-                include: defaults/include_strains_N450.txt
-                exclude: defaults/dropped_strains.txt
+                include: include_strains_N450.txt
+                exclude: dropped_strains.txt
 refine:
     coalescent: "opt"
     date_inference: "marginal"
