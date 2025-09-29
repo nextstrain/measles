@@ -9,7 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2025
 
-* TBD: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
+* 29 September 2025: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 26 September 2025: Updated workflow compatibility declaration in `nextstrain-pathogen.yaml`.
   **This requires Nextstrain CLI >=10.3.0** to setup and update the pathogen without error messages.
   However, workflows will still run with Nextstrain CLI <10.3.0 [#69][]
