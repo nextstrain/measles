@@ -10,7 +10,9 @@ import sys
 import yaml
 from textwrap import dedent
 
+
 RUN_CONFIG = f"results/run_config.yaml"
+
 
 def main():
     write_config(RUN_CONFIG)
