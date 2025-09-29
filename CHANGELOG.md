@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2025
 
+* TBD: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 26 September 2025: Updated workflow compatibility declaration in `nextstrain-pathogen.yaml`.
   **This requires Nextstrain CLI >=10.3.0** to setup and update the pathogen without error messages.
   However, workflows will still run with Nextstrain CLI <10.3.0 [#69][]
@@ -32,6 +33,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#68]: https://github.com/nextstrain/measles/pull/68
 [#69]: https://github.com/nextstrain/measles/pull/69
 [#70]: https://github.com/nextstrain/measles/pull/70
+[#73]: https://github.com/nextstrain/measles/issues/73
 [nextstrain/shared]: https://github.com/nextstrain/shared
 
 ## 2024
