@@ -1,0 +1,53 @@
+custom_rules:
+    - build-configs/state_focused/copy_from_ingest.smk
+custom_subsample:
+    genome:
+        samples:
+            state:
+                query: division == "Washington"
+                max_sequences: 2000
+                min_length: 5000
+                min_date: "1950"
+                exclude:
+                    - defaults/dropped_strains.txt
+            continental:
+                query: division != "Washington" & region == "North America"
+                max_sequences: 2000
+                min_length: 5000
+                min_date: "1950"
+                exclude:
+                    - defaults/dropped_strains.txt
+            global:
+                query: region != "North America"
+                max_sequences: 2000
+                min_length: 5000
+                min_date: "1950"
+                include:
+                    - defaults/include_strains_genome.txt
+                exclude:
+                    - defaults/dropped_strains.txt
+    N450:
+        samples:
+            state:
+                query: division == "Washington"
+                max_sequences: 2000
+                min_date: "1950"
+                min_length: 400
+                exclude:
+                    - defaults/dropped_strains.txt                
+            continental:
+                query: division != "Washington" & region == "North America"
+                max_sequences: 2000
+                min_date: "1950"
+                min_length: 400
+                exclude:
+                    - defaults/dropped_strains.txt
+            global:
+                query: region != "North America"
+                max_sequences: 2000
+                min_date: "1950"
+                min_length: 400
+                exclude:
+                    - defaults/dropped_strains.txt
+                include:
+                    - defaults/include_strains_N450.txt

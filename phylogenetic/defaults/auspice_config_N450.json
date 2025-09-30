@@ -1,8 +1,8 @@
 {
-  "title": "Real-time tracking of measles N450 virus evolution",
+  "title": "Measles - Washington-Focused",
   "maintainers": [
-    {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
-    {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
+    {"name": "Dan Hartman", "url": "https://github.com/DOH-DAH0303"},
+    {"name": "Washington State Department of Health"}
   ],
   "data_provenance": [
     {

@@ -1,49 +1,190 @@
-# Nextstrain repository for measles virus
+# Measles Virus (MeV) Washington-Focused Build
 
-This repository contains three workflows for the analysis of measles virus data:
+## Build Overview
+- **Build Name**: Measles Virus Washington-Focused Build
+- **Pathogen/Strain**: Measles virus (MeV)
+- **Scope**: Full-genome sequences, and N450 (a 450 bp terminal N-protein region) sequences.
+- **Purpose**: This repository contains the Nextstrain build for Measles virus. Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genome are curated for the purposes of inferring strain, epidemiological case linkage, and sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
 
-- [`ingest/`](./ingest) - Download data from GenBank, clean and curate it
-- [`phylogenetic/`](./phylogenetic) - Filter sequences, align, construct phylogeny and export for visualization
-- [`nextclade/`](./nextclade) - Create nextclade datasets
+- **Nextstrain Build/s Location/s**:  URL TBD
 
-Each folder contains a README.md with more information. The results of running both workflows are publicly visible at [nextstrain.org/measles](https://nextstrain.org/measles).
+## Table of Contents
+- [Pathogen Epidemiology](#pathogen-epidemiology)
+- [Scientific Decisions](#scientific-decisions)
+- [Getting Started](#getting-started)
+  - [Data Sources & Inputs](#data-sources--inputs)
+  - [Setup & Dependencies](#setup--dependencies)
+    - [Installation](#installation)
+    - [Clone the repository](#clone-the-repository)
+- [Run the Build](#run-the-build-with-test-data)
+  - [Expected Outputs](#expected-outputs)
+  - [Visualizing Results](#visualize-results)
+- [Customization for Local Adaptation](#customization-for-local-adaptation)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgements](#acknowledgements)
 
-## Installation
 
-Follow the [standard installation instructions](https://docs.nextstrain.org/en/latest/install.html) for Nextstrain's suite of software tools.
+## Pathogen Epidemiology
+- Overview:
+  - MeV is an RNA virus in the family Paramyxoviridae
+  - Two genotypes are currently circulating - B3 and D8. A genotypes are vaccine strains.
+  - Transmission occurs through contact - either directly or through aerosolized nasal and through secretions.
+- Taxonomic designations include clades (A-H) and subclades (numbered).
+- Geographic Distribution and Seasonality
+  - MeV is distributed globally, with the highest case numbers in areas with low vaccination coverage. Children of school age are at higher risk.
+  - In temperate regions, higher transmission can occur in based on patterns in schooling, while agricultural patterns can drive transmission in less developed areas.
 
-After you've installed the Nextstrain CLI, you can set up measles with
+- Public health importance
+  - Surveillance for MeV can help identify high-risk populations.
+- Genomic Relevance
+  - Why are genomic data useful for this pathogen:
+    - Full-genome data allows for outbreak investigation and identification of case clusters.
+    - Most genotypes have been declared inactive. Genomic surveillance can help detect emergence of novel genotypes.
+    - Identification of genotypes outside of clade A can rule out vaccination-related infections.
+    - Full genomes can assist in monitoring the effectiveness of established PCR-based diagnostic assays.
+    - Vaccine escape has not been observed, but should me monitored.
+  - Why N450 data are useful for this pathogen:
+    - The N450 sequence results from the standard diagnostic assay, and may be obtained as part of routine surveillance in jurisdictions with low resources.
+    - The N450 dataset is very large, and useful for genotype identification. These data can help to identify emerging genotypes, and also genotypes that have been declared inactive.
 
-   nextstrain setup measles
+- Additional Resources
+  - [Global Measles and Rubell Laboratory Netowrk](https://www.who.int/europe/initiatives/measles-and-rubella-laboratory-network) 
+  - [Most Recent WHO Measles Nomenclature Update - 2012](https://www.who.int/publications/i/item/WER8709)
 
-## Quickstart
+## Scientific Decisions
 
-Run the default phylogenetic workflow via:
+Nextstrain builds are designed for specific purposes and not all types of builds for a particular pathogen will answer the same questions. The following are critical decisions that were made during the development of this build that should be kept in mind when analyzing the data and using this build.
 
-   nextstrain run measles phylogenetic measles-analysis
-   nextstrain view measles-analysis
+- **Nomenclature**: The nomenclature used in this build to designate clade names is determined by the Global Measles and Rubella Laboratory Network.
+- **Subsampling**: This build incorporates all known sequences from Washington State, XX additional sequences from North America and XX additional samples of global origin.
+- **Root selection**: The root sequence is not specified, but inferred by `augur ancestral`.
+- **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 alignments.
+- **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
 
-## Documentation
+### Data Sources & Inputs
+This build relies on publicly available data sourced from [data sources].
 
-- [Running a pathogen workflow](https://docs.nextstrain.org/en/latest/tutorials/running-a-workflow.html)
+- **Sequence Data**: All sequence data originate from [NCBI](https://www.ncbi.nlm.nih.gov/).
+- **Metadata**: All metadata originate from [NCBI](https://www.ncbi.nlm.nih.gov/).
+- **Expected Inputs**:
+    - `measles/phylogenetic/data/sequences.fasta.zst` (containing viral genome sequences)
+    - `measles/phylogenetic/data/metadata.tsv.zst` (with relevant sample information)
 
-## Working on this repo
+### Setup & Dependencies
+#### Installation
+Ensure that you have [Nextstrain](https://docs.nextstrain.org/en/latest/install.html) installed.
 
-This repo is configured to use [pre-commit](https://pre-commit.com),
-to help automatically catch common coding errors and syntax issues
-with changes before they are committed to the repo.
+To check that Nextstrain is installed:
+```
+nextstrain check-setup
+```
+
+#### Clone the repository:
+
+```
+git clone https://github.com/DOH-DAH0303/measles.git
+cd measles/phylogenetic/
+```
+
+## Run the Main Nextstrain Build
+
+Make sure you are located in the build folder `phylogenetic` before running the build command:
+
+```
+nextstrain build . --configfile build-configs/state_focused/config.yaml
+```
+
+When you run the build using the above command, Nextstrain uses Snakemake as the workflow manager to automate genomic analyses. The Snakefile in a Nextstrain build defines how raw input data (sequences and metadata) are processed step-by-step in an automated way. Nextstrain builds are powered by Augur (for phylogenetics) and Auspice (for visualization) and Snakemake is used to automate the execution of these steps using Augur and Auspice based on file dependencies.
+
+Alternative configuration files can be specified to customize the workflow. In this case, `--configfile build-configs/state_focused/config.yaml` tweaks the workflow such that samples are pulled preferentially from Washington state, then North America, then globally, with numbers of samples from each layer specified in the `config.yaml`.
+
+When running this build prior to running the `ingest` workflow, data are downloaded from the Nextstrain measles data repository. This repository is updated at regular intervals; however, if you wish to pull the latest data directly from NCBI, you can run the ingest workflow first by running `nextstrain build .` from the `ingest` directory. The state-focused build will always check for data in the `ingest/results` directory, and build preferentially from those. When they are not present, the build pulls data from Nextstrain. If you want to make sure you are always pulling the most recent data from NCBI, navigate to the main `measles/` directory and run the following:
+
+```
+nextstrain build ingest --forceall &&
+nextstrain build phylogenetic --configfile build-configs/state_focused/config.yaml
+```
+
+### Run the Build with Test Data (Optional)
+An alternative configuration file is present for running the phylogenetic workflow on a smaller example data set. In this case, `--configfile build-configs/ci/config.yaml` tweaks the workflow such this dataset located in `phylogenetic/example_data` gets copied to `phylogenetic/data`, and bypasses the default steps of downloading and decompressing the full dataset provided by Nextstrain.
+
+```
+nextstrain build . --configfile build-configs/ci/config.yaml
+```
+
+### Expected Outputs
+The file structure of the `phylogenetic/` directory is as follows with `*`" folders denoting folders that are the build's expected outputs.
+
+```
 .
-If you will be writing new code or otherwise working within this repo,
-please do the following to get started:
+├── README.md
+├── Snakefile
+├── auspice*
+├── build-configs
+├── data
+├── defaults
+├── example_data
+├── results*
+└── rules
+```
+More details on the file structure of this build can be found [here](https://github.com/NW-PaGe/measles/wiki)
 
-1. install `pre-commit` by running either `python -m pip install
-   pre-commit` or `brew install pre-commit`, depending on your
-   preferred package management solution
-2. install the local git hooks by running `pre-commit install` from
-   the root of the repo
-3. when problems are detected, correct them in your local working tree
-   before committing them.
+After successfully running the build there will be two output folders containing the build results.
 
-Note that these pre-commit checks are also run in a GitHub Action when
-changes are pushed to GitHub, so correcting issues locally will
-prevent extra cycles of correction.
+- `auspice/` folder contains: `measles_genome.json` and `measles_N450.json`. These are the final results viewable by auspice.
+- `results/` folder contains: `genome` and `N450` folders containing intermediate outputs from the respective workflows.
+
+### Visualize Results
+- Open [auspice.us](auspice.us) in a web browser, and drop `measles_genome.json` or `measles_N450.json` in as input. 
+- Run `nextstrain view .` from your `measles/phylogenetic/` folder.
+
+- For guidance on phylogenetic inference, see [The Applied Genomic Epidemiology Handbook](https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/welcome-to-the-applied-genomic-epidemiology-handbook/).
+
+
+## Customization for Local Adaptation
+
+This build can be customized for use by other states. This is configurable by editing a single file, `measles/phylogenetic/build-configs/state_focused/config.yaml`. To change the focal state, change the `division` on line 4 of the config file. Simply replace "Washington" with your state of interest.
+
+## Contributing
+For any questions please submit them to our [Discussions](https://github.com/orgs/NW-PaGe/discussions) page. Software issues and requests can be logged as a Git [Issue](insert link here).
+
+## License
+This project is licensed under a modified GPL-3.0 License.
+You may use, modify, and distribute this work, but commercial use is strictly prohibited without prior written permission.
+
+## Acknowledgements
+
+*[add acknowledgements to those who have contributed to this work]*
+
+<!-- Repository File Structure Overview [**Move contents of this section to Wiki**]
+(This section outlines the high-level file structure of the repo to help folks navigate the repo. If the build follows the pathogen template repo feel free to make this section brief and link to the pathogen template repo resource)*
+
+Example text below:
+
+This Nextstrain build follows the structure detailed in the [Pathogen Repo Guide](https://github.com/nextstrain/pathogen-repo-guide).
+Mainly, this build contains [number] workflows for the analysis of [pathogen] virus data:
+- ingest/ [link to ingest workflow] Download data from [source], clean, format, curate it, and assign clades.
+- phylogenetic/ [link to phylogenetic workflow] Subsample data and make phylogenetic trees for use in nextstrain.
+
+OR
+The file structure of the repository is as follows with `*`" folders denoting folders that are the build's expected outputs.
+
+```
+.
+├── README.md
+├── Snakefile
+├── auspice*
+├── clade-labeling
+├── config
+├── new_data
+├── results*
+└── scripts
+```
+
+- `Snakefile`: Snakefile description
+- `config/`: contains what
+- `new_data/`: contains What
+- `scripts/`: contains what
+- `clade-labeling`: contains what
+-->
