@@ -7,7 +7,7 @@ See Augur's usage docs for these commands for more details.
 rule align_and_extract_N450:
     input:
         sequences = "data/sequences.fasta",
-        reference = resolve_config_path(config["files"]["reference_fasta"])({"gene":"N450"})
+        reference = config["files"]["N450"]["reference_fasta"]
     output:
         sequences = "results/N450/sequences.fasta"
     params:
