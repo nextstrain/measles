@@ -1,4 +1,4 @@
-# [Work in Progress!] Measles Virus (MeV) Washington-Focused Build
+# Measles Virus (MeV) Washington-Focused Build
 
 ## Build Overview
 - **Build Name**: Measles Virus Washington-Focused Build
@@ -61,11 +61,6 @@ Nextstrain builds are designed for specific purposes and not all types of builds
 - **Root selection**: The root sequence is not specified, but inferred by `augur ancestral`.
 - **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 alignments.
 - **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
-
-## Getting Started
-
-- [Feature 1: Feature 1 is helpful because it allows for X]
-- [Feature 2: Feature 2 is helpful because it allows for X]
 
 ### Data Sources & Inputs
 This build relies on publicly available data sourced from [data sources].
@@ -133,7 +128,7 @@ The file structure of the `phylogenetic/` directory is as follows with `*`" fold
 ├── results*
 └── rules
 ```
-More details on the file structure of this build can be found [here](https://github.com/DOH-DAH0303/measles/wiki)
+More details on the file structure of this build can be found [here](https://github.com/NW-PaGe/measles/wiki)
 
 After successfully running the build there will be two output folders containing the build results.
 

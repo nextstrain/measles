@@ -1,3 +1,5 @@
+custom_rules:
+    - build-configs/state_focused/copy_from_ingest.smk
 custom_subsample:
     genome:
         samples:
