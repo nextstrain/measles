@@ -37,10 +37,10 @@ def resolve_filepaths(filepaths):
     global config
 
     for keys in filepaths:
-        _traverse(config, keys)
+        _traverse(config, keys, traversed_keys=[])
 
 
-def _traverse(config_section, keys):
+def _traverse(config_section, keys, traversed_keys):
     """
     Recursively walk through the config following a list of keys.
 
@@ -52,26 +52,26 @@ def _traverse(config_section, keys):
     if key == "*":
         for key in config_section:
             if len(remaining_keys) == 0:
-                _update_value_inplace(config_section, key)
+                _update_value_inplace(config_section, key, traversed_keys=traversed_keys + [f'* ({key})'])
             else:
                 if isinstance(config_section[key], dict):
-                    _traverse(config_section[key], remaining_keys)
+                    _traverse(config_section[key], remaining_keys, traversed_keys=traversed_keys + [f'* ({key})'])
                 else:
                     # Value for key is not a dict
                     # Leave as-is - this may be valid config value.
                     continue
     elif key in config_section:
         if len(remaining_keys) == 0:
-            _update_value_inplace(config_section, key)
+            _update_value_inplace(config_section, key, traversed_keys=traversed_keys + [key])
         else:
-            _traverse(config_section[key], remaining_keys)
+            _traverse(config_section[key], remaining_keys, traversed_keys=traversed_keys + [key])
     else:
         # Key not present in config section
         # Ignore - this may be an optional parameter.
         return
 
 
-def _update_value_inplace(config_section, key):
+def _update_value_inplace(config_section, key, traversed_keys):
     """
     Update the value at 'config_section[key]' with resolve_config_path().
 
@@ -82,9 +82,13 @@ def _update_value_inplace(config_section, key):
     given an empty dict.
     """
     value = config_section[key]
+    traversed = ' → '.join(repr(key) for key in traversed_keys)
     if isinstance(value, list):
+        for path in value:
+            assert isinstance(path, str), f"ERROR: Expected string but got {type(path).__name__} at {traversed}."
         new_value = [resolve_config_path(path)({}) for path in value]
     else:
+        assert isinstance(value, str), f"ERROR: Expected string but got {type(value).__name__} at {traversed}."
         new_value = resolve_config_path(value)({})
     config_section[key] = new_value
     print(f"Resolved {value!r} to {new_value!r}.")
