@@ -91,7 +91,7 @@ def _update_value_inplace(config_section, key, traversed_keys):
         assert isinstance(value, str), f"ERROR: Expected string but got {type(value).__name__} at {traversed}."
         new_value = resolve_config_path(value)({})
     config_section[key] = new_value
-    print(f"Resolved {value!r} to {new_value!r}.")
+    print(f"Resolved {value!r} to {new_value!r}.", file=sys.stderr)
 
 
 def write_config(path):
