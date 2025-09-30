@@ -11,9 +11,6 @@ import yaml
 from textwrap import dedent
 
 
-RUN_CONFIG = f"results/run_config.yaml"
-
-
 def main():
     resolve_filepaths([
         ("subsample", "*", "samples", "*", "include"),
@@ -23,7 +20,7 @@ def main():
         ("custom_subsample", "*", "samples", "*", "exclude"),
         ("custom_subsample", "*", "samples", "*", "group_by_weights"),
     ])
-    write_config(RUN_CONFIG)
+    write_config("results/run_config.yaml")
 
 
 def resolve_filepaths(filepaths):
