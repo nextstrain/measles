@@ -6,6 +6,7 @@ import os
 import sys
 import yaml
 from collections.abc import Callable
+from copy import deepcopy
 from snakemake.io import Wildcards
 from typing import Optional
 from textwrap import dedent, indent
@@ -15,7 +16,7 @@ class InvalidConfigError(Exception):
     pass
 
 
-def resolve_filepaths(filepaths):
+def resolve_filepaths(config, filepaths):
     """
     Update filepaths in-place by passing them through resolve_config_path().
 
@@ -23,7 +24,6 @@ def resolve_filepaths(filepaths):
     Use "*" as a a key-expansion placeholder: it means "iterate over all keys at
     this level".
     """
-    global config
 
     for keys in filepaths:
         _traverse(config, keys, traversed_keys=[])
@@ -147,12 +147,10 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
     return _resolve_config_path
 
 
-def write_config(path):
+def write_config(config, path):
     """
     Write Snakemake's 'config' variable to a file.
     """
-    global config
-
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
     with open(path, 'w') as f:
