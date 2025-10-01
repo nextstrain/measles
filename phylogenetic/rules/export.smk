@@ -1,5 +1,5 @@
 """
-This part of the workflow collects the phylogenetic tree and annotations to
+This part of the workflow collects the phylobuildtic tree and annotations to
 export a Nextstrain dataset.
 
 See Augur's usage docs for these commands for more details.
@@ -8,16 +8,16 @@ See Augur's usage docs for these commands for more details.
 rule export:
     """Exporting data files for for auspice"""
     input:
-        tree = "results/{gene}/tree.nwk",
+        tree = "results/{build}/tree.nwk",
         metadata = "data/metadata.tsv",
-        branch_lengths = "results/{gene}/branch_lengths.json",
-        nt_muts = "results/{gene}/nt_muts.json",
-        aa_muts = "results/{gene}/aa_muts.json",
+        branch_lengths = "results/{build}/branch_lengths.json",
+        nt_muts = "results/{build}/nt_muts.json",
+        aa_muts = "results/{build}/aa_muts.json",
         colors = resolve_config_path(config["files"]["colors"]),
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
-        auspice_json = "auspice/measles_{gene}.json"
+        auspice_json = "auspice/measles_{build}.json"
     params:
         strain_id = config["strain_id_field"],
         metadata_columns = config["export"]["metadata_columns"]
@@ -41,7 +41,7 @@ rule tip_frequencies:
     Estimating KDE frequencies for tips
     """
     input:
-        tree = "results/{gene}/tree.nwk",
+        tree = "results/{build}/tree.nwk",
         metadata = "data/metadata.tsv"
     params:
         strain_id = config["strain_id_field"],
@@ -50,7 +50,7 @@ rule tip_frequencies:
         narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
         wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
-        tip_freq = "auspice/measles_{gene}_tip-frequencies.json"
+        tip_freq = "auspice/measles_{build}_tip-frequencies.json"
     shell:
         """
         augur frequencies \
