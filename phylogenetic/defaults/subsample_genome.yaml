@@ -1,0 +1,10 @@
+samples:
+  global:
+    sequences_per_group: 20
+    min_date: 1950
+    min_length: 5000
+    group_by:
+      - country
+      - year
+    include: include_strains_genome.txt
+    exclude: dropped_strains.txt

@@ -1,0 +1,10 @@
+samples:
+  global:
+    max_sequences: 3000
+    min_date: 1950
+    min_length: 400
+    group_by:
+      - country
+      - year
+    include: include_strains_N450.txt
+    exclude: dropped_strains.txt
