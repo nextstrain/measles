@@ -40,7 +40,7 @@ rule filter:
       - minimum genome length of {params.min_length}
     """
     input:
-        config = "results/run_config.yaml",
+        config = "results/config_processed.yaml",
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv"
     output:
@@ -66,7 +66,7 @@ rule align:
     """
     input:
         sequences = "results/genome/filtered.fasta",
-        reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
+        reference = config["files"]["genome"]["reference"]
     output:
         alignment = "results/genome/aligned.fasta"
     shell:

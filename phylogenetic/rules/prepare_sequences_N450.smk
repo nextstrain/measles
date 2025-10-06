@@ -7,7 +7,7 @@ See Augur's usage docs for these commands for more details.
 rule align_and_extract_N450:
     input:
         sequences = "data/sequences.fasta",
-        reference = resolve_config_path(config["files"]["reference_fasta"])({"build":"N450"})
+        reference = config["files"]["N450"]["reference_fasta"]
     output:
         sequences = "results/N450/sequences.fasta"
     params:
@@ -33,7 +33,7 @@ rule filter_N450:
       - excluding strains with missing region, country or date metadata
     """
     input:
-        config = "results/run_config.yaml",
+        config = "results/config_processed.yaml",
         sequences = "results/N450/sequences.fasta",
         metadata = "data/metadata.tsv"
     output:

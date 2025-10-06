@@ -13,9 +13,9 @@ rule export:
         branch_lengths = "results/{build}/branch_lengths.json",
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
-        colors = resolve_config_path(config["files"]["colors"]),
-        auspice_config = resolve_config_path(config["files"]["auspice_config"]),
-        description=resolve_config_path(config["files"]["description"])
+        colors = config["files"]["colors"],
+        auspice_config = lambda w: config["files"][w.build]["auspice_config"],
+        description=config["files"]["description"]
     output:
         auspice_json = "auspice/measles_{build}.json"
     params:

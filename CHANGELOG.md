@@ -8,6 +8,7 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2025
+* TBD: The workflow now outputs both the raw and processed runtime configurations, stored as `results/config_raw.yaml` and `results/config_processed.yaml`, respectively. [#87][]
 * 30 September 2025: The `'gene'` wildcard was renamed as `'build'`, and is now a config key rather than a declaration in the `phylogenetic` snakefile.
 * 29 September 2025: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 26 September 2025: Updated workflow compatibility declaration in `nextstrain-pathogen.yaml`.
@@ -34,6 +35,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#69]: https://github.com/nextstrain/measles/pull/69
 [#70]: https://github.com/nextstrain/measles/pull/70
 [#73]: https://github.com/nextstrain/measles/issues/73
+[#87]: https://github.com/nextstrain/measles/pull/87
 [nextstrain/shared]: https://github.com/nextstrain/shared
 
 ## 2024
