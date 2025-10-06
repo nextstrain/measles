@@ -15,6 +15,9 @@ If you're unfamiliar with Nextstrain builds, you may want to follow our
 
 ### With `nextstrain run`
 
+> [!WARNING]
+> Custom config merging not supported.
+
 If you haven't set up the measles pathogen, then set it up with:
 
     nextstrain setup measles
@@ -104,3 +107,12 @@ nextstrain build \
         deploy_all \
         --configfile build-configs/nextstrain-automation/config.yaml
 ```
+
+### Using custom config
+
+To run the workflow with your own custom config (e.g.
+`phylogenetic/build-configs/state_focused/config.yaml`), run the following from
+the repository root:
+
+    nextstrain shell . -c './merge-configs phylogenetic/defaults/config.yaml phylogenetic/build-configs/state_focused/config.yaml > phylogenetic/results/config_merged.yaml'
+    nextstrain build phylogenetic --replace-workflow-config --configfile results/config_merged.yaml

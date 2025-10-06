@@ -1,0 +1,94 @@
+#!/usr/bin/env python3
+"""
+Merge two YAML files (base then overlay) using custom behavior.
+"""
+import argparse
+import sys
+import yaml
+from typing import Any, Dict, List
+
+
+# Acceptable overlay-only keys
+# A schema would be better, but this works fine.
+additional_keys = {"custom_rules"}
+
+
+def main():
+    args = parse_args(sys.argv[1:])
+    base = load(args.base)
+    overlay = load(args.overlay)
+    merged = merge(base, overlay)
+    yaml.safe_dump(merged, stream=sys.stdout, sort_keys=False)
+
+
+def parse_args(argv: List[str]) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(
+        description="Merge two YAML configs (base then overlay) to stdout."
+    )
+    parser.add_argument("base", help="path to the base YAML file")
+    parser.add_argument("overlay", help="path to the overlay YAML file")
+    return parser.parse_args(argv)
+
+
+def load(path: str) -> Dict[str, Any]:
+    # Create a custom YAML loader to treat timestamps as strings.
+    # Copied from augur subsample <https://github.com/nextstrain/augur/blob/0fbbd8f8db449b040826c7349bfbfd54a42c2d77/augur/subsample.py#L221-L226>
+    class CustomLoader(yaml.SafeLoader):
+        pass
+    def string_constructor(loader, node):
+        return loader.construct_scalar(node)
+    CustomLoader.add_constructor('tag:yaml.org,2002:timestamp', string_constructor)
+
+    with open(path) as handle:
+        return yaml.load(handle, Loader=CustomLoader)
+
+
+def merge(base: Dict[str, Any], overlay: Dict[str, Any]) -> Dict[str, Any]:
+    """Merge overlay onto base using top-level key overrides."""
+    if new_keys := overlay.keys() - base.keys() - additional_keys:
+        keys = ", ".join(sorted(str(key) for key in new_keys))
+        # Again, a schema would be better, but this works fine.
+        error(f"Invalid keys in overlay: {keys}")
+
+    merged: Dict[str, Any] = {}
+
+    for key in base:
+        if key in additional_keys:
+            merged[key] = overlay[key]
+            continue
+        elif key not in overlay:
+            merged[key] = base[key]
+            continue
+        else:
+            # Key in both
+            base_kind = classify(base[key])
+            overlay_kind = classify(overlay[key])
+            if base_kind != overlay_kind:
+                error(f"Type mismatch for key '{key}': base is {base_kind}, overlay is {overlay_kind}")
+            # Overlay wins
+            merged[key] = overlay[key]
+
+    return merged
+
+
+def classify(value: Any) -> str:
+    """
+    Return a coarse type label used for merge compatibility checks.
+
+    This allows different types of scalars to override each other, e.g. a date
+    in YYYY-MM-DD format (str) can override a date in YYYY format (int).
+    """
+    if isinstance(value, dict):
+        return "dict"
+    if isinstance(value, list):
+        return "list"
+    return "scalar"
+
+
+def error(message: str):
+    print(f"ERROR: {message}", file=sys.stderr)
+    sys.exit(1)
+
+
+if __name__ == "__main__":
+    main()
