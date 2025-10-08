@@ -1,0 +1,26 @@
+version: 0.2
+
+env:
+  variables:
+    # Basic configuration
+    BATCH_CPUS: "8"
+    BATCH_MEMORY: "10240"
+    BUILD_TARGET: "phylogenetic"
+    CONFIG_FILES: "build-configs/state_focused/config.yaml"
+
+    # These must be set in CodeBuild environment variables
+    # BATCH_QUEUE: (required)
+    # BATCH_JOB_DEFINITION: (required)
+    # S3_BUCKET: (required)
+
+phases:
+  build:
+    commands:
+      - echo "Starting Measles Nextstrain build..."
+      - echo "Repository already cloned by CodeBuild. Current contents:"
+      - pwd
+      - ls -la
+      - echo "Submitting measles build to AWS Batch..."
+      - nextstrain build --aws-batch --detach --aws-batch-cpus ${BATCH_CPUS} --aws-batch-memory ${BATCH_MEMORY} --aws-batch-queue ${BATCH_QUEUE} --aws-batch-job ${BATCH_JOB_DEFINITION} --aws-batch-s3-bucket ${S3_BUCKET} ${BUILD_TARGET} --configfile ${CONFIG_FILES}
+      - echo "Measles build submitted successfully to AWS Batch!"
+      - echo "Build submission completed. Check AWS Batch console for job progress."
