@@ -22,6 +22,8 @@ def main():
     #    The config structure is workflow-specific, so this is a
     #    workflow-specific step.
     process_config()
+    #    Subsample config processing can be shared.
+    process_subsample_config()
 
     # 3. Write the modified config to a file.
     #    This will be used by augur subsample.
@@ -71,5 +73,15 @@ def expand_wildcards():
     del config["files"]["reference"]
     del config["files"]["reference_fasta"]
     del config["files"]["auspice_config"]
+
+    # subsample: build-specific include
+    for build in config['builds']:
+        # create a new sample for include only.
+        # FIXME: doesn't work properly because defaults are applied later by subsample config preprocessing...
+        config["subsample"]["matrix"]["build"][build]["samples"]["include"] = {
+            "exclude_all": True,
+            "include": config["subsample"]["defaults"]["include"].format(build=build)
+        }
+    del config["subsample"]["defaults"]["include"]
 
 main()
