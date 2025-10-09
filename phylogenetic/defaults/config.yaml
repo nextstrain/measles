@@ -1,9 +1,10 @@
+builds: ['genome', 'N450']
 strain_id_field: "accession"
 files:
-    reference: "measles_reference_{gene}.gb"
-    reference_fasta: "measles_reference_{gene}.fasta"
+    reference: "measles_reference_{build}.gb"
+    reference_fasta: "measles_reference_{build}.fasta"
     colors: "colors.tsv"
-    auspice_config: "auspice_config_{gene}.json"
+    auspice_config: "auspice_config_{build}.json"
     description: "description.md"
 align_and_extract_N450:
     min_length: 400

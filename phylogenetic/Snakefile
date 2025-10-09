@@ -1,5 +1,3 @@
-genes = ['N450', 'genome']
-
 include: "../shared/vendored/snakemake/config.smk"
 
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
@@ -9,10 +7,15 @@ if os.path.exists("config.yaml"):
 
 include: "rules/config.smk"
 
+builds = config['builds']
+
+wildcard_constraints:
+    build = "genome|N450"
+
 rule all:
     input:
-        auspice_json = expand("auspice/measles_{gene}.json", gene=genes),
-        tip_frequencies_json = expand("auspice/measles_{gene}_tip-frequencies.json", gene=genes)
+        auspice_json = expand("auspice/measles_{build}.json", build=builds),
+        tip_frequencies_json = expand("auspice/measles_{build}_tip-frequencies.json", build=builds)
 
 include: "rules/prepare_sequences.smk"
 include: "rules/prepare_sequences_N450.smk"
