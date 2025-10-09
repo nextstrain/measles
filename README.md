@@ -3,8 +3,8 @@
 ## Build Overview
 - **Build Name**: Measles Virus Washington-Focused Build
 - **Pathogen/Strain**: Measles virus (MeV)
-- **Scope**: Full-genome sequences, and N450 (a 450 bp terminal N-protein region) sequences.
-- **Purpose**: This repository contains the Nextstrain build for Measles virus. Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genome are curated for the purposes of inferring strain, epidemiological case linkage, and sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
+- **Scope**: Full-genome sequences representing all strains (A-H)
+- **Purpose**: This repository contains the Nextstrain build for Measles virus (MeV). Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genome are curated for the purposes of inferring strain, epidemiological case linkage, and sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
 
 - **Nextstrain Build/s Location/s**:  URL TBD
 
@@ -28,7 +28,7 @@
 ## Pathogen Epidemiology
 - Overview:
   - MeV is an RNA virus in the family Paramyxoviridae
-  - Two genotypes are currently circulating - B3 and D8. A genotypes are vaccine strains.
+  - Two genotypes are currently circulating - B3 and D8. 'A' genotypes are vaccine strains.
   - Transmission occurs through contact - either directly or through aerosolized nasal and through secretions.
 - Taxonomic designations include clades (A-H) and subclades (numbered).
 - Geographic Distribution and Seasonality
@@ -44,9 +44,6 @@
     - Identification of genotypes outside of clade A can rule out vaccination-related infections.
     - Full genomes can assist in monitoring the effectiveness of established PCR-based diagnostic assays.
     - Vaccine escape has not been observed, but should me monitored.
-  - Why N450 data are useful for this pathogen:
-    - The N450 sequence results from the standard diagnostic assay, and may be obtained as part of routine surveillance in jurisdictions with low resources.
-    - The N450 dataset is very large, and useful for genotype identification. These data can help to identify emerging genotypes, and also genotypes that have been declared inactive.
 
 - Additional Resources
   - [Global Measles and Rubell Laboratory Netowrk](https://www.who.int/europe/initiatives/measles-and-rubella-laboratory-network) 
@@ -132,12 +129,12 @@ More details on the file structure of this build can be found [here](https://git
 
 After successfully running the build there will be two output folders containing the build results.
 
-- `auspice/` folder contains: `measles_genome.json` and `measles_N450.json`. These are the final results viewable by auspice.
-- `results/` folder contains: `genome` and `N450` folders containing intermediate outputs from the respective workflows.
+- `auspice/` folder contains `measles_genome.json`. This is the final result viewable by auspice.
+- `results/` folder contains the `genome` folder containing intermediate outputs from the respective workflows.
 
 ### Visualize Results
-- Open [auspice.us](auspice.us) in a web browser, and drop `measles_genome.json` or `measles_N450.json` in as input. 
-- Run `nextstrain view .` from your `measles/phylogenetic/` folder.
+- Option 1: Open [auspice.us](auspice.us) in a web browser, and drop in `measles_genome.json` as input. 
+- Option 2: Run `nextstrain view .` from your `measles/phylogenetic/` folder.
 
 - For guidance on phylogenetic inference, see [The Applied Genomic Epidemiology Handbook](https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/welcome-to-the-applied-genomic-epidemiology-handbook/).
 
