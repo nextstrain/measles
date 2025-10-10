@@ -84,7 +84,7 @@ git clone https://github.com/DOH-DAH0303/measles.git
 cd measles/phylogenetic/
 ```
 
-## Run the Main Nextstrain Build
+## Run the Washington-Focused Build
 
 Make sure you are located in the build folder `phylogenetic` before running the build command:
 
