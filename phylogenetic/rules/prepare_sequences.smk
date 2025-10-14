@@ -33,14 +33,7 @@ rule decompress:
         zstd -d -c {input.metadata} > {output.metadata}
         """
 
-rule filter:
-    """
-    Filtering to
-      - {params.sequences_per_group} sequence(s) per {params.group_by!s}
-      - from {params.min_date} onwards
-      - excluding strains in {input.exclude}
-      - minimum genome length of {params.min_length}
-    """
+rule subsample:
     input:
         config = "results/genome/subsample_config.yaml",
         sequences = "data/sequences.fasta",
@@ -49,7 +42,7 @@ rule filter:
             "results/genome/subsample_config.yaml",
         ),
     output:
-        sequences = "results/genome/filtered.fasta"
+        sequences = "results/genome/subsampled.fasta"
     params:
         strain_id = config["strain_id_field"]
     shell:
@@ -68,7 +61,7 @@ rule align:
       - filling gaps with N
     """
     input:
-        sequences = "results/genome/filtered.fasta",
+        sequences = "results/genome/subsampled.fasta",
         reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
     output:
         alignment = "results/genome/aligned.fasta"

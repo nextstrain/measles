@@ -25,14 +25,7 @@ rule align_and_extract_N450:
            {input.sequences}
         """
 
-rule filter_N450:
-    """
-    Filtering to
-      - {params.sequences_per_group} sequence(s) per {params.group_by!s}
-      - excluding strains in {input.exclude}
-      - minimum genome length of {params.min_length}
-      - excluding strains with missing region, country or date metadata
-    """
+rule subsample_N450:
     input:
         config = "results/N450/subsample_config.yaml",
         sequences = "results/N450/sequences.fasta",
