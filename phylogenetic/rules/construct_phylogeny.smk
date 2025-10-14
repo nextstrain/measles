@@ -33,10 +33,10 @@ rule refine:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/branch_lengths.json"
     params:
-        coalescent = config["refine"]["coalescent"],
-        date_inference = config["refine"]["date_inference"],
-        clock_filter_iqd = config["refine"]["clock_filter_iqd"],
-        strain_id = config["strain_id_field"]
+        coalescent = get_config_value("refine", "coalescent"),
+        date_inference = get_config_value("refine", "date_inference"),
+        clock_filter_iqd = get_config_value("refine", "clock_filter_iqd"),
+        strain_id = get_config_value("refine", "strain_id_field")
     shell:
         """
         augur refine \

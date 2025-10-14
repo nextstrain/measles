@@ -13,7 +13,7 @@ rule ancestral:
     output:
         node_data = "results/{build}/nt_muts.json"
     params:
-        inference = config["ancestral"]["inference"]
+        inference = get_config_value("ancestral", "inference")
     shell:
         """
         augur ancestral \
@@ -28,7 +28,7 @@ rule translate:
     input:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
-        reference = resolve_config_path(config["files"]["reference"])
+        reference = get_config_value("translate", "reference")
     output:
         node_data = "results/{build}/aa_muts.json"
     shell:

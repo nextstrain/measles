@@ -8,7 +8,7 @@ rule deploy_all:
     input: *rules.all.input
     output: touch("results/deploy_all.done")
     params:
-        deploy_url = config["deploy_url"]
+        deploy_url = config["USER_CONFIG"]["deploy_url"]
     shell:
         """
         nextstrain remote upload {params.deploy_url} {input}

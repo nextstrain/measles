@@ -44,7 +44,7 @@ rule subsample_genome:
     output:
         sequences = "results/genome/subsampled.fasta"
     params:
-        strain_id = config["strain_id_field"]
+        strain_id = get_config_value("subsample", "strain_id_field")({"build": "genome"})
     shell:
         """
         augur subsample \
@@ -62,7 +62,7 @@ rule align_genome:
     """
     input:
         sequences = "results/genome/subsampled.fasta",
-        reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
+        reference = get_config_value("align_genome", "reference")({"build": "genome"})
     output:
         alignment = "results/genome/aligned.fasta"
     shell:

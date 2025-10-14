@@ -8,11 +8,11 @@ from augur.subsample import get_referenced_files
 rule align_and_extract_N450:
     input:
         sequences = "data/sequences.fasta",
-        reference = resolve_config_path(config["files"]["reference_fasta"])({"build":"N450"})
+        reference = get_config_value("align_and_extract_N450", "reference_fasta")({"build": "N450"})
     output:
         sequences = "results/N450/sequences.fasta"
     params:
-        min_length = config["align_and_extract_N450"]["min_length"]
+        min_length = get_config_value("align_and_extract_N450", "min_length")({"build": "N450"})
     shell:
         """
         nextclade run \
@@ -36,7 +36,7 @@ rule subsample_N450:
     output:
         sequences = "results/N450/aligned.fasta"
     params:
-        strain_id = config["strain_id_field"]
+        strain_id = get_config_value("subsample", "strain_id_field")({"build": "N450"})
     shell:
         """
         augur subsample \

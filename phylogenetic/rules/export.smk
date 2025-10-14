@@ -13,14 +13,14 @@ rule export:
         branch_lengths = "results/{build}/branch_lengths.json",
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
-        colors = resolve_config_path(config["files"]["colors"]),
-        auspice_config = resolve_config_path(config["files"]["auspice_config"]),
-        description=resolve_config_path(config["files"]["description"])
+        colors = get_config_value("export", "colors"),
+        auspice_config = get_config_value("export", "auspice_config"),
+        description = get_config_value("export", "description")
     output:
         auspice_json = "auspice/measles_{build}.json"
     params:
-        strain_id = config["strain_id_field"],
-        metadata_columns = config["export"]["metadata_columns"]
+        strain_id = get_config_value("export", "strain_id_field"),
+        metadata_columns = get_config_value("export", "metadata_columns")
     shell:
         """
         augur export v2 \
@@ -44,11 +44,11 @@ rule tip_frequencies:
         tree = "results/{build}/tree.nwk",
         metadata = "data/metadata.tsv"
     params:
-        strain_id = config["strain_id_field"],
-        min_date = config["tip_frequencies"]["min_date"],
-        max_date = config["tip_frequencies"]["max_date"],
-        narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
-        wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
+        strain_id = get_config_value("tip_frequencies", "strain_id_field"),
+        min_date = get_config_value("tip_frequencies", "min_date"),
+        max_date = get_config_value("tip_frequencies", "max_date"),
+        narrow_bandwidth = get_config_value("tip_frequencies", "narrow_bandwidth"),
+        wide_bandwidth = get_config_value("tip_frequencies", "wide_bandwidth")
     output:
         tip_freq = "auspice/measles_{build}_tip-frequencies.json"
     shell:

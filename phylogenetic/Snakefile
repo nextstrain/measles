@@ -16,7 +16,7 @@ if os.path.exists("config.yaml"):
 
 include: "rules/config.smk"
 
-builds = config['builds']
+builds = get_builds()
 
 wildcard_constraints:
     build = "genome|N450"
@@ -33,8 +33,8 @@ include: "rules/annotate_phylogeny.smk"
 include: "rules/export.smk"
 
 # Include custom rules defined in the config.
-if "custom_rules" in config:
-    for rule_file in config["custom_rules"]:
+if "custom_rules" in config["USER_CONFIG"]:
+    for rule_file in config["USER_CONFIG"]["custom_rules"]:
 
         include: os.path.join(os.getcwd(), rule_file)
 

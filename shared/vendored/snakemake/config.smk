@@ -211,6 +211,33 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
     return _resolve_config_path
 
 
+def apply_wildcards(value, wildcards):
+    """
+    Apply wildcards to a config value using string replacement.
+
+    Recursively handles dicts, and lists until scalars are reached.
+
+    Args:
+        value: The config value to expand
+        wildcards: Dict mapping wildcard names to their values (e.g., {build: "genome"})
+
+    Returns:
+        Deep copy of value with all wildcards applied
+    """
+    if isinstance(value, dict):
+        return {k: apply_wildcards(v, wildcards) for k, v in value.items()}
+
+    if isinstance(value, list):
+        return [apply_wildcards(item, wildcards) for item in value]
+
+    # Use wildcards for string replacement.
+    if isinstance(value, str):
+        return value.format(**wildcards)
+
+    # Wildcards are not applied to other types.
+    return value
+
+
 def write_config(path, section=None):
     """
     Write Snakemake's 'config' variable, or a section of it, to a file.

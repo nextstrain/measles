@@ -1,0 +1,125 @@
+WORKFLOW_CONFIG:
+  genome:
+    align_genome:
+      reference: /nextstrain/build/phylogenetic/defaults/measles_reference_genome.gb
+    subsample:
+      strain_id_field: accession
+      config:
+        samples:
+          global:
+            sequences_per_group: 20
+            min_date: 1950
+            min_length: 5000
+            group_by:
+            - country
+            - year
+            include: include_strains_genome.txt
+            exclude: dropped_strains.txt
+    refine:
+      coalescent: opt
+      date_inference: marginal
+      clock_filter_iqd: 4
+      strain_id_field: accession
+    ancestral:
+      inference: joint
+    translate:
+      reference: /nextstrain/build/phylogenetic/defaults/measles_reference_genome.gb
+    tip_frequencies:
+      min_date: '2000-01-01'
+      max_date: 6M
+      narrow_bandwidth: 0.2
+      wide_bandwidth: 0.6
+      strain_id_field: accession
+    export:
+      metadata_columns: strain division location
+      strain_id_field: accession
+      colors: /nextstrain/build/phylogenetic/defaults/colors.tsv
+      description: /nextstrain/build/phylogenetic/defaults/description.md
+      auspice_config: /nextstrain/build/phylogenetic/defaults/auspice_config_genome.json
+  N450:
+    align_and_extract_N450:
+      min_length: 400
+      reference_fasta: /nextstrain/build/phylogenetic/defaults/measles_reference_N450.fasta
+    subsample:
+      strain_id_field: accession
+      config:
+        samples:
+          global:
+            max_sequences: 3000
+            min_date: 1950
+            min_length: 400
+            group_by:
+            - country
+            - year
+            include: include_strains_N450.txt
+            exclude: dropped_strains.txt
+    refine:
+      coalescent: opt
+      date_inference: marginal
+      clock_filter_iqd: 4
+      strain_id_field: accession
+    ancestral:
+      inference: joint
+    translate:
+      reference: /nextstrain/build/phylogenetic/defaults/measles_reference_N450.gb
+    tip_frequencies:
+      min_date: '2000-01-01'
+      max_date: 6M
+      narrow_bandwidth: 0.2
+      wide_bandwidth: 0.6
+      strain_id_field: accession
+    export:
+      metadata_columns: strain division location
+      strain_id_field: accession
+      colors: /nextstrain/build/phylogenetic/defaults/colors.tsv
+      description: /nextstrain/build/phylogenetic/defaults/description.md
+      auspice_config: /nextstrain/build/phylogenetic/defaults/auspice_config_N450.json
+USER_CONFIG:
+  builds:
+  - genome
+  - N450
+  strain_id_field: accession
+  files:
+    reference: measles_reference_{build}.gb
+    reference_fasta: measles_reference_{build}.fasta
+    colors: colors.tsv
+    auspice_config: auspice_config_{build}.json
+    description: description.md
+  align_and_extract_N450:
+    min_length: 400
+  subsample:
+    genome:
+      samples:
+        global:
+          sequences_per_group: 20
+          min_date: 1950
+          min_length: 5000
+          group_by:
+          - country
+          - year
+          include: include_strains_genome.txt
+          exclude: dropped_strains.txt
+    N450:
+      samples:
+        global:
+          max_sequences: 3000
+          min_date: 1950
+          min_length: 400
+          group_by:
+          - country
+          - year
+          include: include_strains_N450.txt
+          exclude: dropped_strains.txt
+  refine:
+    coalescent: opt
+    date_inference: marginal
+    clock_filter_iqd: 4
+  ancestral:
+    inference: joint
+  tip_frequencies:
+    min_date: '2000-01-01'
+    max_date: 6M
+    narrow_bandwidth: 0.2
+    wide_bandwidth: 0.6
+  export:
+    metadata_columns: strain division location
