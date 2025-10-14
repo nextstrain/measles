@@ -33,7 +33,7 @@ rule decompress:
         zstd -d -c {input.metadata} > {output.metadata}
         """
 
-rule subsample:
+rule subsample_genome:
     input:
         config = "results/genome/subsample_config.yaml",
         sequences = "data/sequences.fasta",
@@ -55,7 +55,7 @@ rule subsample:
             --output-sequences {output.sequences} \
         """
 
-rule align:
+rule align_genome:
     """
     Aligning sequences to {input.reference}
       - filling gaps with N
