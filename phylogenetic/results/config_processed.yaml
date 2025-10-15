@@ -7,14 +7,14 @@ WORKFLOW_CONFIG:
       config:
         samples:
           global:
-            sequences_per_group: 20
-            min_date: 1950
-            min_length: 5000
+            exclude: dropped_strains.txt
             group_by:
             - country
             - year
             include: include_strains_genome.txt
-            exclude: dropped_strains.txt
+            sequences_per_group: 20
+            min_date: 1950
+            min_length: 5000
     refine:
       coalescent: opt
       date_inference: marginal
@@ -45,14 +45,14 @@ WORKFLOW_CONFIG:
       config:
         samples:
           global:
-            max_sequences: 3000
-            min_date: 1950
-            min_length: 400
+            exclude: dropped_strains.txt
             group_by:
             - country
             - year
             include: include_strains_N450.txt
-            exclude: dropped_strains.txt
+            max_sequences: 3000
+            min_date: 1950
+            min_length: 400
     refine:
       coalescent: opt
       date_inference: marginal
@@ -91,25 +91,25 @@ USER_CONFIG:
     genome:
       samples:
         global:
-          sequences_per_group: 20
-          min_date: 1950
-          min_length: 5000
+          exclude: dropped_strains.txt
           group_by:
           - country
           - year
           include: include_strains_genome.txt
-          exclude: dropped_strains.txt
+          sequences_per_group: 20
+          min_date: 1950
+          min_length: 5000
     N450:
       samples:
         global:
-          max_sequences: 3000
-          min_date: 1950
-          min_length: 400
+          exclude: dropped_strains.txt
           group_by:
           - country
           - year
           include: include_strains_N450.txt
-          exclude: dropped_strains.txt
+          max_sequences: 3000
+          min_date: 1950
+          min_length: 400
   refine:
     coalescent: opt
     date_inference: marginal

@@ -11,28 +11,27 @@ files:
 align_and_extract_N450:
   min_length: 400
 subsample:
-  genome:
-    samples:
-      global:
-        sequences_per_group: 20
-        min_date: 1950
-        min_length: 5000
-        group_by:
-        - country
-        - year
-        include: include_strains_genome.txt
-        exclude: dropped_strains.txt
-  N450:
-    samples:
-      global:
-        max_sequences: 3000
-        min_date: 1950
-        min_length: 400
-        group_by:
-        - country
-        - year
-        include: include_strains_N450.txt
-        exclude: dropped_strains.txt
+  defaults:
+    exclude: dropped_strains.txt
+    group_by:
+    - country
+    - year
+  matrix:
+    build:
+      _wildcard_defaults:
+        include: include_strains_{build}.txt
+      genome:
+        samples:
+          global:
+            sequences_per_group: 20
+            min_date: 1950
+            min_length: 5000
+      N450:
+        samples:
+          global:
+            max_sequences: 3000
+            min_date: 1950
+            min_length: 400
 refine:
   coalescent: opt
   date_inference: marginal

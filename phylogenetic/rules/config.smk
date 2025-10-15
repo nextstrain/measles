@@ -17,6 +17,8 @@ def main():
     # Dump the unmodified config to a YAML file.
     write_config("results/config_raw.yaml")
 
+    process_subsample_config()
+
     # Move user config to its own section.
     config = {
         "WORKFLOW_CONFIG": {},

@@ -6,6 +6,8 @@ import os
 import sys
 import yaml
 from collections.abc import Callable
+from copy import deepcopy
+from itertools import product
 from snakemake.io import Wildcards
 from typing import Optional
 from textwrap import dedent, indent
@@ -275,3 +277,112 @@ def write_config(path, section=None):
 class NoAliasDumper(yaml.SafeDumper):
     def ignore_aliases(self, data):
         return True
+
+
+def process_subsample_config():
+    """
+    Process the subsample config to expand matrix format into nested dicts.
+
+    If config['subsample'] contains 'defaults' and 'matrix' keys, expands
+    the N-dimensional matrix into config['subsample'][dim1][dim2]...[dimN].
+
+    Merge order: defaults → dim1[v1] → dim2[v2] → ... → dimN[vN] → samples[s]
+    """
+    matrix = config["subsample"]["matrix"]
+    defaults = config["subsample"].get("defaults", {})
+
+    # Derive dimensions from matrix keys
+    # Dimension names = top-level keys under matrix
+    # Dimension values = nested keys under each dimension (excluding _wildcard_defaults)
+    dimensions = {dim_name: [k for k in dim_values.keys() if k != "_wildcard_defaults"]
+                  for dim_name, dim_values in matrix.items()}
+
+    # Get dimension names and values in order
+    dim_names = list(dimensions.keys())
+    dim_values = [dimensions[name] for name in dim_names]
+
+    # Build expanded config
+    expanded = {}
+
+    # Generate all combinations via Cartesian product
+    for combination in product(*dim_values):
+        # Create context dict mapping dimension names to values
+        # e.g., {build: "genome", resolution: "6y"}
+        context = dict(zip(dim_names, combination))
+
+        # Start with defaults and expand any wildcards using dimension context
+        merged_params = defaults
+        merged_params = apply_wildcards(merged_params, context)
+
+        # Apply dimension-specific parameters in order
+        for dim_name in dim_names:
+            dim_value = context[dim_name]
+
+            # First apply _wildcard_defaults if present for this dimension
+            if dim_name in matrix and "_wildcard_defaults" in matrix[dim_name]:
+                wildcard_defaults = apply_wildcards(matrix[dim_name]["_wildcard_defaults"], context)
+                merged_params = merge_dicts(merged_params, wildcard_defaults)
+
+            # Then apply dimension-specific parameters
+            if dim_name in matrix and dim_value in matrix[dim_name]:
+                dim_specific = matrix[dim_name][dim_value]
+
+                # Check if this dimension defines samples
+                if dim_specific and "samples" in dim_specific:
+                    # This dimension provides sample definitions
+                    # We'll handle this separately below
+                    pass
+                else:
+                    # Regular parameters to merge
+                    merged_params = merge_dicts(merged_params, dim_specific)
+
+        # Determine which samples to use
+        # Priority: last dimension with samples > earlier dimensions with samples
+        samples_to_use = None
+        for dim_name in reversed(dim_names):  # Check in reverse order for highest priority
+            dim_value = context[dim_name]
+            if dim_name in matrix and dim_value in matrix[dim_name]:
+                dim_specific = matrix[dim_name][dim_value]
+                if dim_specific and "samples" in dim_specific:
+                    samples_to_use = dim_specific["samples"]
+                    break
+
+        if samples_to_use is None:
+            raise InvalidConfigError("No samples found in subsample config. Samples must be defined in one dimension.")
+
+        # Build the samples section
+        samples = {}
+        for sample_name, sample_params in samples_to_use.items():
+            # Merge: merged_params (defaults + all dimensions) → sample-specific
+            samples[sample_name] = merge_dicts(merged_params, sample_params)
+
+        # Create output config
+        output_config = {"samples": samples}
+
+        # Store in nested dict structure using dimension values as keys
+        keys = [context[dim_name] for dim_name in dim_names]
+        set_nested_dict(expanded, keys, output_config)
+
+    # Replace subsample config with expanded version
+    config["subsample"] = expanded
+
+    print(f"Expanded subsample config matrix into {len(list(product(*dim_values)))} configurations.", file=sys.stderr)
+
+
+def merge_dicts(*dicts):
+    """Merge multiple dictionaries, with later values overriding earlier ones."""
+    result = {}
+    for d in dicts:
+        if d is not None:
+            # Deep copy to ensure nested structures aren't shared
+            result.update(deepcopy(d))
+    return result
+
+
+def set_nested_dict(d, keys, value):
+    """Set a value in a nested dict at arbitrary depth."""
+    for key in keys[:-1]:
+        if key not in d:
+            d[key] = {}
+        d = d[key]
+    d[keys[-1]] = value
