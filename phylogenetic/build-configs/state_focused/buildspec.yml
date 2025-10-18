@@ -5,7 +5,8 @@ env:
     # Basic configuration
     BATCH_CPUS: "8"
     BATCH_MEMORY: "10240"
-    BUILD_TARGET: "phylogenetic"
+    INGEST_TARGET: "ingest"
+    PHYLO_TARGET: "phylogenetic"
     CONFIG_FILES: "build-configs/state_focused/config.yaml"
 
     # These must be set in CodeBuild environment variables
@@ -21,6 +22,9 @@ phases:
       - pwd
       - ls -la
       - echo "Submitting measles build to AWS Batch..."
-      - nextstrain build --aws-batch --detach --aws-batch-cpus ${BATCH_CPUS} --aws-batch-memory ${BATCH_MEMORY} --aws-batch-queue ${BATCH_QUEUE} --aws-batch-job ${BATCH_JOB_DEFINITION} --aws-batch-s3-bucket ${S3_BUCKET} ${BUILD_TARGET} --configfile ${CONFIG_FILES}
+      - echo "Starting the ingest pipeline"
+      - nextstrain build --aws-batch --detach --aws-batch-cpus ${BATCH_CPUS} --aws-batch-memory ${BATCH_MEMORY} --aws-batch-queue ${BATCH_QUEUE} --aws-batch-job ${BATCH_JOB_DEFINITION} --aws-batch-s3-bucket ${S3_BUCKET} ${INGEST_TARGET}
+      - echo "Building the tree"
+      - nextstrain build --aws-batch --detach --aws-batch-cpus ${BATCH_CPUS} --aws-batch-memory ${BATCH_MEMORY} --aws-batch-queue ${BATCH_QUEUE} --aws-batch-job ${BATCH_JOB_DEFINITION} --aws-batch-s3-bucket ${S3_BUCKET} ${PHYLO_TARGET} --configfile ${CONFIG_FILES}
       - echo "Measles build submitted successfully to AWS Batch!"
       - echo "Build submission completed. Check AWS Batch console for job progress."
