@@ -39,7 +39,7 @@ rule filter_N450:
     output:
         sequences = "results/N450/aligned.fasta"
     params:
-        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "N450"],
+        config_section = ["subsample", "N450"],
         strain_id = config["strain_id_field"]
     shell:
         """

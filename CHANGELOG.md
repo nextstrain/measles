@@ -8,6 +8,7 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2025
+* TBD: The `custom_subsample` configuration section is no longer supported. Use `subsample` instead.
 * 30 September 2025: The `'gene'` wildcard was renamed as `'build'`, and is now a config key rather than a declaration in the `phylogenetic` snakefile.
 * 29 September 2025: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 26 September 2025: Updated workflow compatibility declaration in `nextstrain-pathogen.yaml`.
