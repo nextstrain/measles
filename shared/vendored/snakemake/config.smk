@@ -11,6 +11,21 @@ from typing import Optional
 from textwrap import dedent, indent
 
 
+# Set search paths for Augur
+if 'AUGUR_SEARCH_PATHS' in os.environ:
+    print(dedent(f"""\
+        Using existing search paths in AUGUR_SEARCH_PATHS:
+
+            {os.environ['AUGUR_SEARCH_PATHS']!r}
+        """), file=sys.stderr)
+else:
+    search_paths = [
+        os.getcwd(),
+        os.path.join(workflow.basedir, "defaults"),
+    ]
+    os.environ['AUGUR_SEARCH_PATHS'] = ":".join(search_paths)
+
+
 class InvalidConfigError(Exception):
     pass
 
