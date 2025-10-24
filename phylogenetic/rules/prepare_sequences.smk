@@ -3,6 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
+from augur.subsample import get_referenced_files
 
 rule filter:
     """
@@ -15,7 +16,8 @@ rule filter:
     input:
         config = "results/genome/subsample_config.yaml",
         sequences = "results/sequences.fasta",
-        metadata = "results/metadata.tsv"
+        metadata = "results/metadata.tsv",
+        referenced_files = get_referenced_files("results/genome/subsample_config.yaml"),
     output:
         sequences = "results/genome/filtered.fasta"
     params:
