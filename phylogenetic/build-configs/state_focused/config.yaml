@@ -1,5 +1,9 @@
-custom_rules:
-    - build-configs/state_focused/copy_from_ingest.smk
+### Uncomment the custom rules section below to:
+### - pull preferentially from the ingest results.
+### See README.md for more information
+
+#custom_rules:
+#    - build-configs/state_focused/copy_from_ingest.smk
 builds: 'genome'
 custom_subsample:
     genome:
