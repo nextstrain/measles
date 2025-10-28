@@ -40,19 +40,17 @@ rule filter:
       - minimum genome length of {params.min_length}
     """
     input:
-        config = "results/run_config.yaml",
+        config = "results/genome/subsample_config.yaml",
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv"
     output:
         sequences = "results/genome/filtered.fasta"
     params:
-        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "genome"],
         strain_id = config["strain_id_field"]
     shell:
         """
         augur subsample \
             --config {input.config} \
-            --config-section {params.config_section:q} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \

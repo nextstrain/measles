@@ -33,19 +33,17 @@ rule filter_N450:
       - excluding strains with missing region, country or date metadata
     """
     input:
-        config = "results/run_config.yaml",
+        config = "results/N450/subsample_config.yaml",
         sequences = "results/N450/sequences.fasta",
         metadata = "data/metadata.tsv"
     output:
         sequences = "results/N450/aligned.fasta"
     params:
-        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "N450"],
         strain_id = config["strain_id_field"]
     shell:
         """
         augur subsample \
             --config {input.config} \
-            --config-section {params.config_section:q} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
