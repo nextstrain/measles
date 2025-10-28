@@ -211,18 +211,38 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
     return _resolve_config_path
 
 
-def write_config(path):
+def write_config(path, section=None):
     """
-    Write Snakemake's 'config' variable to a file.
+    Write Snakemake's 'config' variable, or a section of it, to a file.
+
+    *section* is an optional list of keys to navigate to a specific section of
+    config. If provided, only that section will be written.
     """
     global config
 
     os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    with open(path, 'w') as f:
-        yaml.dump(config, f, sort_keys=False, Dumper=NoAliasDumper)
+    data = config
+    section_str = "config"
 
-    print(f"Saved current run config to {path!r}.", file=sys.stderr)
+    if section:
+        # Navigate to the specified section
+        for key in section:
+            # Error if key doesn't exist
+            if key not in data:
+                raise Exception(f"ERROR: Key {key!r} not found in {section_str!r}.")
+
+            data = data[key]
+            section_str += f".{key}"
+
+            # Error if value is not a mapping
+            if not isinstance(data, dict):
+                raise Exception(f"ERROR: {section_str!r} is not a mapping of key/value pairs.")
+
+    with open(path, 'w') as f:
+        yaml.dump(data, f, sort_keys=False, Dumper=NoAliasDumper)
+
+    print(f"Saved {section_str!r} to {path!r}.", file=sys.stderr)
 
 
 class NoAliasDumper(yaml.SafeDumper):
