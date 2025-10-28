@@ -13,6 +13,7 @@ VALID_BUILDS = {"genome", "N450"}
 
 def main():
     validate_config()
+    write_subsample_config()
     write_config("results/run_config.yaml")
 
 
@@ -35,6 +36,15 @@ def validate_config():
 
                 {indented_list(VALID_BUILDS, "                ")}
             """))
+
+
+def write_subsample_config():
+    for build in config["builds"]:
+        if "custom_subsample" in config:
+            section = ["custom_subsample", build]
+        else:
+            section = ["subsample", build]
+        write_config(f"results/{build}/subsample_config.yaml", section=section)
 
 
 def indented_list(xs, prefix):
