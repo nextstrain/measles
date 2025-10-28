@@ -8,6 +8,7 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
+* 25 February 2026: Changes to non-subsampling config will no longer trigger a re-run starting from subsampling. [#91][]
 * 09 February 2026: *MAJOR CHANGES* Switched ingest outputs to separate OPEN vs RESTRICTED files.
   The phylogenetic workflow inputs have been updated to reflect this change.
   The default build has been updated to only include OPEN data.
@@ -28,6 +29,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
   the ingest and phylogenetic workflows. **Please consult the [Pathoplexus Data Use Terms][]**
   for details on how the data can be used. [#95][]
 
+[#91]: https://github.com/nextstrain/measles/pull/91
 [#95]: https://github.com/nextstrain/measles/pull/95
 [#98]: https://github.com/nextstrain/measles/pull/98
 [#103]: https://github.com/nextstrain/measles/issues/103
