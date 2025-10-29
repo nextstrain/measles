@@ -17,8 +17,6 @@ def main():
     # Dump the unmodified config to a YAML file.
     write_config("results/config_raw.yaml")
 
-    process_subsample_config()
-
     # Move user config to its own section.
     config = {
         "WORKFLOW_CONFIG": {},
@@ -47,6 +45,47 @@ def main():
     for build in get_builds():
         section = ["WORKFLOW_CONFIG", build, "subsample", "config"]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
+
+
+def process_subsample_config_for_build(user_config, build, wildcards):
+    """
+    Process subsample config for a specific build.
+
+    Expands the matrix format into a nested dict structure for the given build,
+    applying defaults and wildcard expansion.
+
+    Args:
+        user_config: The USER_CONFIG section containing subsample config
+        build: The build name (e.g., "genome", "N450")
+        wildcards: Dict mapping wildcard names to values (e.g., {"build": "genome"})
+
+    Returns:
+        Dict with "samples" key containing the expanded subsample config
+    """
+    defaults = user_config["subsample"].get("defaults", {})
+    matrix_build = user_config["subsample"]["matrix"]["build"]
+    build_specific = matrix_build[build]
+
+    # Start with defaults and expand any wildcards
+    merged_params = apply_wildcards(defaults, wildcards)
+
+    # Apply _wildcard_defaults if present
+    if "_wildcard_defaults" in matrix_build:
+        wildcard_defaults = apply_wildcards(matrix_build["_wildcard_defaults"], wildcards)
+        merged_params = merge_dicts(merged_params, wildcard_defaults)
+
+    # Get samples from build-specific config
+    if "samples" not in build_specific:
+        raise InvalidConfigError(f"No samples found in subsample config for build '{build}'")
+
+    samples_to_use = build_specific["samples"]
+
+    # Build the samples section by merging defaults with each sample
+    samples = {}
+    for sample_name, sample_params in samples_to_use.items():
+        samples[sample_name] = merge_dicts(merged_params, sample_params)
+
+    return {"samples": samples}
 
 
 def restructure_and_resolve_wildcards():
@@ -88,7 +127,7 @@ def restructure_and_resolve_wildcards():
         # FIXME: subsample_genome vs. subsample_N450?
         build_config["subsample"] = {
             "strain_id_field": user_config["strain_id_field"],
-            "config": user_config["subsample"][build]
+            "config": process_subsample_config_for_build(user_config, build, wildcards)
         }
 
         build_config["refine"] = {
