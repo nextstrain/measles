@@ -3,6 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
+from augur.subsample import get_referenced_files
 
 rule align_and_extract_N450:
     input:
@@ -35,7 +36,11 @@ rule filter_N450:
     input:
         config = "results/run_config.yaml",
         sequences = "results/N450/sequences.fasta",
-        metadata = "data/metadata.tsv"
+        metadata = "data/metadata.tsv",
+        referenced_files = get_referenced_files(
+            "results/run_config.yaml",
+            config_section = ["subsample", "N450"],
+        ),
     output:
         sequences = "results/N450/aligned.fasta"
     params:
