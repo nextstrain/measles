@@ -4,7 +4,7 @@
 - **Build Name**: Measles Virus Washington-Focused Build
 - **Pathogen/Strain**: Measles virus (MeV)
 - **Scope**: Full-genome sequences representing all strains (A-H)
-- **Purpose**: This repository contains the Nextstrain build for Measles virus (MeV). Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genome are curated for the purposes of inferring strain, epidemiological case linkage, and sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
+- **Purpose**: This repository contains the Nextstrain build for Measles virus (MeV). Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genomes are curated for the purposes of inferring strain, assessing patterns of epidemiological linkage, and exploring sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
 
 - **Nextstrain Build/s Location/s**:  [https://nextstrain.org/groups/wadoh/measles/wa/genome/](https://nextstrain.org/groups/wadoh/measles/wa/genome/)
 
