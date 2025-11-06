@@ -43,7 +43,7 @@
     - Most genotypes have been declared inactive. Genomic surveillance can help detect emergence of novel genotypes.
     - Identification of genotypes outside of clade A can rule out vaccination-related infections.
     - Full genomes can assist in monitoring the effectiveness of established PCR-based diagnostic assays.
-    - Vaccine escape has not been observed, but should me monitored.
+    - Vaccine escape has not been observed, but should be monitored.
 
 - Additional Resources
   - [Global Measles and Rubell Laboratory Netowrk](https://www.who.int/europe/initiatives/measles-and-rubella-laboratory-network) 
@@ -57,7 +57,7 @@ Nextstrain builds are designed for specific purposes and not all types of builds
 - **Subsampling**: This build incorporates all known sequences from Washington State, XX additional sequences from North America and XX additional samples of global origin.
 - **Root selection**: The root sequence is not specified, but inferred by `augur ancestral`.
 - **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 alignments.
-- **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical isolates overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
+- **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical strains overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
 
 ### Data Sources & Inputs
 This build relies on publicly available data sourced from [data sources].
