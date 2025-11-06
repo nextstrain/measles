@@ -4,7 +4,7 @@
 - **Build Name**: Measles Virus Washington-Focused Build
 - **Pathogen/Strain**: Measles virus (MeV)
 - **Scope**: Full-genome sequences representing all strains (A-H)
-- **Purpose**: This repository contains the Nextstrain build for Measles virus (MeV). Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genomes are curated for the purposes of inferring strain, assessing patterns of epidemiological linkage, and exploring sources of introduction. N450 sequence dataset is curated similarly, but for inclusion of a larger dataset that provides stronger evidence for strain identity.
+- **Purpose**: This repository contains the Nextstrain build for Measles virus (MeV). Sequences are included from Washington State, with contextual sequences of North America and global origin included using a tiered-subsampling scheme. Full-genomes are curated for the purposes of inferring strain, assessing patterns of epidemiological linkage, and exploring sources of introduction.
 
 - **Nextstrain Build/s Location/s**:  [https://nextstrain.org/groups/wadoh/measles/wa/genome/](https://nextstrain.org/groups/wadoh/measles/wa/genome/)
 
@@ -28,19 +28,17 @@
 ## Pathogen Epidemiology
 - Overview:
   - MeV is an RNA virus in the family Paramyxoviridae
-  - Two genotypes are currently circulating - B3 and D8. 'A' genotypes are vaccine strains.
-  - Transmission occurs through contact - either directly or through aerosolized nasal and through secretions.
+  - Currently, B3 and D8 are the only circulating genotypes globally. 'A' genotypes are vaccine strains.
+  - Transmission occurs through contact - either directly or through aerosolized nasal secretions.
 - Taxonomic designations include clades (A-H) and subclades (numbered).
 - Geographic Distribution and Seasonality
   - MeV is distributed globally, with the highest case numbers in areas with low vaccination coverage. Children of school age are at higher risk.
   - In temperate regions, higher transmission can occur in based on patterns in schooling, while agricultural patterns can drive transmission in less developed areas.
 
 - Public health importance
-  - Surveillance for MeV can help identify high-risk populations.
-- Genomic Relevance
   - Why are genomic data useful for this pathogen:
-    - Full-genome data allows for outbreak investigation and identification of case clusters.
-    - Most genotypes have been declared inactive. Genomic surveillance can help detect emergence of novel genotypes.
+    - Full-genome data allows for outbreak identification and investigation.
+    - Most genotypes have been declared inactive. Genomic surveillance can help detect emergence of novel genotypes, or reemergence of previously circulating genotypes.
     - Identification of genotypes outside of clade A can rule out vaccination-related infections.
     - Full genomes can assist in monitoring the effectiveness of established PCR-based diagnostic assays.
     - Vaccine escape has not been observed, but should be monitored.
@@ -54,9 +52,9 @@
 Nextstrain builds are designed for specific purposes and not all types of builds for a particular pathogen will answer the same questions. The following are critical decisions that were made during the development of this build that should be kept in mind when analyzing the data and using this build.
 
 - **Nomenclature**: The nomenclature used in this build to designate clade names is determined by the Global Measles and Rubella Laboratory Network.
-- **Subsampling**: This build incorporates all known sequences from Washington State, XX additional sequences from North America and XX additional samples of global origin.
+- **Subsampling**: This build incorporates all known sequences from Washington State, a maximum of 2,000 additional sequences from North America and a maximum of 2,000 additional samples of global origin.
 - **Root selection**: The root sequence is not specified, but inferred by `augur ancestral`.
-- **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome and N450 alignments.
+- **Reference selection**: Ichinose B95a strain (Genbank accession #NC_001498) was the reference for full genome alignment.
 - **Inclusion/Exclusion**: Strains isolated from subacute sclerosing panencephalitis (SSPE) cases are excluded, as they contain hypermutations that prevent strain designation, and do not shed typically, making them very atypical strains overall. Vaccine reference strains (A- genotypes) are force-included following all other subsampling procedures.
 
 ### Data Sources & Inputs
