@@ -163,7 +163,7 @@ After successfully running the build there will be two output folders containing
 This build can be customized for use by other states. This is configurable by editing a single file, `measles/phylogenetic/build-configs/state_focused/config.yaml`. To change the focal state, change the `division` on line 4 of the config file. Simply replace "Washington" with your state of interest.
 
 ## Contributing
-For any questions please submit them to our [Discussions](https://github.com/orgs/NW-PaGe/discussions) page. Software issues and requests can be logged as a Git [Issue](insert link here).
+For any questions please submit them to our [Discussions](https://github.com/orgs/NW-PaGe/discussions) page. Software issues and requests can be logged as a Git [Issue](https://github.com/NW-PaGe/measles/issues).
 
 ## License
 This project is licensed under a modified GPL-3.0 License.
@@ -171,7 +171,7 @@ You may use, modify, and distribute this work, but commercial use is strictly pr
 
 ## Acknowledgements
 
-*[add acknowledgements to those who have contributed to this work]*
+We acknowledge the contributions of the AMD teams (Microbiology, MEP, Bioinformatics, DIQA), Washington State Public Health Laboratories (WA PHL), and our colleagues at the Washington State Department of Health, whose expertise and dedication made this work possible. We also extend our sincere thanks to the Nextstrain development team for their ongoing collaboration and support.
 
 <!-- Repository File Structure Overview [**Move contents of this section to Wiki**]
 (This section outlines the high-level file structure of the repo to help folks navigate the repo. If the build follows the pathogen template repo feel free to make this section brief and link to the pathogen template repo resource)*
