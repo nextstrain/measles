@@ -155,7 +155,7 @@ After successfully running the build there will be two output folders containing
 - Option 1: Open [auspice.us](auspice.us) in a web browser, and drop in `measles_genome.json` as input. 
 - Option 2: Run `nextstrain view .` from your `measles/phylogenetic/` folder.
 
-- For guidance on phylogenetic inference, see [The Applied Genomic Epidemiology Handbook](https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/welcome-to-the-applied-genomic-epidemiology-handbook/).
+- To learn more about how to make epidemiologic inferences from phylogenetic trees, see [The Applied Genomic Epidemiology Handbook](https://www.czbiohub.org/ebook/applied-genomic-epidemiology-handbook/welcome-to-the-applied-genomic-epidemiology-handbook/).
 
 
 ## Customization for Local Adaptation
