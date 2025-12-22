@@ -16,8 +16,9 @@ s3_dst: "s3://nextstrain-data/files/workflows/measles"
 
 # Mapping of files to upload
 files_to_upload:
-  ncbi.ndjson.zst: data/ncbi.ndjson
-  metadata.tsv.zst: results/metadata.tsv
+  metadata.tsv.zst: results/metadata_with_restricted.tsv
+  sequences.fasta.zst: results/sequences_with_restricted.fasta
+  metadata.tsv.zst: results/metadata_with_restricted.tsv
   sequences.fasta.zst: results/sequences.fasta
   nextclade.tsv.zst: results/nextclade.tsv
   alignment.fasta.zst: results/alignment.fasta
