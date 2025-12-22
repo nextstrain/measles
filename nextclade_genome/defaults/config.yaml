@@ -1,0 +1,18 @@
+genome:
+  files:
+    dataset_files: "defaults/genome_dataset"
+    reference: "defaults/reference_genome.gb"
+    clades: "defaults/clades_genome.tsv"
+    auspice_config: "defaults/auspice_config_genome.json"
+    colors: "defaults/colors.tsv"
+  filter:
+      exclude: "defaults/dropped_strains.txt"
+      include: "defaults/include_strains.txt"
+      group_by: "region genotype_ncbi year"
+      subsample_max_sequences: 800
+      min_date: 1950
+      min_length: 12000
+  strain_id_field: "accession"
+  genes: ['F', 'H', 'L', 'M', 'N', 'P', 'V', 'C']
+  export:
+      metadata_columns: "strain division location"

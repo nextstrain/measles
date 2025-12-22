@@ -1,0 +1,225 @@
+
+include: "../shared/vendored/snakemake/config.smk"
+
+configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
+
+rule all:
+    input:
+        tree_json = "dataset/genome/tree.json"
+
+
+rule download:
+    """Downloading sequences and metadata from data.nextstrain.org"""
+    output:
+        sequences = "data/sequences.fasta.zst",
+        metadata = "data/metadata.tsv.zst"
+    params:
+        sequences_url = "https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst",
+        metadata_url = "https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst"
+    shell:
+        """
+        curl -fsSL --compressed {params.sequences_url:q} --output {output.sequences}
+        curl -fsSL --compressed {params.metadata_url:q} --output {output.metadata}
+        """
+
+rule decompress:
+    """Decompressing sequences and metadata"""
+    input:
+        sequences = "data/sequences.fasta.zst",
+        metadata = "data/metadata.tsv.zst"
+    output:
+        sequences = "data/sequences.fasta",
+        metadata = "data/metadata.tsv"
+    shell:
+        """
+        zstd -d -c {input.sequences} > {output.sequences}
+        zstd -d -c {input.metadata} > {output.metadata}
+        """
+
+rule filter:
+    input:
+        sequences = "data/sequences.fasta",
+        metadata = "data/metadata.tsv",
+        exclude = lambda w: config[w.build]["filter"]["exclude"],
+        include = lambda w: config[w.build]["filter"]["include"]
+    output:
+        sequences = "results/{build}/pre-filtered.fasta"
+    params:
+        group_by = lambda w: config[w.build]["filter"]["group_by"],
+        subsample_max_sequences = lambda w: config[w.build]["filter"]["subsample_max_sequences"],
+        min_date = lambda w: config[w.build]["filter"]["min_date"],
+        min_length = lambda w: config[w.build]["filter"]["min_length"],
+        strain_id = lambda w: config[w.build]["strain_id_field"]
+    shell:
+        """
+        augur filter \
+            --sequences {input.sequences} \
+            --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
+            --exclude {input.exclude} \
+            --include {input.include} \
+            --output {output.sequences} \
+            --group-by {params.group_by} \
+            --subsample-max-sequences {params.subsample_max_sequences} \
+            --min-length {params.min_length}
+        """
+
+rule align:
+    input:
+        sequences = "results/{build}/pre-filtered.fasta"
+    output:
+        sequences = "results/{build}/aligned.fasta",
+        translations = "results/{build}/translations/touch.txt"
+    params:
+        dataset = lambda w: config[w.build]['files']['dataset_files'],
+        translations = "results/{build}/translations"
+    threads: workflow.cores
+    shell:
+        """
+        nextclade3 run \
+           --jobs {threads} \
+           --input-ref {params.dataset}/reference.fasta \
+           --input-pathogen-json {params.dataset}/pathogen.json \
+           --input-annotation {params.dataset}/annotation.gff3 \
+           --output-fasta {output.sequences} \
+           --output-translations {params.translations}/{{cds}}.fasta \
+           --silent \
+           {input.sequences} & touch {output.translations}
+        """
+
+
+rule tree:
+    """Building tree"""
+    input:
+        alignment = "results/{build}/aligned.fasta"
+    output:
+        tree = "results/{build}/tree_raw.nwk"
+    shell:
+        """
+        augur tree \
+            --alignment {input.alignment} \
+            --output {output.tree}
+        """
+
+rule refine:
+    """
+    Refining tree
+      - estimate timetree
+      - use {params.coalescent} coalescent timescale
+      - estimate {params.date_inference} node dates
+      - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
+    """
+    input:
+        tree = "results/{build}/tree_raw.nwk",
+        alignment = "results/{build}/aligned.fasta",
+        metadata = "data/metadata.tsv"
+    output:
+        tree = "results/{build}/tree.nwk",
+        node_data = "results/{build}/branch_lengths.json"
+    params:
+        strain_id = lambda w: config[w.build]["strain_id_field"]
+    shell:
+        """
+        augur refine \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
+            --output-tree {output.tree} \
+            --output-node-data {output.node_data} \
+            --root mid_point
+        """
+
+rule ancestral:
+    message:
+        """
+        Reconstructing ancestral sequences and mutations
+          - inferring ambiguous mutations
+        """
+    input:
+        tree="results/{build}/tree.nwk",
+        alignment="results/{build}/aligned.fasta",
+        annotation=lambda w: config[w.build]['files']['reference'],
+        reference= lambda w: config[w.build]['files']['dataset_files'] + '/reference.fasta',
+    output:
+        node_data= "results/{build}/muts.json",
+    params:
+        inference="joint",
+        translations= "results/{build}/translations/%GENE.fasta",
+        genes = lambda w: config[w.build]['genes']
+    shell:
+        """
+        augur ancestral \
+            --tree {input.tree} \
+            --alignment {input.alignment} \
+            --inference {params.inference} \
+            --infer-ambiguous \
+            --genes {params.genes} \
+            --annotation {input.annotation} \
+            --translations {params.translations:q} \
+            --root-sequence {input.reference} \
+            --output-node-data {output.node_data}
+        """
+
+rule clades:
+    input:
+        tree = "results/{build}/tree.nwk",
+        muts = "results/{build}/muts.json",
+        clade_defs = lambda w: config[w.build]["files"]["clades"]
+    output:
+        clades = "results/{build}/clades.json"
+    shell:
+        """
+        augur clades \
+            --tree {input.tree} \
+            --mutations {input.muts} \
+            --clades {input.clade_defs} \
+            --output {output.clades}
+        """
+
+
+rule export:
+    """Exporting data files for auspice"""
+    input:
+        tree = "results/{build}/tree.nwk",
+        metadata = "data/metadata.tsv",
+        branch_lengths = "results/{build}/branch_lengths.json",
+        clades = "results/{build}/clades.json",
+        muts = "results/{build}/muts.json",
+        colors = lambda w: config[w.build]["files"]["colors"],
+        auspice_config = lambda w: config[w.build]["files"]["auspice_config"]
+    output:
+        auspice_json = "auspice/measles_{build}.json"
+    params:
+        strain_id = lambda w: config[w.build]["strain_id_field"],
+        metadata_columns = lambda w: config[w.build]["export"]["metadata_columns"]
+    shell:
+        """
+        augur export v2 \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
+            --node-data {input.branch_lengths} {input.muts} {input.clades} \
+            --colors {input.colors} \
+            --metadata-columns {params.metadata_columns} \
+            --auspice-config {input.auspice_config} \
+            --include-root-sequence-inline \
+            --output {output.auspice_json}
+        """
+
+
+rule assemble_dataset:
+    """Assembling the dataset for Nextstrain"""
+    input:
+        auspice_json = "auspice/measles_{build}.json",
+    output:
+        reference = "dataset/{build}/reference.fasta",
+        tree_json = "dataset/{build}/tree.json"
+    params:
+        dataset = lambda w: config[w.build]['files']['dataset_files']
+    threads: workflow.cores
+    shell:
+        """
+        cp {params.dataset}/* dataset/{wildcards.build}/
+        cp {input.auspice_json} dataset/{wildcards.build}/tree.json
+        """
