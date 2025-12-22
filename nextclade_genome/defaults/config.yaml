@@ -16,4 +16,3 @@ genome:
   genes: ['F', 'H', 'L', 'M', 'N', 'P', 'V', 'C']
   export:
       metadata_columns: "strain division location"
-

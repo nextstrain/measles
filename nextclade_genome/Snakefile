@@ -223,4 +223,3 @@ rule assemble_dataset:
         cp {params.dataset}/* dataset/{wildcards.build}/
         cp {input.auspice_json} dataset/{wildcards.build}/tree.json
         """
-
