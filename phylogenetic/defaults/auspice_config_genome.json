@@ -52,8 +52,8 @@
       "type": "categorical"
     },
     {
-      "key": "genotype_ncbi",
-      "title": "MeV Genotype (GenBank metadata)",
+      "key": "genotype_ppx",
+      "title": "MeV Genotype (PPX metadata)",
       "type": "categorical"
     }
   ],

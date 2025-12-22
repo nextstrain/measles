@@ -155,6 +155,7 @@ curate:
     'division',
     'location',
     'host',
+    'genotype_ppx',
     'date_submitted',
     'sra_accession',
     'authors',
@@ -215,6 +216,7 @@ ppx_metadata_fields: # Used to create the URL to download PPX metadata
  - "displayName"
  - "earliestReleaseDate"
  - "frameShifts"
+ - "genotype"
  - "geoLocAdmin1"
  - "geoLocAdmin2"
  - "geoLocCity"
