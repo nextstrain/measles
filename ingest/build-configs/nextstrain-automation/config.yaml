@@ -16,10 +16,10 @@ s3_dst: "s3://nextstrain-data/files/workflows/measles"
 
 # Mapping of files to upload
 files_to_upload:
-  metadata.tsv.zst: results/metadata_with_restricted.tsv
-  sequences.fasta.zst: results/sequences_with_restricted.fasta
-  metadata_open.tsv.zst: results/metadata.tsv
-  sequences_open.fasta.zst: results/sequences.fasta
+  metadata_with_restricted.tsv.zst: results/metadata.tsv
+  sequences_with_restricted.fasta.zst: results/sequences.fasta
+  metadata.tsv.zst: results/metadata_open.tsv
+  sequences.tsv.zst: results/sequences_open.fasta
 
 #  nextclade.tsv.zst: results/nextclade.tsv
 #  alignment.fasta.zst: results/alignment.fasta
