@@ -147,7 +147,9 @@ curate:
     'date',
     'accession', # unversioned PPX accession
     'PPX_accession',
+    'PPX_accession__url',
     'INSDC_accession',
+    'INSDC_accession__url',
     'region',
     'country',
     'division',
