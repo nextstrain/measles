@@ -20,7 +20,8 @@ rule download_ppx_meta:
     retries: 5
     shell:
         """
-        curl -fsSL '{params.metadata_url}&fields={params.fields}' -o {output.metadata}
+        curl -fsSL '{params.metadata_url}&fields={params.fields}' \
+        | csvtk mutate2 -n is_reference -e '""' > {output.metadata}
         """
 
 rule format_ppx_ndjson:

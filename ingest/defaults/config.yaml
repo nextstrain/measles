@@ -163,6 +163,7 @@ curate:
     'dataUseTerms',
     'dataUseTerms__url',
     'restrictedUntil',
+    'is_reference'
   ]
 nextclade:
   dataset_name: "nextstrain/measles/N450/WHO-2012"
