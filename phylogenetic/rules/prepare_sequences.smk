@@ -46,7 +46,7 @@ rule filter:
     output:
         sequences = "results/genome/filtered.fasta"
     params:
-        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "genome"],
+        config_section = ["subsample", "genome"],
         strain_id = config["strain_id_field"]
     shell:
         """
