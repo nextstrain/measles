@@ -43,4 +43,4 @@ tip_frequencies:
     narrow_bandwidth: 0.2
     wide_bandwidth: 0.6
 export:
-    metadata_columns: "strain division location"
+    metadata_columns: "strain division location dataUseTerms dataUseTerms__url restrictedUntil PPX_accession INSDC_accession"

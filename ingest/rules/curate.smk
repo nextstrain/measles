@@ -31,7 +31,7 @@ def format_field_map(field_map: dict[str, str]) -> list[str]:
 # separate files: a metadata TSV and a sequences FASTA.
 rule curate:
     input:
-        sequences_ndjson="data/ncbi.ndjson",
+        sequences_ndjson="data/ppx.ndjson",
         geolocation_rules=resolve_config_path(config["curate"]["local_geolocation_rules"]),
         annotations=resolve_config_path(config["curate"]["annotations"]),
     output:
@@ -42,7 +42,7 @@ rule curate:
     benchmark:
         "benchmarks/curate.txt"
     params:
-        field_map=format_field_map(config["curate"]["field_map"]),
+        field_map=format_field_map(config["curate"]["ppx_field_map"]),
         strain_regex=config["curate"]["strain_regex"],
         strain_backup_fields=config["curate"]["strain_backup_fields"],
         date_fields=config["curate"]["date_fields"],
@@ -72,8 +72,6 @@ rule curate:
             | augur curate format-dates \
                 --date-fields {params.date_fields:q} \
                 --expected-date-formats {params.expected_date_formats:q} \
-            | augur curate parse-genbank-location \
-                --location-field {params.genbank_location_field:q} \
             | augur curate titlecase \
                 --titlecase-fields {params.titlecase_fields:q} \
                 --articles {params.articles:q} \
@@ -84,8 +82,7 @@ rule curate:
                 --abbr-authors-field {params.abbr_authors_field:q} \
             | augur curate apply-geolocation-rules \
                 --geolocation-rules {input.geolocation_rules:q} \
-            | {workflow.basedir}/bin/parse-measles-genotype-names.py \
-                --genotype-field {params.genotype_field:q} \
+            | python {workflow.basedir}/bin/curate-urls.py \
             | augur curate apply-record-annotations \
                 --annotations {input.annotations:q} \
                 --id-field {params.annotations_id:q} \
@@ -102,7 +99,7 @@ rule subset_metadata:
     output:
         subset_metadata="data/subset_metadata.tsv",
     params:
-        metadata_fields=",".join(config["curate"]["metadata_columns"]),
+        metadata_fields=",".join(config["curate"]["ppx_metadata_columns"]),
     shell:
         """
         csvtk cut -t -f {params.metadata_fields} \

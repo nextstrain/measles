@@ -8,6 +8,10 @@
 # Required to fetch from NCBI Datasets
 ncbi_taxon_id: "11234"
 
+ppx_fetch:
+  seqs: https://lapis.pathoplexus.org/measles/sample/unalignedNucleotideSequences?versionStatus=LATEST_VERSION
+  meta: https://lapis.pathoplexus.org/measles/sample/details?dataFormat=csv&versionStatus=LATEST_VERSION
+
 # The list of NCBI Datasets fields to include from NCBI Datasets output
 # These need to be the mneumonics of the NCBI Datasets fields, see docs for full list of fields
 # https://www.ncbi.nlm.nih.gov/datasets/docs/v2/reference-docs/command-line/dataformat/tsv/dataformat_tsv_virus-genome/#fields
@@ -23,6 +27,7 @@ ncbi_datasets_fields:
   - release-date
   - update-date
   - length
+  - genotype
   - host-name
   - isolate-lineage-source
   - biosample-acc
@@ -60,13 +65,29 @@ curate:
     submitter-country: submitter_country
     virus-name: virus_name
     is_reference: is_reference
+  ppx_field_map:
+    sampleCollectionDate: date
+    displayName: strain
+    earliestReleaseDate: date_submitted
+    accessionVersion: PPX_accession
+    insdcAccessionFull: INSDC_accession
+    ncbiVirusName: virus_name
+    geoLocCountry: country
+    geoLocAdmin1: division
+    geoLocAdmin2: location
+    genotype: genotype_ppx
+    hostNameCommon: host
+    insdcRawReadsAccession: sra_accession
+    dataUseTermsRestrictedUntil: restrictedUntil
+    dataUseTermsUrl: dataUseTerms__url
+    authorAffiliations: institution
   # Standardized strain name regex
   # Currently accepts any characters because we do not have a clear standard for strain names across pathogens
   strain_regex: '^.+$'
   # Back up strain name field to use if 'strain' doesn't match regex above
   strain_backup_fields: []
   # List of date fields to standardize to ISO format YYYY-MM-DD
-  date_fields: ['date', 'date_released', 'date_updated']
+  date_fields: ['date', 'date_submitted']
   # List of expected date formats that are present in the date fields provided above
   # These date formats should use directives expected by datetime
   # See https://docs.python.org/3.9/library/datetime.html#strftime-and-strptime-format-codes
@@ -118,10 +139,32 @@ curate:
     'authors',
     'abbr_authors',
     'institution',
-    'genotype_ncbi',
     'is_reference'
   ]
   genotype_field: "virus_name"
+  ppx_metadata_columns: [
+    'strain',
+    'date',
+    'accession', # unversioned PPX accession
+    'PPX_accession',
+    'PPX_accession__url',
+    'INSDC_accession',
+    'INSDC_accession__url',
+    'region',
+    'country',
+    'division',
+    'location',
+    'host',
+    'genotype_ppx',
+    'date_submitted',
+    'sra_accession',
+    'authors',
+    'institution',
+    'dataUseTerms',
+    'dataUseTerms__url',
+    'restrictedUntil',
+    'is_reference'
+  ]
 nextclade:
   dataset_name: "nextstrain/measles/N450/WHO-2012"
   field_map:
@@ -153,3 +196,71 @@ nextclade:
     qc.snpClusters.clusteredSNPs: private_snp_clusters
     qc.snpClusters.totalSNPs: private_total_snp_clusters
   id_field: "seqName"
+
+ppx_metadata_fields: # Used to create the URL to download PPX metadata
+ - "accessionVersion"
+ - "accession"
+ - "version"
+ - "submitter"
+ - "groupName"
+ - "submittedDate"
+ - "releasedDate"
+ - "dataUseTerms"
+ - "dataUseTermsRestrictedUntil"
+ - "dataUseTermsUrl"
+ - "assemblyReferenceGenomeAccession"
+ - "authorAffiliations"
+ - "authors"
+ - "bioprojectAccession"
+ - "biosampleAccession"
+ - "completeness"
+ - "displayName"
+ - "earliestReleaseDate"
+ - "frameShifts"
+ - "genotype"
+ - "geoLocAdmin1"
+ - "geoLocAdmin2"
+ - "geoLocCity"
+ - "geoLocCountry"
+ - "geoLocLatitude"
+ - "geoLocLongitude"
+ - "geoLocSite"
+ - "hostAge"
+ - "hostAgeBin"
+ - "hostDisease"
+ - "hostGender"
+ - "hostHealthOutcome"
+ - "hostHealthState"
+ - "hostNameCommon"
+ - "hostOriginCountry"
+ - "hostVaccinationStatus"
+ - "insdcAccessionBase"
+ - "insdcAccessionFull"
+ - "insdcRawReadsAccession"
+ - "insdcVersion"
+ - "isLabHost"
+ - "length"
+ - "ncbiReleaseDate"
+ - "ncbiSourceDb"
+ - "ncbiSubmitterCountry"
+ - "ncbiUpdateDate"
+ - "ncbiVirusName"
+ - "ncbiVirusTaxId"
+ - "purposeOfSampling"
+ - "purposeOfSequencing"
+ - "qualityControlDetails"
+ - "qualityControlDetermination"
+ - "qualityControlIssues"
+ - "qualityControlMethodName"
+ - "qualityControlMethodVersion"
+ - "sampleCollectionDate"
+ - "sampleCollectionDateRangeLower"
+ - "sampleCollectionDateRangeUpper"
+ - "sampleType"
+ - "totalAmbiguousNucs"
+ - "totalDeletedNucs"
+ - "totalFrameShifts"
+ - "totalInsertedNucs"
+ - "totalSnps"
+ - "totalUnknownNucs"
+ - "travelHistory"
