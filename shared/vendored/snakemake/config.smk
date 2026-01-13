@@ -15,6 +15,70 @@ class InvalidConfigError(Exception):
     pass
 
 
+def load_config():
+    """
+    Load Snakemake configuration.
+
+    This approach differs from Snakemake's built-in merge logic in that it uses
+    overrides for dicts in addition to other types. That is, when an overlay
+    contains a dict key, it completely replaces the existing value rather than
+    merging with it.
+    """
+    global workflow
+
+    merged_config = {}
+
+    # Add values from --configfile(s).
+    for config_file in get_config_files():
+        if not Path(config_file).is_absolute():
+            config_file = Path(os.getcwd()) / Path(config_file)
+        merged_config.update(load(config_file))
+
+    # Add values from --config.
+    merged_config.update(workflow.config_settings.config)
+
+    return merged_config
+
+
+def get_config_files():
+    """
+    Return the list of Snakemake config files in a ready-to-merge order.
+
+    Workflow-defined config files are considered defaults, with user-defined
+    config files merged on top of defaults.
+    """
+    global workflow
+
+    # workflow.configfiles includes, in the following order,
+    # 1. user-defined files via '--configfile(s)' on invocation
+    # 2. workflow-defined files via 'configfile:' in snakefiles
+    #
+    # The goal is to merge user-defined files on top of workflow-defined files,
+    # so the order must be switched for merging purposes. This is made possible
+    # by workflow.config_settings.configfiles, which only contains user-defined
+    # files.
+
+    user_files = workflow.config_settings.configfiles
+    workflow_files = []
+    for file in workflow.configfiles:
+        if file not in user_files:
+            workflow_files.append(file)
+
+    return [
+        *workflow_files,
+        *user_files,
+    ]
+
+
+def load(path):
+    print(f"Loading config from '{path!s}'…", file=sys.stderr)
+
+    # TODO: consider using a custom YAML loader to treat timestamps as strings.
+    # <https://github.com/nextstrain/augur/blob/0fbbd8f8db449b040826c7349bfbfd54a42c2d77/augur/subsample.py#L221-L226>
+    with open(path) as handle:
+        return yaml.safe_load(handle)
+
+
 def resolve_filepaths(filepaths):
     """
     Update filepaths in-place by passing them through resolve_config_path().
