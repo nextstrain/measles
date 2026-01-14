@@ -12,7 +12,7 @@ subsample:
     genome:
         samples:
             global:
-                sequences_per_group: 20
+                max_sequences: 5000
                 min_date: 1950
                 min_length: 5000
                 group_by:
