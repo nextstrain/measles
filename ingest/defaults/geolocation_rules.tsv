@@ -4,3 +4,6 @@
 # If creating a general rule, then the raw field value can be substituted with '*'
 # Lines starting with '#' will be ignored as comments.
 # Trailing '#' will be ignored as comments.
+
+# Standardize country names
+*/Viet Nam/*/*	Asia/Vietnam/*/*
