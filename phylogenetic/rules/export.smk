@@ -5,6 +5,23 @@ export a Nextstrain dataset.
 See Augur's usage docs for these commands for more details.
 """
 
+rule colors:
+    """Generate colors from ordering"""
+    input:
+        ordering = "defaults/color_ordering.tsv",
+        color_schemes = "defaults/color_schemes.tsv",
+        metadata = "data/metadata.tsv"
+    output:
+        colors = "results/colors.tsv"
+    shell:
+        """
+        python3 scripts/assign-colors.py \
+            --ordering {input.ordering} \
+            --color-schemes {input.color_schemes} \
+            --metadata {input.metadata} \
+            --output {output.colors}
+        """
+
 rule export:
     """Exporting data files for for auspice"""
     input:
@@ -14,7 +31,7 @@ rule export:
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
         traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else [],
-        colors = resolve_config_path(config["files"]["colors"]),
+        colors = "results/colors.tsv",
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
