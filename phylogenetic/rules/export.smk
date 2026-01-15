@@ -13,6 +13,7 @@ rule export:
         branch_lengths = "results/{build}/branch_lengths.json",
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
+        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else [],
         colors = resolve_config_path(config["files"]["colors"]),
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
@@ -20,14 +21,15 @@ rule export:
         auspice_json = "auspice/measles_{build}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = config["export"]["metadata_columns"]
+        metadata_columns = config["export"]["metadata_columns"],
+        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
     shell:
         """
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {params.traits} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \

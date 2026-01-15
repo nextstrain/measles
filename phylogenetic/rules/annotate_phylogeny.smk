@@ -39,3 +39,28 @@ rule translate:
             --reference-sequence {input.reference} \
             --output {output.node_data} \
         """
+
+rule traits:
+    """Inferring ancestral traits for {params.columns!s}"""
+    input:
+        tree = "results/{build}/tree.nwk",
+        metadata = "data/metadata.tsv"
+    output:
+        node_data = "results/{build}/traits.json"
+    wildcard_constraints:
+        build = "genome"
+    params:
+        columns = config["traits"]["columns"],
+        sampling_bias_correction = config["traits"]["sampling_bias_correction"],
+        strain_id = config["strain_id_field"]
+    shell:
+        """
+        augur traits \
+            --tree {input.tree} \
+            --metadata {input.metadata} \
+            --metadata-id-columns {params.strain_id} \
+            --output {output.node_data} \
+            --columns {params.columns} \
+            --confidence \
+            --sampling-bias-correction {params.sampling_bias_correction}
+        """
