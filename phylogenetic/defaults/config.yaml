@@ -11,9 +11,19 @@ align_and_extract_N450:
 subsample:
     genome:
         samples:
-            global:
-                max_sequences: 5000
+            early:
+                max_sequences: 2000
                 min_date: 1950
+                max_date: 5Y
+                min_length: 5000
+                group_by:
+                    - country
+                    - year
+                include: include_strains_genome.txt
+                exclude: dropped_strains.txt
+            late:
+                max_sequences: 2000
+                min_date: 5Y
                 min_length: 5000
                 group_by:
                     - country
@@ -22,9 +32,19 @@ subsample:
                 exclude: dropped_strains.txt
     N450:
         samples:
-            global:
-                max_sequences: 3000
+            early:
+                max_sequences: 2000
                 min_date: 1950
+                max_date: 5Y
+                min_length: 400
+                group_by:
+                    - country
+                    - year
+                include: include_strains_N450.txt
+                exclude: dropped_strains.txt
+            late:
+                max_sequences: 2000
+                min_date: 5Y
                 min_length: 400
                 group_by:
                     - country
