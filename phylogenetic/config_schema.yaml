@@ -1,0 +1,194 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: Measles Phylogenetic Workflow Configuration
+description: >-
+  This is the schema for the Nextstrain measles phylogenetic workflow's
+  configuration file.
+type: object
+additionalProperties: false
+
+required:
+  - strain_id_field
+  - files
+  - align_and_extract_N450
+  - refine
+  - ancestral
+  - tip_frequencies
+  - export
+
+anyOf:
+  # 'subsample' is in defaults so it will always be defined, but it is optional
+  # from the workflow's perspective.
+  - required: [subsample]
+  - required: [custom_subsample]
+
+properties:
+  strain_id_field:
+    type: string
+    description: Metadata field with unique identifiers.
+
+  files:
+    type: object
+    description: Input and reference files configuration.
+    additionalProperties: false
+    required:
+      - reference
+      - reference_fasta
+      - colors
+      - auspice_config
+      - description
+    properties:
+      reference:
+        type: string
+        format: filepath
+        description: Reference genome file pattern (supports {gene} wildcard).
+      reference_fasta:
+        type: string
+        format: filepath
+        description: Reference FASTA file pattern (supports {gene} wildcard).
+      colors:
+        type: string
+        format: filepath
+        description: Colors TSV file for visualization.
+      auspice_config:
+        type: string
+        format: filepath
+        description: Auspice configuration file pattern (supports {gene} wildcard).
+      description:
+        type: string
+        format: filepath
+        description: Auspice dataset description markdown file.
+
+  align_and_extract_N450:
+    type: object
+    description: Configuration for N450 gene alignment and extraction.
+    additionalProperties: false
+    required:
+      - min_length
+    properties:
+      min_length:
+        type: integer
+        description: Minimum sequence length for N450 gene extraction.
+
+  subsample: &subsample_config
+    type: object
+    description: >-
+      Subsampling configuration. When using --configfile, it is recommended to
+      use 'custom_subsample' instead to ignore default subsampling configuration.
+    additionalProperties: false
+    required:
+      - genome
+      - N450
+    properties:
+      genome:
+        $ref: https://nextstrain.org/schemas/augur/subsample-config/v1
+        description: Subsampling configuration for genome sequences.
+      N450:
+        $ref: https://nextstrain.org/schemas/augur/subsample-config/v1
+        description: Subsampling configuration for N450 sequences.
+
+  custom_subsample:
+    <<: *subsample_config
+    description: >-
+      Custom subsampling configuration. When using --configfile, this is
+      recommended over 'subsample' to ignore default subsampling configuration.
+
+  refine:
+    type: object
+    description: Configuration for tree refinement step.
+    additionalProperties: false
+    required:
+      - coalescent
+      - date_inference
+      - clock_filter_iqd
+    properties:
+      # Comments are descriptions from <https://docs.nextstrain.org/projects/augur/en/31.5.0/usage/cli/refine.html>
+      coalescent:
+        # coalescent time scale in units of inverse clock rate (float), optimize as scalar ('opt'), or skyline ('skyline')
+        description: Coalescent model.
+        oneOf:
+          - type: number
+            description: Coalescent time scale in units of inverse clock rate.
+          - type: string
+            description: Coalescent optimization method.
+            enum:
+              - opt
+              - skyline
+      date_inference:
+        # assign internal nodes to their marginally most likely dates, not jointly most likely
+        type: string
+        description: Method for assigning dates to internal nodes.
+        enum:
+          - joint
+          - marginal
+      clock_filter_iqd:
+        # clock-filter: remove tips that deviate more than n_iqd interquartile ranges from the root-to-tip vs time regression
+        type: number
+        description: Number of interquartile ranges for filtering tips that deviate from root-to-tip vs time regression.
+
+  ancestral:
+    type: object
+    description: Configuration for ancestral sequence reconstruction.
+    additionalProperties: false
+    required:
+      - inference
+    properties:
+      # Comments are descriptions from <https://docs.nextstrain.org/projects/augur/en/31.5.0/usage/cli/ancestral.html>
+      inference:
+        # calculate joint or marginal maximum likelihood ancestral sequence states
+        type: string
+        description: Method for calculating maximum likelihood ancestral sequence states.
+        enum:
+          - joint
+          - marginal
+
+  tip_frequencies:
+    type: object
+    description: Configuration for tip frequency calculation.
+    additionalProperties: false
+    required:
+      - min_date
+      - max_date
+      - narrow_bandwidth
+      - wide_bandwidth
+    properties:
+      # Comments are descriptions from <https://docs.nextstrain.org/projects/augur/en/31.5.0/usage/cli/frequencies.html>
+      min_date:
+        # date to begin frequencies calculations
+        type: string
+        description: Start date for frequency calculations in ISO 8601 date format (YYYY-MM-DD) or ISO 8601 duration format (e.g. 1Y).
+      max_date:
+        # date to end frequencies calculations
+        type: string
+        description: End date for frequency calculations in ISO 8601 date format (YYYY-MM-DD) or ISO 8601 duration format (e.g. 1Y).
+      narrow_bandwidth:
+        # the bandwidth for the narrow KDE
+        type: number
+        description: Bandwidth for the narrow kernel density estimation.
+      wide_bandwidth:
+        # the bandwidth for the wide KDE
+        type: number
+        description: Bandwidth for the wide kernel density estimation.
+
+  export:
+    type: object
+    description: Configuration for export of JSON files suitable for visualization with Auspice.
+    additionalProperties: false
+    required:
+      - metadata_columns
+    properties:
+      # Comments are descriptions from <https://docs.nextstrain.org/projects/augur/en/31.5.0/usage/cli/export.html>
+      metadata_columns:
+        # Metadata columns to export in addition to columns provided by –color-by-metadata or colorings in the Auspice configuration file. These columns will not be used as coloring options in Auspice but will be visible in the tree. Ignores columns named ‘none’, so please rename them if you would like to include them as metadata fields.
+        type: string
+        description: >-
+          Space-separated list of metadata columns to export in addition to
+          colorings in files.auspice_config. These columns will not be used as
+          coloring options in Auspice but will be visible in the tree. Ignores
+          columns named 'none', so please rename them if you would like to
+          include them as metadata fields.
+
+  custom_rules:
+    type: array
+    description: List of custom Snakemake rule files to include.
+    items:
+      type: string
