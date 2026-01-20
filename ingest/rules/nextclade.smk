@@ -124,3 +124,20 @@ rule join_metadata_and_nextclade:
             --output-metadata {output.metadata:q} \
             --no-source-columns
         """
+
+rule extract_open_data:
+    input:
+        metadata = "results/metadata.tsv",
+        sequences = "results/sequences.fasta"
+    output:
+        metadata = "results/metadata_open.tsv",
+        sequences = "results/sequences_open.fasta"
+    shell:
+        """
+        augur filter --metadata {input.metadata} \
+                     --sequences {input.sequences} \
+                     --metadata-id-columns accession \
+                     --exclude-where "dataUseTerms=RESTRICTED" \
+                     --output-metadata {output.metadata} \
+                     --output-sequences {output.sequences}
+        """

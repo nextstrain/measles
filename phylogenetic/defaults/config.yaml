@@ -11,9 +11,19 @@ align_and_extract_N450:
 subsample:
     genome:
         samples:
-            global:
-                sequences_per_group: 20
+            early:
+                max_sequences: 2000
                 min_date: 1950
+                max_date: 5Y
+                min_length: 5000
+                group_by:
+                    - country
+                    - year
+                include: include_strains_genome.txt
+                exclude: dropped_strains.txt
+            late:
+                max_sequences: 2000
+                min_date: 5Y
                 min_length: 5000
                 group_by:
                     - country
@@ -22,9 +32,19 @@ subsample:
                 exclude: dropped_strains.txt
     N450:
         samples:
-            global:
-                max_sequences: 3000
+            early:
+                max_sequences: 2000
                 min_date: 1950
+                max_date: 5Y
+                min_length: 400
+                group_by:
+                    - country
+                    - year
+                include: include_strains_N450.txt
+                exclude: dropped_strains.txt
+            late:
+                max_sequences: 2000
+                min_date: 5Y
                 min_length: 400
                 group_by:
                     - country
@@ -37,10 +57,16 @@ refine:
     clock_filter_iqd: 4
 ancestral:
     inference: "joint"
+# trait reconstruction applies only to the "genome" build
+traits:
+    columns:
+        - country
+        - region
+    sampling_bias_correction: 3
 tip_frequencies:
     min_date: "2000-01-01"
     max_date: "6M"
     narrow_bandwidth: 0.2
     wide_bandwidth: 0.6
 export:
-    metadata_columns: "strain division location"
+    metadata_columns: "strain division location dataUseTerms dataUseTerms__url restrictedUntil PPX_accession INSDC_accession"

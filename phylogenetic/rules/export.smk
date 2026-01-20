@@ -5,6 +5,23 @@ export a Nextstrain dataset.
 See Augur's usage docs for these commands for more details.
 """
 
+rule colors:
+    """Generate colors from ordering"""
+    input:
+        ordering = "defaults/color_ordering.tsv",
+        color_schemes = "defaults/color_schemes.tsv",
+        metadata = "data/metadata.tsv"
+    output:
+        colors = "results/colors.tsv"
+    shell:
+        """
+        python3 scripts/assign-colors.py \
+            --ordering {input.ordering} \
+            --color-schemes {input.color_schemes} \
+            --metadata {input.metadata} \
+            --output {output.colors}
+        """
+
 rule export:
     """Exporting data files for for auspice"""
     input:
@@ -13,21 +30,23 @@ rule export:
         branch_lengths = "results/{build}/branch_lengths.json",
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
-        colors = resolve_config_path(config["files"]["colors"]),
+        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else [],
+        colors = "results/colors.tsv",
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
         auspice_json = "auspice/measles_{build}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = config["export"]["metadata_columns"]
+        metadata_columns = config["export"]["metadata_columns"],
+        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
     shell:
         """
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} \
+            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {params.traits} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \

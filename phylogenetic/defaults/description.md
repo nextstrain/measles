@@ -14,7 +14,10 @@ Our bioinformatic processing workflow can be found at [github.com/nextstrain/mea
 - genotype assignment using the [measles/N450/WHO-2012 Nextclade dataset](https://clades.nextstrain.org/?dataset-name=nextstrain/measles/N450/WHO-2012) based on [genotype definitions provided by the WHO](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1)
 
 #### Underlying data
-We curate sequence data and metadata from NCBI as starting point for our analyses. Curated sequences and metadata are available as flat files at:
+We source sequence data and metadata from [Pathoplexus](https://pathoplexus.org) which ingests data from INSDC and provides data from INSDC together with data that were submitted directly to Pathoplexus. See our [ingest configuration file](https://github.com/nextstrain/rsv/blob/master/ingest/config/config.yaml).
+Curated sequences and metadata are available as flat files at the links below.
+The data in the files provided below is the subset of data from Pathoplexus under the OPEN [data use terms](https://pathoplexus.org/about/terms-of-use/data-use-terms). In the metadata files below, each sequence contains a field specifying the data use terms of this sequence and a link to the data use terms.
+
 - [data.nextstrain.org/files/workflows/measles/sequences.fasta.zst](https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst)
 - [data.nextstrain.org/files/workflows/measles/metadata.tsv.zst](https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst)
 
@@ -22,6 +25,8 @@ Pairwise alignments with [Nextclade](https://docs.nextstrain.org/projects/nextcl
 - [data.nextstrain.org/files/workflows/measles/alignment.fasta.zst](https://data.nextstrain.org/files/workflows/measles/alignment.fasta.zst)
 - [data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst](https://data.nextstrain.org/files/workflows/measles/nextclade.tsv.zst)
 - [data.nextstrain.org/files/workflows/measles/translations.zip](https://data.nextstrain.org/files/workflows/measles/translations.zip)
+
+If you are interested in the RESTRICTED USE data, we ask you to obtain those directly from Pathoplexus.
 
 ---
 

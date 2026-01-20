@@ -9,8 +9,8 @@ rule download:
         sequences = "data/sequences.fasta.zst",
         metadata = "data/metadata.tsv.zst"
     params:
-        sequences_url = "https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst",
-        metadata_url = "https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst"
+        sequences_url = "https://data.nextstrain.org/files/workflows/measles/sequences_with_restricted.fasta.zst",
+        metadata_url = "https://data.nextstrain.org/files/workflows/measles/metadata_with_restricted.tsv.zst"
     shell:
         """
         curl -fsSL --compressed {params.sequences_url:q} --output {output.sequences}
