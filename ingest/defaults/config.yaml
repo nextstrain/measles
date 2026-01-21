@@ -67,11 +67,11 @@ curate:
     is_reference: is_reference
   ppx_field_map:
     sampleCollectionDate: date
-    displayName: strain
+    specimenCollectorSampleId: strain
+    displayName: pathoplexus_strain
     earliestReleaseDate: date_submitted
     accessionVersion: PPX_accession
     insdcAccessionFull: INSDC_accession
-    ncbiVirusName: virus_name
     geoLocCountry: country
     geoLocAdmin1: division
     geoLocAdmin2: location
@@ -82,10 +82,11 @@ curate:
     dataUseTermsUrl: dataUseTerms__url
     authorAffiliations: institution
   # Standardized strain name regex
-  # Currently accepts any characters because we do not have a clear standard for strain names across pathogens
-  strain_regex: '^.+$'
+  # Matches proper measles isolate names containing "MVi/" or "MVs/" (e.g., "Measles virus MVs/Yamagata.JPN/7.04")
+  # This triggers fallback for generic names like "Measles morbillivirus" or "Measles virus genotype D8"
+  strain_regex: '^.*MV[si]/.*$'
   # Back up strain name field to use if 'strain' doesn't match regex above
-  strain_backup_fields: []
+  strain_backup_fields: ['pathoplexus_strain', 'PPX_accession']
   # List of date fields to standardize to ISO format YYYY-MM-DD
   date_fields: ['date', 'date_submitted']
   # List of expected date formats that are present in the date fields provided above
@@ -144,6 +145,7 @@ curate:
   genotype_field: "virus_name"
   ppx_metadata_columns: [
     'strain',
+    'pathoplexus_strain',
     'date',
     'accession', # unversioned PPX accession
     'PPX_accession',
@@ -257,6 +259,7 @@ ppx_metadata_fields: # Used to create the URL to download PPX metadata
  - "sampleCollectionDateRangeLower"
  - "sampleCollectionDateRangeUpper"
  - "sampleType"
+ - "specimenCollectorSampleId"
  - "totalAmbiguousNucs"
  - "totalDeletedNucs"
  - "totalFrameShifts"
