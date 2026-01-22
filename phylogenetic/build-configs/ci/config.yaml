@@ -5,3 +5,19 @@
 # The paths should be relative to the phylogenetic directory.
 custom_rules:
   - build-configs/ci/copy_example_data.smk
+
+subsample:
+    genome:
+        samples:
+            early:
+                min_date: 1950
+                max_date: 2017
+            late:
+                min_date: 2017
+    N450:
+        samples:
+            early:
+                min_date: 1950
+                max_date: 2017
+            late:
+                min_date: 2017
