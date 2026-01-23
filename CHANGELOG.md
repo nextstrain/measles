@@ -7,7 +7,32 @@ the outputs of the workflows.
 Changes for this project _do not_ currently follow the [Semantic Versioning rules](https://semver.org/spec/v2.0.0.html).
 Instead, changes appear below grouped by the date they were added to the workflow.
 
+## 2026
+* 23 January 2026: Restored support for `nextstrain run`, which was broken when
+  adding dynamic colors generation. [#105][]
+* 22 January 2026: ingest: fixed the uploaded sequences file extension so the file at
+  https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst is properly updated. [#103][]
+* 21 January 2026: ingest: switched `strain` back to the original isolate names. [#98][]
+* 15 January 2026: phylogenetic: Split subsampling into `early` and `late` sampling groups [530da56][]
+* 14 January 2026: *MAJOR CHANGES* in phylogenetic workflow [1cf1299...0313508][]
+    - increased number of sequences to include in genome build
+    - added geographic trait reconstruction for genome build. **Requires new config params** `traits.columns` and `traits.sampling_bias_correction`
+    - added dynamic colors generation
+* 09 January 2026: *MAJOR CHANGES* - Switched to [Pathoplexus][] as the data source for
+  the ingest and phylogenetic workflows. **Please consult the [Pathoplexus Data Use Terms][]**
+  for details on how the data can be used. [#95][]
+
+[#95]: https://github.com/nextstrain/measles/pull/95
+[#98]: https://github.com/nextstrain/measles/pull/98
+[#103]: https://github.com/nextstrain/measles/issues/103
+[#105]: https://github.com/nextstrain/measles/pull/105
+[530da56]: https://github.com/nextstrain/measles/commit/530da568d8014c08e73f31065a8fa96e5c2d2f20
+[1cf1299...0313508]: https://github.com/nextstrain/measles/compare/1cf1299e1658140d9317fc9063f1e06ef04a6ee1...03135085aed310f1cb0d3ecb2dca342e6ec8f51d
+[Pathoplexus]: https://pathoplexus.org
+[Pathoplexus Data Use Terms]: https://pathoplexus.org/about/terms-of-use/data-use-terms
+
 ## 2025
+* 22 December 2025: Added workflow for creating the [genome Nextclade dataset][]. [#65][]
 * 30 September 2025: The `'gene'` wildcard was renamed as `'build'`, and is now a config key rather than a declaration in the `phylogenetic` snakefile.
 * 29 September 2025: Restored support for `nextstrain run`, which was broken in the switch the augur subsample. [#73][]
 * 26 September 2025: Updated workflow compatibility declaration in `nextstrain-pathogen.yaml`.
@@ -30,11 +55,13 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#59]: https://github.com/nextstrain/measles/pull/59
 [#61]: https://github.com/nextstrain/measles/pull/61
 [#62]: https://github.com/nextstrain/measles/pull/62
+[#65]: https://github.com/nextstrain/measles/pull/65
 [#68]: https://github.com/nextstrain/measles/pull/68
 [#69]: https://github.com/nextstrain/measles/pull/69
 [#70]: https://github.com/nextstrain/measles/pull/70
 [#73]: https://github.com/nextstrain/measles/issues/73
 [nextstrain/shared]: https://github.com/nextstrain/shared
+[genome Nextclade dataset]: https://clades.nextstrain.org/?dataset-name=nextstrain/measles/genome/WHO-2012
 
 ## 2024
 

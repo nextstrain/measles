@@ -8,14 +8,14 @@ See Augur's usage docs for these commands for more details.
 rule colors:
     """Generate colors from ordering"""
     input:
-        ordering = "defaults/color_ordering.tsv",
-        color_schemes = "defaults/color_schemes.tsv",
+        ordering = resolve_config_path("defaults/color_ordering.tsv"),
+        color_schemes = resolve_config_path("defaults/color_schemes.tsv"),
         metadata = "data/metadata.tsv"
     output:
         colors = "results/colors.tsv"
     shell:
         """
-        python3 scripts/assign-colors.py \
+        python3 {workflow.basedir}/scripts/assign-colors.py \
             --ordering {input.ordering} \
             --color-schemes {input.color_schemes} \
             --metadata {input.metadata} \
