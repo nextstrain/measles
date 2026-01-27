@@ -74,22 +74,54 @@ The analysis pipeline is contained in [Snakefile](Snakefile) with included [rule
 Each rule specifies its file inputs and output and pulls its parameters from the config.
 There is little redirection and each rule should be able to be reasoned with on its own.
 
-### Using GenBank data
+### Default input data
 
-This build starts by pulling preprocessed sequence and metadata files from:
+The default builds start from the public Nextstrain data that have been preprocessed
+and cleaned from [Pathoplexus][] that includes [RESTRICTED data][].
+The default Auspice configs ([genome](./defaults/auspice_config_genome.json),
+[N450](./defaults/auspice_config_N450.json)) include the `metadata_columns`
+"PPX_accession", "INSDC_accession", and "restrictedUntil" to ensure the builds
+adhere to the [Pathoplexus data use terms][].
 
-* https://data.nextstrain.org/files/measles/sequences.fasta.zst
-* https://data.nextstrain.org/files/measles/metadata.tsv.zst
 
-The above datasets have been preprocessed and cleaned from GenBank.
+```yaml
+inputs:
+  - name: ppx_with_restricted
+    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_with_restricted.tsv.zst"
+    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_with_restricted.fasta.zst"
+```
+
+### Adding your own data
+
+If you want to add your own data to the default input, specify your inputs with
+the `additional_inputs` config parameter.
+
+```yaml
+additional_inputs:
+  - name: private
+    metadata: data/metadata.tsv
+    sequences: data/sequences.fasta
+```
+
+If you want to run the builds _without_ the default data and only use your own
+data, you can do so by specifying the `inputs` parameter.
+
+```yaml
+inputs:
+  - name: private
+    metadata: data/metadata.tsv
+    sequences: data/sequences.fasta
+```
 
 ### Using example data
 
-Alternatively, you can run the build using the
-example data provided in this repository.  To run the build by copying the
-example sequences into the `data/` directory, use the following:
+Alternatively, you can run the build using the example data provided in this
+repository by running:
 
     nextstrain build .  --configfile build-configs/ci/config.yaml
+
+Note: this only works with `nextstrain build`. Within repo input files are _not_
+supported by `nextstrain run`.
 
 ### Deploying build
 
@@ -104,3 +136,7 @@ nextstrain build \
         deploy_all \
         --configfile build-configs/nextstrain-automation/config.yaml
 ```
+
+[Pathoplexus]: https://pathoplexus.org
+[Pathoplexus data use terms]: https://pathoplexus.org/about/terms-of-use/data-use-terms
+[RESTRICTED data]: https://pathoplexus.org/about/terms-of-use/restricted-data

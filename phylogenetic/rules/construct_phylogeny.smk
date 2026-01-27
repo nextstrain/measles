@@ -28,7 +28,7 @@ rule refine:
     input:
         tree = "results/{build}/tree_raw.nwk",
         alignment = "results/{build}/aligned.fasta",
-        metadata = "data/metadata.tsv"
+        metadata = "results/metadata.tsv"
     output:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/branch_lengths.json"

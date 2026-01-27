@@ -10,7 +10,7 @@ rule colors:
     input:
         ordering = resolve_config_path("defaults/color_ordering.tsv"),
         color_schemes = resolve_config_path("defaults/color_schemes.tsv"),
-        metadata = "data/metadata.tsv"
+        metadata = "results/metadata.tsv"
     output:
         colors = "results/colors.tsv"
     shell:
@@ -26,7 +26,7 @@ rule export:
     """Exporting data files for for auspice"""
     input:
         tree = "results/{build}/tree.nwk",
-        metadata = "data/metadata.tsv",
+        metadata = "results/metadata.tsv",
         branch_lengths = "results/{build}/branch_lengths.json",
         nt_muts = "results/{build}/nt_muts.json",
         aa_muts = "results/{build}/aa_muts.json",
@@ -61,7 +61,7 @@ rule tip_frequencies:
     """
     input:
         tree = "results/{build}/tree.nwk",
-        metadata = "data/metadata.tsv"
+        metadata = "results/metadata.tsv"
     params:
         strain_id = config["strain_id_field"],
         min_date = config["tip_frequencies"]["min_date"],

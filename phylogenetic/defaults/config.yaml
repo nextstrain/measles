@@ -1,5 +1,9 @@
 builds: ['genome', 'N450']
 strain_id_field: "accession"
+inputs:
+  - name: ppx_with_restricted
+    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_with_restricted.tsv.zst"
+    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_with_restricted.fasta.zst"
 files:
     reference: "measles_reference_{build}.gb"
     reference_fasta: "measles_reference_{build}.fasta"

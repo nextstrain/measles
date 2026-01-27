@@ -1,3 +1,8 @@
+from snakemake.utils import min_version
+
+# Minimum Snakemake version needed for the storage plugins used in remote_files.smk
+min_version("8.0.0")
+
 include: "../shared/vendored/snakemake/config.smk"
 
 configfile: os.path.join(workflow.basedir, "defaults/config.yaml")
@@ -17,6 +22,8 @@ rule all:
         auspice_json = expand("auspice/measles_{build}.json", build=builds),
         tip_frequencies_json = expand("auspice/measles_{build}_tip-frequencies.json", build=builds)
 
+include: "../shared/vendored/snakemake/remote_files.smk"
+include: "rules/merge_inputs.smk"
 include: "rules/prepare_sequences.smk"
 include: "rules/prepare_sequences_N450.smk"
 include: "rules/construct_phylogeny.smk"
