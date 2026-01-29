@@ -10,7 +10,7 @@ include: "rules/config.smk"
 builds = config['builds']
 
 wildcard_constraints:
-    build = "genome|N450"
+    build = "|".join(builds)
 
 rule all:
     input:
