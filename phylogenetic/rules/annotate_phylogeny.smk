@@ -44,7 +44,7 @@ rule traits:
     """Inferring ancestral traits for {params.columns!s}"""
     input:
         tree = "results/{build}/tree.nwk",
-        metadata = "data/metadata.tsv"
+        metadata = "results/metadata.tsv"
     output:
         node_data = "results/{build}/traits.json"
     wildcard_constraints:
