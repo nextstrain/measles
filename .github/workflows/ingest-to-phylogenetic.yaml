@@ -85,6 +85,8 @@ jobs:
           s3_urls=(
             "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
             "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
+            "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
+            "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
           )
 
           # Code below is modified from ingest/upload-to-s3
