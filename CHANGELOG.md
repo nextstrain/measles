@@ -9,16 +9,9 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 * TBD: *MAJOR CHANGES* Switched ingest outputs to separate OPEN vs RESTRICTED files.
-  The phylogenetic workflow inputs have been updated to reflect this change. [#108][]
-  ```yaml
-  inputs:
-    - name: ppx_open
-      metadata: "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
-      sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
-    - name: ppx_restricted
-      metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
-      sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
-  ```
+  The phylogenetic workflow inputs have been updated to reflect this change.
+  The default build has been updated to only include OPEN data.
+  Please see phylogenetic/README.md for details on how to use the RESTRICTED data. [#108][]
 * 09 February 2026: *MAJOR CHANGES* Added multiple input support to phylogenetic workflow,
   please see phylogenetic/README.md for more details. [#107][]
 * 23 January 2026: Restored support for `nextstrain run`, which was broken when
