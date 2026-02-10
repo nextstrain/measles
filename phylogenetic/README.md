@@ -77,18 +77,26 @@ There is little redirection and each rule should be able to be reasoned with on 
 ### Default input data
 
 The default builds start from the public Nextstrain data that have been preprocessed
-and cleaned from [Pathoplexus][] that includes [RESTRICTED data][].
+and cleaned from [Pathoplexus][] that only includes OPEN data.
 The default Auspice configs ([genome](./defaults/auspice_config_genome.json),
 [N450](./defaults/auspice_config_N450.json)) include the `metadata_columns`
 "PPX_accession", "INSDC_accession", and "restrictedUntil" to ensure the builds
 adhere to the [Pathoplexus data use terms][].
 
+#### Adding [RESTRICTED data][].
+
+> [!WARNING]
+> If you are using [RESTRICTED data][] in your own analysis, please refer to the
+> [Pathoplexus Data Use Terms](https://pathoplexus.org/about/terms-of-use/restricted-data).
+
+The Nextstrain automated builds include the [RESTRICTED data][] by adding
+them with the `additional_inputs` config parameter.
 
 ```yaml
-inputs:
-  - name: ppx_with_restricted
-    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_with_restricted.tsv.zst"
-    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_with_restricted.fasta.zst"
+additional_inputs:
+  - name: ppx_restricted
+    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
+    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
 ```
 
 ### Adding your own data

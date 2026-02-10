@@ -27,7 +27,8 @@ rule all:
         "results/metadata.tsv",
         "results/sequences_open.fasta",
         "results/metadata_open.tsv",
-
+        "results/sequences_restricted.fasta",
+        "results/metadata_restricted.tsv",
 
 # Note that only PATHOGEN level customizations should be added to these
 # core steps, meaning they are custom rules necessary for all builds of the pathogen.

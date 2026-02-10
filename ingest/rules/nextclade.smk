@@ -125,19 +125,28 @@ rule join_metadata_and_nextclade:
             --no-source-columns
         """
 
-rule extract_open_data:
+rule extract_ppx_data:
     input:
         metadata = "results/metadata.tsv",
         sequences = "results/sequences.fasta"
     output:
-        metadata = "results/metadata_open.tsv",
-        sequences = "results/sequences_open.fasta"
+        metadata = "results/metadata_{ppx_dut}.tsv",
+        sequences = "results/sequences_{ppx_dut}.fasta"
+    wildcard_constraints:
+        ppx_dut="open|restricted",
+    params:
+        ppx_dut = lambda w: w.ppx_dut.upper(),
+        # Warn on empty output for restricted since it's feasible that
+        # none of the data is restricted
+        empty_output = lambda w: "warn" if w.ppx_dut == "restricted" else "error",
     shell:
         """
         augur filter --metadata {input.metadata} \
                      --sequences {input.sequences} \
                      --metadata-id-columns accession \
-                     --exclude-where "dataUseTerms=RESTRICTED" \
+                     --exclude-all \
+                     --include-where "dataUseTerms={params.ppx_dut:q}" \
                      --output-metadata {output.metadata} \
-                     --output-sequences {output.sequences}
+                     --output-sequences {output.sequences} \
+                     --empty-output-reporting {params.empty_output:q}
         """
