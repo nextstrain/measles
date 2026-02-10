@@ -8,7 +8,7 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
-* TBD: *MAJOR CHANGES* Switched ingest outputs to separate OPEN vs RESTRICTED files.
+* 09 February 2026: *MAJOR CHANGES* Switched ingest outputs to separate OPEN vs RESTRICTED files.
   The phylogenetic workflow inputs have been updated to reflect this change.
   The default build has been updated to only include OPEN data.
   Please see phylogenetic/README.md for details on how to use the RESTRICTED data. [#108][]
