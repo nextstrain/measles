@@ -5,21 +5,14 @@ See Augur's usage docs for these commands for more details.
 """
 from augur.subsample import get_referenced_files
 
-rule filter:
-    """
-    Filtering to
-      - {params.sequences_per_group} sequence(s) per {params.group_by!s}
-      - from {params.min_date} onwards
-      - excluding strains in {input.exclude}
-      - minimum genome length of {params.min_length}
-    """
+rule subsample:
     input:
         config = "results/genome/subsample_config.yaml",
         sequences = "results/sequences.fasta",
         metadata = "results/metadata.tsv",
         referenced_files = get_referenced_files("results/genome/subsample_config.yaml"),
     output:
-        sequences = "results/genome/filtered.fasta"
+        sequences = "results/genome/subsampled.fasta"
     params:
         strain_id = config["strain_id_field"]
     shell:
@@ -38,7 +31,7 @@ rule align:
       - filling gaps with N
     """
     input:
-        sequences = "results/genome/filtered.fasta",
+        sequences = "results/genome/subsampled.fasta",
         reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
     output:
         alignment = "results/genome/aligned.fasta"
