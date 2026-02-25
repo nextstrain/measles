@@ -3,7 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
-from augur.subsample import get_referenced_files
+from augur.subsample import get_referenced_files, get_parallelism
 
 rule align_and_extract_N450:
     input:
@@ -35,6 +35,7 @@ rule subsample_N450:
         sequences = "results/N450/aligned.fasta"
     params:
         strain_id = config["strain_id_field"]
+    threads: get_parallelism("results/N450/subsample_config.yaml", limit=workflow.cores)
     shell:
         """
         augur subsample \
@@ -42,5 +43,6 @@ rule subsample_N450:
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
+            --nthreads {threads} \
             --output-sequences {output.sequences} \
         """
