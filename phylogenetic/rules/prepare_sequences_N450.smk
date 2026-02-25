@@ -3,6 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
+from augur.subsample import get_referenced_files
 
 rule align_and_extract_N450:
     input:
@@ -33,19 +34,18 @@ rule filter_N450:
       - excluding strains with missing region, country or date metadata
     """
     input:
-        config = "results/run_config.yaml",
+        config = "results/N450/subsample_config.yaml",
         sequences = "results/N450/sequences.fasta",
-        metadata = "results/metadata.tsv"
+        metadata = "results/metadata.tsv",
+        referenced_files = get_referenced_files("results/N450/subsample_config.yaml"),
     output:
         sequences = "results/N450/aligned.fasta"
     params:
-        config_section = ["custom_subsample" if config.get("custom_subsample") else "subsample", "N450"],
         strain_id = config["strain_id_field"]
     shell:
         """
         augur subsample \
             --config {input.config} \
-            --config-section {params.config_section:q} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
