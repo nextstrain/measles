@@ -14,7 +14,7 @@ rule align_and_extract_N450:
     params:
         min_length = config["align_and_extract_N450"]["min_length"]
     shell:
-        """
+        r"""
         nextclade run \
            -j 1 \
            --input-ref {input.reference} \
@@ -36,7 +36,7 @@ rule subsample_N450:
     params:
         strain_id = config["strain_id_field"]
     shell:
-        """
+        r"""
         augur subsample \
             --config {input.config} \
             --sequences {input.sequences} \

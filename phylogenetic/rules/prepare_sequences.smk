@@ -16,7 +16,7 @@ rule subsample:
     params:
         strain_id = config["strain_id_field"]
     shell:
-        """
+        r"""
         augur subsample \
             --config {input.config} \
             --sequences {input.sequences} \
@@ -36,7 +36,7 @@ rule align:
     output:
         alignment = "results/genome/aligned.fasta"
     shell:
-        """
+        r"""
         augur align \
             --sequences {input.sequences} \
             --reference-sequence {input.reference} \

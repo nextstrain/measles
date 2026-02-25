@@ -29,7 +29,7 @@ rule upload_to_s3:
         cloudfront_domain=config["cloudfront_domain"],
         current_basedir = str(workflow.current_basedir),
     shell:
-        """
+        r"""
         {params.current_basedir}/../../../shared/vendored/scripts/upload-to-s3 \
             {params.quiet} \
             {input.file_to_upload:q} \

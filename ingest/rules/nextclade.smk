@@ -140,7 +140,7 @@ rule extract_ppx_data:
         # none of the data is restricted
         empty_output = lambda w: "warn" if w.ppx_dut == "restricted" else "error",
     shell:
-        """
+        r"""
         augur filter --metadata {input.metadata} \
                      --sequences {input.sequences} \
                      --metadata-id-columns accession \

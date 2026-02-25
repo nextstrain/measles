@@ -101,7 +101,7 @@ rule subset_metadata:
     params:
         metadata_fields=",".join(config["curate"]["ppx_metadata_columns"]),
     shell:
-        """
+        r"""
         csvtk cut -t -f {params.metadata_fields} \
             {input.metadata} > {output.subset_metadata}
         """

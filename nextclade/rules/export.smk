@@ -22,7 +22,7 @@ rule export:
         strain_id = config["strain_id_field"],
         metadata_columns = config["export"]["metadata_columns"]
     shell:
-        """
+        r"""
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \

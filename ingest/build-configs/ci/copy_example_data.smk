@@ -4,7 +4,7 @@ rule copy_example_data:
     output:
         ncbi_dataset=temp("data/ncbi_dataset.zip")
     shell:
-        """
+        r"""
         cp -f {input.ncbi_dataset} {output.ncbi_dataset}
         """
 

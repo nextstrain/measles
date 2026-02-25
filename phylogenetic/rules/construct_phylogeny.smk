@@ -11,7 +11,7 @@ rule tree:
     output:
         tree = "results/{build}/tree_raw.nwk"
     shell:
-        """
+        r"""
         augur tree \
             --alignment {input.alignment} \
             --output {output.tree}
@@ -38,7 +38,7 @@ rule refine:
         clock_filter_iqd = config["refine"]["clock_filter_iqd"],
         strain_id = config["strain_id_field"]
     shell:
-        """
+        r"""
         augur refine \
             --tree {input.tree} \
             --alignment {input.alignment} \

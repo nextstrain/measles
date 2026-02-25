@@ -12,7 +12,7 @@ rule download:
         sequences_url = "https://data.nextstrain.org/files/workflows/measles/sequences.fasta.zst",
         metadata_url = "https://data.nextstrain.org/files/workflows/measles/metadata.tsv.zst"
     shell:
-        """
+        r"""
         curl -fsSL --compressed {params.sequences_url:q} --output {output.sequences}
         curl -fsSL --compressed {params.metadata_url:q} --output {output.metadata}
         """
@@ -26,7 +26,7 @@ rule decompress:
         sequences = "data/sequences.fasta",
         metadata = "data/metadata.tsv"
     shell:
-        """
+        r"""
         zstd -d -c {input.sequences} > {output.sequences}
         zstd -d -c {input.metadata} > {output.metadata}
         """
@@ -42,7 +42,7 @@ rule align_and_extract_N450:
         min_length = config['align_and_extract_N450']['min_length']
     threads: workflow.cores
     shell:
-        """
+        r"""
         nextclade3 run \
            --jobs {threads} \
            --input-ref {input.reference} \
@@ -68,7 +68,7 @@ rule filter:
         min_length = config["filter"]["min_length"],
         strain_id = config["strain_id_field"]
     shell:
-        """
+        r"""
         augur filter \
             --sequences {input.sequences} \
             --metadata {input.metadata} \

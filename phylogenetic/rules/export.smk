@@ -14,7 +14,7 @@ rule colors:
     output:
         colors = "results/colors.tsv"
     shell:
-        """
+        r"""
         python3 {workflow.basedir}/scripts/assign-colors.py \
             --ordering {input.ordering} \
             --color-schemes {input.color_schemes} \
@@ -41,7 +41,7 @@ rule export:
         metadata_columns = config["export"]["metadata_columns"],
         traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
     shell:
-        """
+        r"""
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
@@ -71,7 +71,7 @@ rule tip_frequencies:
     output:
         tip_freq = "auspice/measles_{build}_tip-frequencies.json"
     shell:
-        """
+        r"""
         augur frequencies \
             --method kde \
             --tree {input.tree} \

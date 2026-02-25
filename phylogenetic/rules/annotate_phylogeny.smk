@@ -15,7 +15,7 @@ rule ancestral:
     params:
         inference = config["ancestral"]["inference"]
     shell:
-        """
+        r"""
         augur ancestral \
             --tree {input.tree} \
             --alignment {input.alignment} \
@@ -32,7 +32,7 @@ rule translate:
     output:
         node_data = "results/{build}/aa_muts.json"
     shell:
-        """
+        r"""
         augur translate \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
@@ -54,7 +54,7 @@ rule traits:
         sampling_bias_correction = config["traits"]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     shell:
-        """
+        r"""
         augur traits \
             --tree {input.tree} \
             --metadata {input.metadata} \

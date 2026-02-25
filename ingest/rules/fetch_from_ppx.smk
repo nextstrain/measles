@@ -6,7 +6,7 @@ rule download_ppx_seqs:
     # Allow retries in case of network errors
     retries: 5
     shell:
-        """
+        r"""
         curl -fsSL {params.sequences_url:q} -o {output.sequences}
         """
 
@@ -19,7 +19,7 @@ rule download_ppx_meta:
     # Allow retries in case of network errors
     retries: 5
     shell:
-        """
+        r"""
         curl -fsSL '{params.metadata_url}&fields={params.fields}' \
         | csvtk mutate2 -n is_reference -e '""' > {output.metadata}
         """
@@ -33,7 +33,7 @@ rule format_ppx_ndjson:
     log:
         "logs/format_ppx_ndjson.txt"
     shell:
-        """
+        r"""
         augur curate passthru \
             --metadata {input.metadata} \
             --fasta {input.sequences} \

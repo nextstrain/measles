@@ -16,7 +16,7 @@ rule ancestral:
         inference = config["ancestral"]["inference"],
         reference_fasta = resolve_config_path(config["files"]["reference_N450_fasta"])
     shell:
-        """
+        r"""
         augur ancestral \
             --tree {input.tree} \
             --alignment {input.alignment} \
@@ -34,7 +34,7 @@ rule translate:
     output:
         node_data = "results/aa_muts.json"
     shell:
-        """
+        r"""
         augur translate \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
@@ -51,7 +51,7 @@ rule clades:
     output:
         clades = "results/clades.json"
     shell:
-        """
+        r"""
         augur clades \
             --tree {input.tree} \
             --mutations {input.nt_muts} {input.aa_muts} \
