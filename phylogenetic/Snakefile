@@ -24,8 +24,10 @@ rule all:
 
 include: "../shared/vendored/snakemake/remote_files.smk"
 include: "rules/merge_inputs.smk"
-include: "rules/prepare_sequences.smk"
-include: "rules/prepare_sequences_N450.smk"
+if "genome" in builds:
+    include: "rules/prepare_sequences.smk"
+if "N450" in builds:
+    include: "rules/prepare_sequences_N450.smk"
 include: "rules/construct_phylogeny.smk"
 include: "rules/annotate_phylogeny.smk"
 include: "rules/export.smk"
