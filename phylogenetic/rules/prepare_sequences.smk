@@ -3,7 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
-from augur.subsample import get_referenced_files
+from augur.subsample import get_referenced_files, get_parallelism
 
 rule subsample:
     input:
@@ -15,6 +15,7 @@ rule subsample:
         sequences = "results/genome/subsampled.fasta"
     params:
         strain_id = config["strain_id_field"]
+    threads: get_parallelism("results/genome/subsample_config.yaml", limit=workflow.cores)
     shell:
         """
         augur subsample \
@@ -22,6 +23,7 @@ rule subsample:
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
+            --nthreads {threads} \
             --output-sequences {output.sequences} \
         """
 
