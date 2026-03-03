@@ -12,9 +12,16 @@ VALID_BUILDS = {"genome", "N450"}
 
 
 def main():
+    normalize_config()
     validate_config()
     write_subsample_config()
     write_config("results/run_config.yaml")
+
+
+def normalize_config():
+    # Normalize scalar string to a single-item list
+    if isinstance(config['builds'], str):
+        config['builds'] = [config['builds']]
 
 
 def validate_config():
