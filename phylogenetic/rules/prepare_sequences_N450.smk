@@ -18,7 +18,7 @@ rule align_and_extract_N450:
     benchmark:
         "benchmarks/align_and_extract_N450.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         nextclade run \
@@ -46,7 +46,7 @@ rule subsample_N450:
     benchmark:
         "benchmarks/subsample_N450.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur subsample \
@@ -54,5 +54,5 @@ rule subsample_N450:
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output-sequences {output.sequences} \
+            --output-sequences {output.sequences}
         """

@@ -18,7 +18,7 @@ rule colors:
     benchmark:
         "benchmarks/colors.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         python3 {workflow.basedir}/scripts/assign-colors.py \
@@ -51,7 +51,7 @@ rule export:
     benchmark:
         "benchmarks/export_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur export v2 \
@@ -87,7 +87,7 @@ rule tip_frequencies:
     benchmark:
         "benchmarks/tip_frequencies_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur frequencies \

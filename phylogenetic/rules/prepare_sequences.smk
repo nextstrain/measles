@@ -20,7 +20,7 @@ rule subsample:
     benchmark:
         "benchmarks/subsample_genome.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur subsample \
@@ -28,7 +28,7 @@ rule subsample:
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output-sequences {output.sequences} \
+            --output-sequences {output.sequences}
         """
 
 rule align:
@@ -46,7 +46,7 @@ rule align:
     benchmark:
         "benchmarks/align_genome.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur align \

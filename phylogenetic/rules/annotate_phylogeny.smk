@@ -19,7 +19,7 @@ rule ancestral:
     benchmark:
         "benchmarks/ancestral_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur ancestral \
@@ -42,14 +42,14 @@ rule translate:
     benchmark:
         "benchmarks/translate_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur translate \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
             --reference-sequence {input.reference} \
-            --output {output.node_data} \
+            --output {output.node_data}
         """
 
 rule traits:
@@ -70,7 +70,7 @@ rule traits:
     benchmark:
         "benchmarks/traits_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur traits \

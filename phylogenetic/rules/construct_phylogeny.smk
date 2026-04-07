@@ -15,7 +15,7 @@ rule tree:
     benchmark:
         "benchmarks/tree_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur tree \
@@ -48,7 +48,7 @@ rule refine:
     benchmark:
         "benchmarks/refine_{build}.txt",
     shell:
-        """
+        r"""
         exec &> >(tee {log:q})
 
         augur refine \
