@@ -13,8 +13,14 @@ rule colors:
         metadata = "results/metadata.tsv"
     output:
         colors = "results/colors.tsv"
+    log:
+        "logs/colors.txt",
+    benchmark:
+        "benchmarks/colors.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         python3 {workflow.basedir}/scripts/assign-colors.py \
             --ordering {input.ordering} \
             --color-schemes {input.color_schemes} \
@@ -40,8 +46,14 @@ rule export:
         strain_id = config["strain_id_field"],
         metadata_columns = config["export"]["metadata_columns"],
         traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
+    log:
+        "logs/export_{build}.txt",
+    benchmark:
+        "benchmarks/export_{build}.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur export v2 \
             --tree {input.tree} \
             --metadata {input.metadata} \
@@ -70,8 +82,14 @@ rule tip_frequencies:
         wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
         tip_freq = "auspice/measles_{build}_tip-frequencies.json"
+    log:
+        "logs/tip_frequencies_{build}.txt",
+    benchmark:
+        "benchmarks/tip_frequencies_{build}.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur frequencies \
             --method kde \
             --tree {input.tree} \

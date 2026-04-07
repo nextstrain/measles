@@ -10,8 +10,14 @@ rule tree:
         alignment = "results/{build}/aligned.fasta"
     output:
         tree = "results/{build}/tree_raw.nwk"
+    log:
+        "logs/tree_{build}.txt",
+    benchmark:
+        "benchmarks/tree_{build}.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur tree \
             --alignment {input.alignment} \
             --output {output.tree}
@@ -37,8 +43,14 @@ rule refine:
         date_inference = config["refine"]["date_inference"],
         clock_filter_iqd = config["refine"]["clock_filter_iqd"],
         strain_id = config["strain_id_field"]
+    log:
+        "logs/refine_{build}.txt",
+    benchmark:
+        "benchmarks/refine_{build}.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur refine \
             --tree {input.tree} \
             --alignment {input.alignment} \

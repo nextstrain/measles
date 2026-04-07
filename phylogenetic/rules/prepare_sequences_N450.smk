@@ -13,8 +13,14 @@ rule align_and_extract_N450:
         sequences = "results/N450/sequences.fasta"
     params:
         min_length = config["align_and_extract_N450"]["min_length"]
+    log:
+        "logs/align_and_extract_N450.txt",
+    benchmark:
+        "benchmarks/align_and_extract_N450.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         nextclade run \
            -j 1 \
            --input-ref {input.reference} \
@@ -35,12 +41,18 @@ rule subsample_N450:
         sequences = "results/N450/aligned.fasta"
     params:
         strain_id = config["strain_id_field"]
+    log:
+        "logs/subsample_N450.txt",
+    benchmark:
+        "benchmarks/subsample_N450.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur subsample \
             --config {input.config} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output-sequences {output.sequences} \
+            --output-sequences {output.sequences}
         """

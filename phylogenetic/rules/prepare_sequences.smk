@@ -15,14 +15,20 @@ rule subsample:
         sequences = "results/genome/subsampled.fasta"
     params:
         strain_id = config["strain_id_field"]
+    log:
+        "logs/subsample_genome.txt",
+    benchmark:
+        "benchmarks/subsample_genome.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur subsample \
             --config {input.config} \
             --sequences {input.sequences} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output-sequences {output.sequences} \
+            --output-sequences {output.sequences}
         """
 
 rule align:
@@ -35,8 +41,14 @@ rule align:
         reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
     output:
         alignment = "results/genome/aligned.fasta"
+    log:
+        "logs/align_genome.txt",
+    benchmark:
+        "benchmarks/align_genome.txt",
     shell:
-        """
+        r"""
+        exec &> >(tee {log:q})
+
         augur align \
             --sequences {input.sequences} \
             --reference-sequence {input.reference} \
