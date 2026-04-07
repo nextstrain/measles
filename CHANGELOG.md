@@ -8,6 +8,8 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
+* 7 April 2026: phylogenetic - bump default `refine.clock_filter_iqd` to 6 to include
+  more samples in build, i.e. to make sure B3 does not get dropped from genome builds. [#116][]
 * 6 March 2026: Fixed support for workflow configurations that use a subset of builds. [#113][]
 * 25 February 2026: Changes to files referenced in `subsample` config will trigger a re-run of the rule. [#90][]
 * 25 February 2026: Changes to non-subsampling config will no longer trigger a re-run starting from subsampling. [#91][]
@@ -40,6 +42,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#107]: https://github.com/nextstrain/measles/pull/107
 [#108]: https://github.com/nextstrain/measles/pull/108
 [#113]: https://github.com/nextstrain/measles/pull/113
+[#116]: https://github.com/nextstrain/measles/pull/116
 [530da56]: https://github.com/nextstrain/measles/commit/530da568d8014c08e73f31065a8fa96e5c2d2f20
 [1cf1299...0313508]: https://github.com/nextstrain/measles/compare/1cf1299e1658140d9317fc9063f1e06ef04a6ee1...03135085aed310f1cb0d3ecb2dca342e6ec8f51d
 [Pathoplexus]: https://pathoplexus.org
