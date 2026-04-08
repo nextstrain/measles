@@ -14,14 +14,14 @@ Follow the [standard installation instructions](https://docs.nextstrain.org/en/l
 
 After you've installed the Nextstrain CLI, you can set up measles with
 
-   nextstrain setup measles
+    nextstrain setup measles
 
 ## Quickstart
 
 Run the default phylogenetic workflow via:
 
-   nextstrain run measles phylogenetic measles-analysis
-   nextstrain view measles-analysis
+    nextstrain run measles phylogenetic measles-analysis
+    nextstrain view measles-analysis
 
 ## Documentation
 
@@ -37,12 +37,12 @@ If you will be writing new code or otherwise working within this repo,
 please do the following to get started:
 
 1. install `pre-commit` by running either `python -m pip install
-   pre-commit` or `brew install pre-commit`, depending on your
-   preferred package management solution
+    pre-commit` or `brew install pre-commit`, depending on your
+    preferred package management solution
 2. install the local git hooks by running `pre-commit install` from
-   the root of the repo
+    the root of the repo
 3. when problems are detected, correct them in your local working tree
-   before committing them.
+    before committing them.
 
 Note that these pre-commit checks are also run in a GitHub Action when
 changes are pushed to GitHub, so correcting issues locally will
