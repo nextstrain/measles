@@ -13,48 +13,30 @@ files:
 align_and_extract_N450:
     min_length: 400
 subsample:
-    genome:
-        samples:
-            early:
-                max_sequences: 2000
-                min_date: 1950
-                max_date: 5Y
-                min_length: 5000
-                group_by:
-                    - country
-                    - year
-                include: include_strains_genome.txt
-                exclude: dropped_strains.txt
-            late:
-                max_sequences: 2000
-                min_date: 5Y
-                min_length: 5000
-                group_by:
-                    - country
-                    - year
-                include: include_strains_genome.txt
-                exclude: dropped_strains.txt
-    N450:
-        samples:
-            early:
-                max_sequences: 2000
-                min_date: 1950
-                max_date: 5Y
-                min_length: 400
-                group_by:
-                    - country
-                    - year
-                include: include_strains_N450.txt
-                exclude: dropped_strains.txt
-            late:
-                max_sequences: 2000
-                min_date: 5Y
-                min_length: 400
-                group_by:
-                    - country
-                    - year
-                include: include_strains_N450.txt
-                exclude: dropped_strains.txt
+  - dataset: '*'
+    group_by:
+        - country
+        - year
+    exclude: dropped_strains.txt
+
+  - dataset: '*'
+    samples:
+      early:
+        max_sequences: 2000
+        min_date: 1950
+        max_date: 5Y
+      late:
+        max_sequences: 2000
+        min_date: 5Y
+
+  - dataset: genome
+    include: include_strains_genome.txt
+    min_length: 5000
+
+  - dataset: N450
+    include: include_strains_N450.txt
+    min_length: 400
+
 refine:
     coalescent: "opt"
     date_inference: "marginal"
