@@ -12,35 +12,42 @@ files:
     description: "description.md"
 align_and_extract_N450:
     min_length: 400
+# Each option maps dataset patterns to values. Patterns use the format '<build>',
+# where each part is a literal value or '*' (any). Patterns are applied top-to-bottom:
+# last value wins, except 'query' (AND-concatenated) and list options (extended).
+# A scalar/list value applies to all samples; a dict value maps sample name to value.
 subsample:
-  - dataset: '*'
-    group_by:
-        - country
-        - year
-    exclude: dropped_strains.txt
-
-  - dataset: '*'
-    samples:
-      early:
-        max_sequences: 2000
-        min_date: 1950
-        max_date: 5Y
-      late:
-        max_sequences: 2000
-        min_date: 5Y
-
-  - dataset: genome
-    include: include_strains_genome.txt
-    min_length: 5000
-
-  - dataset: N450
-    include: include_strains_N450.txt
-    min_length: 400
+  group_by:
+    '*':
+      - country
+      - year
+  exclude:
+    '*': dropped_strains.txt
+  max_sequences:
+    '*':
+      early: 2000
+      late: 2000
+  min_date:
+    '*':
+      early: 1950
+      late: 5Y
+  max_date:
+    '*':
+      early: 5Y
+  include:
+    genome: include_strains_genome.txt
+    N450: include_strains_N450.txt
+  min_length:
+    genome: 5000
+    N450: 400
 
 refine:
-    coalescent: "opt"
-    date_inference: "marginal"
-    clock_filter_iqd: 6
+  coalescent:
+    '*': "opt"
+  date_inference:
+    '*': "marginal"
+  clock_filter_iqd:
+    '*': 6
 ancestral:
     inference: "joint"
 # trait reconstruction applies only to the "genome" build
