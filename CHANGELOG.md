@@ -8,6 +8,11 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
+* 17 April 2026: phylogenetic - backwards compatible changes to support build specific refine params. [#122][]
+    - Build specific params can be defined as `refine.<build>.<param_name>`
+    - Previous refine params for all builds (`refine.<param_name>`) still work as expected
+    - Increase genome `clock_filter_iqd` to 8 to include more B3s
+    - Resets N450 `clock_filter_iqd` to 4 to continue to filter out outliers
 * 7 April 2026: phylogenetic - bump default `refine.clock_filter_iqd` to 6 to include
   more samples in build, i.e. to make sure B3 does not get dropped from genome builds. [#116][]
 * 6 March 2026: Fixed support for workflow configurations that use a subset of builds. [#113][]
@@ -43,6 +48,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 [#108]: https://github.com/nextstrain/measles/pull/108
 [#113]: https://github.com/nextstrain/measles/pull/113
 [#116]: https://github.com/nextstrain/measles/pull/116
+[#122]: https://github.com/nextstrain/measles/pull/122
 [530da56]: https://github.com/nextstrain/measles/commit/530da568d8014c08e73f31065a8fa96e5c2d2f20
 [1cf1299...0313508]: https://github.com/nextstrain/measles/compare/1cf1299e1658140d9317fc9063f1e06ef04a6ee1...03135085aed310f1cb0d3ecb2dca342e6ec8f51d
 [Pathoplexus]: https://pathoplexus.org
