@@ -59,11 +59,11 @@ refine:
     genome:
         coalescent: "opt"
         date_inference: "marginal"
-        clock_filter_iqd: 6
+        clock_filter_iqd: 8
     N450:
         coalescent: "opt"
         date_inference: "marginal"
-        clock_filter_iqd: 6
+        clock_filter_iqd: 4
 ancestral:
     inference: "joint"
 # trait reconstruction applies only to the "genome" build
