@@ -23,6 +23,34 @@ rule tree:
             --output {output.tree}
         """
 
+def _get_refine_param(param_name):
+    """
+    Get refine param in a backwards compatible manner. Config can define:
+    1. params for all builds (old)
+
+        refine:
+            <param_name>: ...
+
+    2. build specific params (new)
+
+        refine:
+            <build>:
+                <param_name>: ...
+    """
+    def _inner(wildcards):
+        # Check for the old format first so that users don't need to update their
+        # configs unless they want to
+        if (all_build_param := config["refine"].get(param_name)) is not None:
+            return all_build_param
+
+        if (build_param := config["refine"].get(wildcards.build, {}).get(param_name)) is not None:
+            return build_param
+
+        raise Exception(f"Could not parse config param {param_name!r} for refine rule.",
+                        f"It should be defined as `refine.{param_name}` or `refine.{wildcards.build}.{param_name}`")
+    return _inner
+
+
 rule refine:
     """
     Refining tree
@@ -39,9 +67,9 @@ rule refine:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/branch_lengths.json"
     params:
-        coalescent = config["refine"]["coalescent"],
-        date_inference = config["refine"]["date_inference"],
-        clock_filter_iqd = config["refine"]["clock_filter_iqd"],
+        coalescent = _get_refine_param("coalescent"),
+        date_inference = _get_refine_param("date_inference"),
+        clock_filter_iqd = _get_refine_param("clock_filter_iqd"),
         strain_id = config["strain_id_field"]
     log:
         "logs/refine_{build}.txt",

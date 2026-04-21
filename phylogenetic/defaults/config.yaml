@@ -56,9 +56,14 @@ subsample:
                 include: include_strains_N450.txt
                 exclude: dropped_strains.txt
 refine:
-    coalescent: "opt"
-    date_inference: "marginal"
-    clock_filter_iqd: 6
+    genome:
+        coalescent: "opt"
+        date_inference: "marginal"
+        clock_filter_iqd: 8
+    N450:
+        coalescent: "opt"
+        date_inference: "marginal"
+        clock_filter_iqd: 4
 ancestral:
     inference: "joint"
 # trait reconstruction applies only to the "genome" build
