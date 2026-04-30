@@ -1,8 +1,7 @@
 {
-  "title": "Real-time tracking of measles full genome virus evolution",
+  "title": "Genomic surveillance of 2025-2026 US measles outbreak",
   "maintainers": [
-    {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
-    {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
+    {"name": "Trevor Bedford", "url": "https://bedford.io/team/trevor-bedford/"}
   ],
   "data_provenance": [
     {
@@ -64,7 +63,8 @@
   ],
   "display_defaults": {
     "map_triplicate": true,
-    "color_by": "clade"
+    "color_by": "division",
+    "geo_resolution": "division"
   },
   "filters": [
     "clade",
