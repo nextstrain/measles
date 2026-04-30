@@ -91,5 +91,6 @@ rule refine:
             --date-confidence \
             --date-inference {params.date_inference} \
             --clock-filter-iqd {params.clock_filter_iqd} \
-            --stochastic-resolve
+            --stochastic-resolve \
+            --clock-rate "0.000425"
         """

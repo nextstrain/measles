@@ -1,4 +1,4 @@
-builds: ['genome', 'N450']
+builds: ['genome']
 strain_id_field: "accession"
 inputs:
   - name: ppx_open
@@ -15,55 +15,20 @@ align_and_extract_N450:
 subsample:
     genome:
         samples:
-            early:
-                max_sequences: 2000
-                min_date: 1950
-                max_date: 5Y
+            late:
+                max_sequences: 20
+                min_date: "2025-01-01"
                 min_length: 5000
                 group_by:
-                    - country
+                    - division
                     - year
-                include: include_strains_genome.txt
-                exclude: dropped_strains.txt
-            late:
-                max_sequences: 2000
-                min_date: 5Y
-                min_length: 5000
-                group_by:
-                    - country
-                    - year
-                include: include_strains_genome.txt
-                exclude: dropped_strains.txt
-    N450:
-        samples:
-            early:
-                max_sequences: 2000
-                min_date: 1950
-                max_date: 5Y
-                min_length: 400
-                group_by:
-                    - country
-                    - year
-                include: include_strains_N450.txt
-                exclude: dropped_strains.txt
-            late:
-                max_sequences: 2000
-                min_date: 5Y
-                min_length: 400
-                group_by:
-                    - country
-                    - year
-                include: include_strains_N450.txt
+                exclude_where: "genotype_ppx != D8"
                 exclude: dropped_strains.txt
 refine:
     genome:
         coalescent: "opt"
         date_inference: "marginal"
         clock_filter_iqd: 8
-    N450:
-        coalescent: "opt"
-        date_inference: "marginal"
-        clock_filter_iqd: 4
 ancestral:
     inference: "joint"
 # trait reconstruction applies only to the "genome" build
