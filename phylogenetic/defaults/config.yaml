@@ -16,7 +16,7 @@ subsample:
     genome:
         samples:
             late:
-                max_sequences: 500
+                max_sequences: 2000
                 min_date: "2025-01-01"
                 min_length: 5000
                 group_by:
@@ -25,6 +25,7 @@ subsample:
                 exclude_where:
                     - "genotype_ppx!=D8"
                     - "region!=North America"
+                include: include_strains_genome.txt
                 exclude: dropped_strains.txt
 refine:
     genome:

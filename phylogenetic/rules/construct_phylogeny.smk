@@ -92,5 +92,6 @@ rule refine:
             --date-inference {params.date_inference} \
             --clock-filter-iqd {params.clock_filter_iqd} \
             --stochastic-resolve \
-            --clock-rate "0.000425"
+            --clock-rate "0.000425" \
+            --root "PP_003QHNN"
         """
