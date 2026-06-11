@@ -45,11 +45,13 @@ rule align:
         "logs/align_genome.txt",
     benchmark:
         "benchmarks/align_genome.txt",
+    threads: workflow.cores
     shell:
         r"""
         exec &> >(tee {log:q})
 
         augur align \
+            --nthreads {threads} \
             --sequences {input.sequences} \
             --reference-sequence {input.reference} \
             --output {output.alignment} \
