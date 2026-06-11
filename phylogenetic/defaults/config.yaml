@@ -4,6 +4,7 @@ inputs:
   - name: ppx_open
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
+
 files:
     reference: "measles_reference_{build}.gb"
     reference_fasta: "measles_reference_{build}.fasta"
@@ -80,4 +81,4 @@ tip_frequencies:
     narrow_bandwidth: 0.2
     wide_bandwidth: 0.6
 export:
-    metadata_columns: "strain division location dataUseTerms dataUseTerms__url restrictedUntil PPX_accession INSDC_accession"
+    metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
