@@ -35,7 +35,7 @@ rule translate:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
         # reference uses wildcard gene_or_genome, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene_or_genome': get_gene_or_genome(w)})        
+        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene_or_genome': get_gene_or_genome(w)})
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
@@ -60,11 +60,9 @@ rule traits:
         metadata = "results/metadata.tsv"
     output:
         node_data = "results/{build}/traits.json"
-    wildcard_constraints:
-        build = "genome"
     params:
-        columns = config["traits"]["columns"],
-        sampling_bias_correction = config["traits"]["sampling_bias_correction"],
+        columns = lambda w: config["traits"][w.build]["columns"],
+        sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
         "logs/traits_{build}.txt",

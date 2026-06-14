@@ -1,4 +1,4 @@
-builds: ['genome', 'N450']
+builds: ['genome', 'N450', 'north-america']
 strain_id_field: "accession"
 inputs:
   - name: ppx_open
@@ -20,7 +20,7 @@ files:
 build_to_gene_or_genome:
   N450: N450
   genome: genome
-
+  north-america: genome
 
 nextclade:
   # key represents {gene_or_genome} wildcard
@@ -55,6 +55,20 @@ subsample:
                     - year
                 include: include_strains_genome.txt
                 exclude: dropped_strains.txt
+    north-america:
+        samples:
+            late:
+                max_sequences: 2000
+                min_date: "2025-01-01"
+                min_length: 5000
+                group_by:
+                    - division
+                    - year
+                exclude_where:
+                    - "genotype_ppx!=D8"
+                    - "region!=North America"
+                include: include_strains_north-america.txt
+                exclude: dropped_strains.txt
     N450:
         samples:
             early:
@@ -77,28 +91,57 @@ subsample:
                 include: include_strains_N450.txt
                 exclude: dropped_strains.txt
 refine:
-    genome:
-        coalescent: "opt"
-        date_inference: "marginal"
-        clock_filter_iqd: 8
-        divergence_units: "mutations-per-site"
-    N450:
-        coalescent: "opt"
-        date_inference: "marginal"
-        clock_filter_iqd: 4
-        divergence_units: "mutations-per-site"
+    genome: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 8
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+    north-america: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 8
+        --clock-rate 0.000425
+        --root PP_003QHNN
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+    N450: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 4
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+
+
 ancestral:
     inference: "joint"
-# trait reconstruction applies only to the "genome" build
+
+# per-build traits. If you wish traits to be skipped you must use a `False` value
+# (to avoid accidentally forgetting to fill out this part of the config)
 traits:
-    columns:
-        - country
-        - region
-    sampling_bias_correction: 3
+    genome:
+        columns:
+            - country
+            - region
+        sampling_bias_correction: 3
+    north-america:
+        columns:
+            - division
+        sampling_bias_correction: 3
+    N450: False
+
+
 tip_frequencies:
     min_date: "2000-01-01"
     max_date: "6M"
     narrow_bandwidth: 0.2
     wide_bandwidth: 0.6
+
 export:
     metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"

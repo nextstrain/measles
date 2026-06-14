@@ -28,15 +28,25 @@ rule colors:
             --output {output.colors}
         """
 
+def node_data_jsons(wildcards):
+    jsons = [
+        f"results/{wildcards.build}/branch_lengths.json",
+        f"results/{wildcards.build}/nt_muts.json",
+        f"results/{wildcards.build}/aa_muts.json",
+    ]
+    if wildcards.build not in config['traits']:
+        raise Exception(f"config.traits must define an entry for build {wildcards.build!r}")
+    if config['traits'][wildcards.build] is not False:
+        jsons.append(f"results/{wildcards.build}/traits.json",)
+    return jsons
+    
+
 rule export:
     """Exporting data files for for auspice"""
     input:
         tree = "results/{build}/tree.nwk",
         metadata = "results/metadata.tsv",
-        branch_lengths = "results/{build}/branch_lengths.json",
-        nt_muts = "results/{build}/nt_muts.json",
-        aa_muts = "results/{build}/aa_muts.json",
-        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else [],
+        node_data_jsons = node_data_jsons,
         colors = "results/colors.tsv",
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
@@ -45,7 +55,6 @@ rule export:
     params:
         strain_id = config["strain_id_field"],
         metadata_columns = config["export"]["metadata_columns"],
-        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
     log:
         "logs/export_{build}.txt",
     benchmark:
@@ -58,7 +67,7 @@ rule export:
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {params.traits} \
+            --node-data {input.node_data_jsons} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
             --auspice-config {input.auspice_config} \
