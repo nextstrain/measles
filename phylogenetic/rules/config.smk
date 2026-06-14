@@ -5,11 +5,6 @@ OUTPUTS:
 
     results/run_config.yaml
 """
-from textwrap import dedent
-
-
-VALID_BUILDS = {"genome", "N450"}
-
 
 def main():
     normalize_config()
@@ -32,17 +27,7 @@ def validate_config():
     to provide useful error messages for common user errors and effects of
     breaking changes.
     """
-    # Validate 'builds'
-    if invalid_builds := set(config['builds']) - VALID_BUILDS:
-        raise InvalidConfigError(dedent(f"""\
-            The following names in 'builds' are not valid:
-
-                {indented_list(invalid_builds, "                ")}
-
-            Valid builds are:
-
-                {indented_list(VALID_BUILDS, "                ")}
-            """))
+    pass
 
 
 def write_subsample_config():
@@ -52,10 +37,6 @@ def write_subsample_config():
         else:
             section = ["subsample", build]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
-
-
-def indented_list(xs, prefix):
-    return f"\n{prefix}".join(xs)
 
 
 try:
