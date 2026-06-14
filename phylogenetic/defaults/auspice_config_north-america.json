@@ -1,0 +1,78 @@
+{
+  "title": "Genomic surveillance of 2025-2026 North America measles outbreak",
+  "maintainers": [
+    {"name": "Trevor Bedford", "url": "https://bedford.io/team/trevor-bedford/"}
+  ],
+  "data_provenance": [
+    {
+      "name": "GenBank",
+      "url": "https://www.ncbi.nlm.nih.gov/genbank/"
+    },
+    {
+      "name": "Pathoplexus",
+      "url": "https://pathoplexus.org"
+    }
+  ],
+  "build_url": "https://github.com/nextstrain/measles",
+  "colorings": [
+    {
+      "key": "gt",
+      "title": "Genotype",
+      "type": "categorical"
+    },
+    {
+      "key": "num_date",
+      "title": "Date",
+      "type": "continuous"
+    },
+    {
+      "key": "clade",
+      "title": "MeV Genotype (Nextstrain)",
+      "type": "categorical"
+    },
+    {
+      "key": "region",
+      "title": "Region",
+      "type": "categorical"
+    },
+    {
+      "key": "country",
+      "title": "Country",
+      "type": "categorical"
+    },
+    {
+      "key": "division",
+      "title": "Division",
+      "type": "categorical"
+    },
+    {
+      "key": "dataUseTerms",
+      "title": "Data use terms",
+      "type": "categorical"
+    },
+    {
+      "key": "genotype_ppx",
+      "title": "MeV Genotype (PPX metadata)",
+      "type": "categorical"
+    }
+  ],
+  "geo_resolutions": [
+    "region",
+    "country",
+    "division"
+  ],
+  "display_defaults": {
+    "map_triplicate": false,
+    "color_by": "division",
+    "geo_resolution": "division"
+  },
+  "filters": [
+    "clade",
+    "region",
+    "country",
+    "author"
+  ],
+  "metadata_columns": [
+    "author"
+  ]
+}
