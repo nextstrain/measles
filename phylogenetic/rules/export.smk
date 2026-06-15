@@ -39,7 +39,11 @@ def node_data_jsons(wildcards):
     if config['traits'][wildcards.build] is not False:
         jsons.append(f"results/{wildcards.build}/traits.json",)
     return jsons
-    
+
+def warning(wildcards):
+    if value:=config["export"][wildcards.build].get("warning", False):
+        return f"--warning {value!r}"
+    return ''
 
 rule export:
     """Exporting data files for for auspice"""
@@ -54,7 +58,8 @@ rule export:
         auspice_json = "auspice/measles_{build}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = config["export"]["metadata_columns"],
+        metadata_columns = lambda w: config["export"][w.build]["metadata_columns"],
+        warning = warning,
     log:
         "logs/export_{build}.txt",
     benchmark:
@@ -70,6 +75,7 @@ rule export:
             --node-data {input.node_data_jsons} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
+            {params.warning} \
             --auspice-config {input.auspice_config} \
             --include-root-sequence-inline \
             --output {output.auspice_json} \
