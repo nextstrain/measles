@@ -1,4 +1,4 @@
-builds: ['genome', 'N450', 'north-america', 'north-america-outbreak-example']
+builds: ['genome', 'N450', 'north-america']
 strain_id_field: "accession"
 inputs:
   - name: ppx_open
@@ -21,7 +21,6 @@ build_to_gene_or_genome:
   N450: N450
   genome: genome
   north-america: genome
-  north-america-outbreak-example: genome
 
 nextclade:
   # key represents {gene_or_genome} wildcard
@@ -70,30 +69,6 @@ subsample:
                     - "region!=North America"
                 include: include_strains_north-america.txt
                 exclude: dropped_strains.txt
-    north-america-outbreak-example:
-        samples:
-            genotype-d8:
-                exclude_where:
-                    - "genotype_ppx!=D8"
-                exclude: dropped_strains.txt
-                drop_sample: true
-            background:
-                context_sample: genotype-d8
-                max_sequences: 500
-                group_by:
-                    - region
-                    - year
-            montana-outbreak:
-                context_sample: genotype-d8
-                min_date: "2025-01-01"
-                exclude_where:
-                    - "division!=Montana"
-            nearest-strains:
-                method: hamming
-                focal_sample: montana-outbreak
-                context_sample: genotype-d8
-                k: 20
-                ignore_missing_data: all
     N450:
         samples:
             early:
@@ -132,13 +107,6 @@ refine:
         --clock-rate 0.000425
         --root PP_003QHNN
         --stochastic-resolve
-    north-america-outbreak-example:
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
     N450:
         --timetree
         --coalescent opt
@@ -163,10 +131,6 @@ traits:
         columns:
             - division
         sampling_bias_correction: 3
-    north-america-outbreak-example:
-        columns:
-            - division
-        sampling_bias_correction: 3
     N450: False
 
 
@@ -181,10 +145,5 @@ export:
         metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
     north-america:
       <<: *general_export
-    north-america-outbreak-example:
-      <<: *general_export
-      warning: >-
-        This dataset represents an example usage of augur subsample with proximity sampling
-        to focus on Montana measles cases
     N450:
       <<: *general_export

@@ -1,0 +1,66 @@
+# Stand-alone build config demonstrating `augur subsample` proximity sampling.
+#
+# This produces a single 'north-america-outbreak-example' build that focuses on
+# Montana measles cases alongside their nearest genetic context
+
+builds: ['north-america-outbreak-example']
+
+# We use PPX restricted data for this example
+additional_inputs:
+  - name: ppx_restricted
+    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
+    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
+
+build_to_gene_or_genome:
+  north-america-outbreak-example: genome
+
+files:
+    auspice_config: "auspice_config.json"
+
+subsample:
+    north-america-outbreak-example:
+        samples:
+            genotype-d8:
+                exclude_where:
+                    - "genotype_ppx!=D8"
+                exclude: dropped_strains.txt
+                drop_sample: true
+            background:
+                context_sample: genotype-d8
+                max_sequences: 500
+                group_by:
+                    - region
+                    - year
+            montana-outbreak:
+                context_sample: genotype-d8
+                min_date: "2025-01-01"
+                exclude_where:
+                    - "division!=Montana"
+            nearest-strains:
+                method: hamming
+                focal_sample: montana-outbreak
+                context_sample: genotype-d8
+                k: 20
+                ignore_missing_data: all
+
+refine:
+    north-america-outbreak-example:
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 8
+        --stochastic-resolve
+
+traits:
+    north-america-outbreak-example:
+        columns:
+            - division
+        sampling_bias_correction: 3
+
+export:
+    north-america-outbreak-example:
+      metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+      warning: >-
+        This dataset represents an example usage of augur subsample with proximity sampling
+        to focus on Montana measles cases
