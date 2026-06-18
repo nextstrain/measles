@@ -102,6 +102,10 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
             else:
                 defaults_path = os.path.join(workflow.basedir, "defaults", expanded_path)
 
+        # normalize defaults path as workflow.basedir can contain '../' which can lead to
+        # false-positives in snakemake's input triggers for different snakemake invocations
+        defaults_path = os.path.normpath(defaults_path)
+
         if os.path.exists(defaults_path):
             return defaults_path
 
