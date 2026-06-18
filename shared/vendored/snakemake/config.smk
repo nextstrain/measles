@@ -71,6 +71,9 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
     global workflow
 
     def _resolve_config_path(wildcards):
+        # keep track of searched paths for debugging purposes
+        searched_paths = []
+
         try:
             expanded_path = expand(path, **wildcards)[0]
         except snakemake.exceptions.WildcardError as e:
@@ -90,6 +93,8 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
 
         if os.path.exists(expanded_path):
             return expanded_path
+        else:
+            searched_paths.append(os.path.abspath(path))
 
         if defaults_dir:
             defaults_path = os.path.join(defaults_dir, expanded_path)
@@ -108,15 +113,26 @@ def resolve_config_path(path: str, defaults_dir: Optional[str] = None) -> Callab
 
         if os.path.exists(defaults_path):
             return defaults_path
+        else:
+            searched_paths.append(defaults_path)
 
-        raise InvalidConfigError(indent(dedent(f"""\
-            Unable to resolve the config-provided path {path!r},
-            expanded to {expanded_path!r} after filling in wildcards.
-            The workflow does not include the default file {defaults_path!r}.
+        raise InvalidConfigError(indent(dedent("""\
 
-            Hint: Check that the file {expanded_path!r} exists in your analysis
+            Unable to resolve the config-provided relative path {path}, {expanded_path_msg}.
+    
+            We searched for the following paths, none of which exist:
+            {searched}
+
+            Hint: Check that the file {expanded_path} exists in your analysis
             directory or remove the config param to use the workflow defaults.
-            """), " " * 4))
+            """.format(
+                path=repr(path),
+                expanded_path_msg=f"expanded to {expanded_path!r} after filling in wildcards" \
+                    if path != expanded_path \
+                    else f"(which contains no wildcards to expand)",
+                searched="".join(["\n" + " "*16 + "- " + loc for loc in searched_paths]),
+                expanded_path=repr(expanded_path),
+            )), " " * 4))
 
     return _resolve_config_path
 
