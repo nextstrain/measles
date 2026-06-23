@@ -33,10 +33,10 @@ rule align:
 
 rule subsample:
     input:
-        config = "results/{gene}/{region}/subsample_config.yaml",
+        config = lambda w: dataset_config_path("results", (w.gene, w.region), "subsample"),
         sequences = "results/align_{gene}.fasta",
         metadata = "results/metadata.tsv",
-        referenced_files = lambda w: get_referenced_files(f"results/{w.gene}/{w.region}/subsample_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(dataset_config_path("results", (w.gene, w.region), "subsample")),
     output:
         sequences = "results/{gene}/{region}/aligned.fasta"
     params:
