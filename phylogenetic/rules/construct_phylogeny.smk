@@ -34,12 +34,12 @@ rule refine:
     input:
         tree = "results/{gene}/{region}/tree_raw.nwk",
         alignment = "results/{gene}/{region}/aligned.fasta",
-        metadata = "results/metadata.tsv"
+        metadata = "results/metadata.tsv",
+        config = lambda w: dataset_config_path("results", (w.gene, w.region), "refine"),
     output:
         tree = "results/{gene}/{region}/tree.nwk",
         node_data = "results/{gene}/{region}/branch_lengths.json"
     params:
-        args = lambda w: config['refine'][f"{w.gene}/{w.region}"],
         strain_id = config["strain_id_field"],
     log:
         "logs/refine_{gene}_{region}.txt",
@@ -56,5 +56,5 @@ rule refine:
             --metadata-id-columns {params.strain_id} \
             --output-tree {output.tree} \
             --output-node-data {output.node_data} \
-            {params.args}
+            --config {input.config}
         """

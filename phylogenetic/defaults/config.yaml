@@ -83,29 +83,16 @@ subsample:
                     - year
                 include: include_strains_N450.txt
 refine:
-    genome/global: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
+    '*/*':
+        timetree: True
+        coalescent: "opt"
+        date_inference: "marginal"
+        date_confidence: True
+        clock_filter_iqd: 8
+        stochastic_resolve: True
     genome/north-america:
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --clock-rate 0.000425
-        --root PP_003QHNN
-        --stochastic-resolve
-    N450/global:
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
+        clock_rate: 0.000425
+        root: "PP_003QHNN"
 
 
 ancestral:

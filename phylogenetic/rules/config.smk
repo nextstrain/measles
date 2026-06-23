@@ -21,6 +21,7 @@ VALID_DATASET_LEVELS = [
 
 YAML_CONFIGURED_RULES = [
     "subsample",
+    "refine",
 ]
 
 def main():
@@ -49,7 +50,7 @@ def validate_config():
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    per_build_keys = ["refine", "traits", "export"]
+    per_build_keys = ["traits", "export"]
 
     builds = set(config["builds"])
 
