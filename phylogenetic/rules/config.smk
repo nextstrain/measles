@@ -9,6 +9,7 @@ import copy
 import os
 import sys
 import yaml
+from augur.subsample import merge_defaults
 from itertools import product
 from textwrap import dedent
 from typing import Any, Literal, TypedDict
@@ -165,6 +166,8 @@ def write_command_configs(
     """
     for dataset in datasets:
         out = get_rule_config(config, rule_name, dataset)
+        if rule_name == "subsample":
+            out = merge_defaults(out)
         path = dataset_config_path(output_dir, dataset, rule_name)
         os.makedirs(os.path.dirname(path), exist_ok=True)
         with open(path, "w") as f:
