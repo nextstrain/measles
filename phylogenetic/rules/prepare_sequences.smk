@@ -11,13 +11,13 @@ rule align:
         sequences = "results/sequences.fasta",
         reference = resolve_config_path(config["files"]["reference_fasta"]),
     output:
-        sequences = "results/align_{gene_or_genome}.fasta",
+        sequences = "results/align_{gene}.fasta",
     params:
-        nextclade_args = lambda w: config["nextclade"][w.gene_or_genome],
+        nextclade_args = lambda w: config["nextclade"][w.gene],
     log:
-        "logs/align_{gene_or_genome}.txt",
+        "logs/align_{gene}.txt",
     benchmark:
-        "benchmarks/align_{gene_or_genome}.txt",
+        "benchmarks/align_{gene}.txt",
     threads: workflow.cores
     shell:
         r"""
@@ -33,18 +33,18 @@ rule align:
 
 rule subsample:
     input:
-        config = "results/{gene_or_genome}/{region}/subsample_config.yaml",
-        sequences = "results/align_{gene_or_genome}.fasta",
+        config = "results/{gene}/{region}/subsample_config.yaml",
+        sequences = "results/align_{gene}.fasta",
         metadata = "results/metadata.tsv",
-        referenced_files = lambda w: get_referenced_files(f"results/{w.gene_or_genome}/{w.region}/subsample_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.gene}/{w.region}/subsample_config.yaml"),
     output:
-        sequences = "results/{gene_or_genome}/{region}/aligned.fasta"
+        sequences = "results/{gene}/{region}/aligned.fasta"
     params:
         strain_id = config["strain_id_field"]
     log:
-        "logs/subsample_{gene_or_genome}_{region}.txt",
+        "logs/subsample_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/subsample_{gene_or_genome}_{region}.txt",
+        "benchmarks/subsample_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

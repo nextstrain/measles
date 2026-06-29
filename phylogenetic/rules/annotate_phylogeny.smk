@@ -8,16 +8,16 @@ See Augur's usage docs for these commands for more details.
 rule ancestral:
     """Reconstructing ancestral sequences and mutations"""
     input:
-        tree = "results/{gene_or_genome}/{region}/tree.nwk",
-        alignment = "results/{gene_or_genome}/{region}/aligned.fasta"
+        tree = "results/{gene}/{region}/tree.nwk",
+        alignment = "results/{gene}/{region}/aligned.fasta"
     output:
-        node_data = "results/{gene_or_genome}/{region}/nt_muts.json"
+        node_data = "results/{gene}/{region}/nt_muts.json"
     params:
         inference = config["ancestral"]["inference"]
     log:
-        "logs/ancestral_{gene_or_genome}_{region}.txt",
+        "logs/ancestral_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/ancestral_{gene_or_genome}_{region}.txt",
+        "benchmarks/ancestral_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -32,15 +32,15 @@ rule ancestral:
 rule translate:
     """Translating amino acid sequences"""
     input:
-        tree = "results/{gene_or_genome}/{region}/tree.nwk",
-        node_data = "results/{gene_or_genome}/{region}/nt_muts.json",
+        tree = "results/{gene}/{region}/tree.nwk",
+        node_data = "results/{gene}/{region}/nt_muts.json",
         reference = resolve_config_path(config["files"]["reference"])
     output:
-        node_data = "results/{gene_or_genome}/{region}/aa_muts.json"
+        node_data = "results/{gene}/{region}/aa_muts.json"
     log:
-        "logs/translate_{gene_or_genome}_{region}.txt",
+        "logs/translate_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/translate_{gene_or_genome}_{region}.txt",
+        "benchmarks/translate_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -55,18 +55,18 @@ rule translate:
 rule traits:
     """Inferring ancestral traits for {params.columns!s}"""
     input:
-        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        tree = "results/{gene}/{region}/tree.nwk",
         metadata = "results/metadata.tsv"
     output:
-        node_data = "results/{gene_or_genome}/{region}/traits.json"
+        node_data = "results/{gene}/{region}/traits.json"
     params:
-        columns = lambda w: config["traits"][f"{w.gene_or_genome}/{w.region}"]["columns"],
-        sampling_bias_correction = lambda w: config["traits"][f"{w.gene_or_genome}/{w.region}"]["sampling_bias_correction"],
+        columns = lambda w: config["traits"][f"{w.gene}/{w.region}"]["columns"],
+        sampling_bias_correction = lambda w: config["traits"][f"{w.gene}/{w.region}"]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
-        "logs/traits_{gene_or_genome}_{region}.txt",
+        "logs/traits_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/traits_{gene_or_genome}_{region}.txt",
+        "benchmarks/traits_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

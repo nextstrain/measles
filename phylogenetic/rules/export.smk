@@ -30,40 +30,40 @@ rule colors:
 
 def node_data_jsons(wildcards):
     jsons = [
-        f"results/{wildcards.gene_or_genome}/{wildcards.region}/branch_lengths.json",
-        f"results/{wildcards.gene_or_genome}/{wildcards.region}/nt_muts.json",
-        f"results/{wildcards.gene_or_genome}/{wildcards.region}/aa_muts.json",
+        f"results/{wildcards.gene}/{wildcards.region}/branch_lengths.json",
+        f"results/{wildcards.gene}/{wildcards.region}/nt_muts.json",
+        f"results/{wildcards.gene}/{wildcards.region}/aa_muts.json",
     ]
-    if f"{wildcards.gene_or_genome}/{wildcards.region}" not in config['traits']:
-        raise Exception(f"config.traits must define an entry for '{wildcards.gene_or_genome}/{wildcards.region}'")
-    if config['traits'][f"{wildcards.gene_or_genome}/{wildcards.region}"] is not False:
-        jsons.append(f"results/{wildcards.gene_or_genome}/{wildcards.region}/traits.json",)
+    if f"{wildcards.gene}/{wildcards.region}" not in config['traits']:
+        raise Exception(f"config.traits must define an entry for '{wildcards.gene}/{wildcards.region}'")
+    if config['traits'][f"{wildcards.gene}/{wildcards.region}"] is not False:
+        jsons.append(f"results/{wildcards.gene}/{wildcards.region}/traits.json",)
     return jsons
 
 def warning(wildcards):
-    if value:=config["export"][f"{wildcards.gene_or_genome}/{wildcards.region}"].get("warning", False):
+    if value:=config["export"][f"{wildcards.gene}/{wildcards.region}"].get("warning", False):
         return f"--warning {value!r}"
     return ''
 
 rule export:
     """Exporting data files for for auspice"""
     input:
-        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        tree = "results/{gene}/{region}/tree.nwk",
         metadata = "results/metadata.tsv",
         node_data_jsons = node_data_jsons,
         colors = "results/colors.tsv",
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
-        auspice_json = "auspice/measles_{gene_or_genome}_{region}.json"
+        auspice_json = "auspice/measles_{gene}_{region}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = lambda w: config["export"][f"{w.gene_or_genome}/{w.region}"]["metadata_columns"],
+        metadata_columns = lambda w: config["export"][f"{w.gene}/{w.region}"]["metadata_columns"],
         warning = warning,
     log:
-        "logs/export_{gene_or_genome}_{region}.txt",
+        "logs/export_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/export_{gene_or_genome}_{region}.txt",
+        "benchmarks/export_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -87,7 +87,7 @@ rule tip_frequencies:
     Estimating KDE frequencies for tips
     """
     input:
-        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        tree = "results/{gene}/{region}/tree.nwk",
         metadata = "results/metadata.tsv"
     params:
         strain_id = config["strain_id_field"],
@@ -96,11 +96,11 @@ rule tip_frequencies:
         narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
         wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
-        tip_freq = "auspice/measles_{gene_or_genome}_{region}_tip-frequencies.json"
+        tip_freq = "auspice/measles_{gene}_{region}_tip-frequencies.json"
     log:
-        "logs/tip_frequencies_{gene_or_genome}_{region}.txt",
+        "logs/tip_frequencies_{gene}_{region}.txt",
     benchmark:
-        "benchmarks/tip_frequencies_{gene_or_genome}_{region}.txt",
+        "benchmarks/tip_frequencies_{gene}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

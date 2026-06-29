@@ -9,14 +9,14 @@ inputs:
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
 
 files:
-    reference: "measles_reference_{gene_or_genome}.gb"
-    reference_fasta: "measles_reference_{gene_or_genome}.fasta"
+    reference: "measles_reference_{gene}.gb"
+    reference_fasta: "measles_reference_{gene}.fasta"
     colors: "colors.tsv"
-    auspice_config: "auspice_config_{gene_or_genome}_{region}.json"
+    auspice_config: "auspice_config_{gene}_{region}.json"
     description: "description.md"
 
 nextclade:
-  # key represents {gene_or_genome} wildcard
+  # key represents {gene} wildcard
   genome: >-
       --min-seed-cover 0.01
       --min-length 5000
