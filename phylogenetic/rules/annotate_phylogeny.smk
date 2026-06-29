@@ -8,16 +8,16 @@ See Augur's usage docs for these commands for more details.
 rule ancestral:
     """Reconstructing ancestral sequences and mutations"""
     input:
-        tree = "results/{build}/tree.nwk",
-        alignment = "results/{build}/aligned.fasta"
+        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        alignment = "results/{gene_or_genome}/{region}/aligned.fasta"
     output:
-        node_data = "results/{build}/nt_muts.json"
+        node_data = "results/{gene_or_genome}/{region}/nt_muts.json"
     params:
         inference = config["ancestral"]["inference"]
     log:
-        "logs/ancestral_{build}.txt",
+        "logs/ancestral_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/ancestral_{build}.txt",
+        "benchmarks/ancestral_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -32,16 +32,15 @@ rule ancestral:
 rule translate:
     """Translating amino acid sequences"""
     input:
-        tree = "results/{build}/tree.nwk",
-        node_data = "results/{build}/nt_muts.json",
-        # reference uses wildcard gene_or_genome, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene_or_genome': get_gene_or_genome(w)})
+        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        node_data = "results/{gene_or_genome}/{region}/nt_muts.json",
+        reference = resolve_config_path(config["files"]["reference"])
     output:
-        node_data = "results/{build}/aa_muts.json"
+        node_data = "results/{gene_or_genome}/{region}/aa_muts.json"
     log:
-        "logs/translate_{build}.txt",
+        "logs/translate_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/translate_{build}.txt",
+        "benchmarks/translate_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -56,18 +55,18 @@ rule translate:
 rule traits:
     """Inferring ancestral traits for {params.columns!s}"""
     input:
-        tree = "results/{build}/tree.nwk",
+        tree = "results/{gene_or_genome}/{region}/tree.nwk",
         metadata = "results/metadata.tsv"
     output:
-        node_data = "results/{build}/traits.json"
+        node_data = "results/{gene_or_genome}/{region}/traits.json"
     params:
-        columns = lambda w: config["traits"][w.build]["columns"],
-        sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
+        columns = lambda w: config["traits"][f"{w.gene_or_genome}/{w.region}"]["columns"],
+        sampling_bias_correction = lambda w: config["traits"][f"{w.gene_or_genome}/{w.region}"]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
-        "logs/traits_{build}.txt",
+        "logs/traits_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/traits_{build}.txt",
+        "benchmarks/traits_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

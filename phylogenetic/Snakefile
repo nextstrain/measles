@@ -15,12 +15,13 @@ include: "rules/config.smk"
 builds = config['builds']
 
 wildcard_constraints:
-    build = "|".join(builds)
+    gene_or_genome = "|".join([b.split("/")[0] for b in builds]),
+    region = "|".join([b.split("/")[1] for b in builds])
 
 rule all:
     input:
-        auspice_json = expand("auspice/measles_{build}.json", build=builds),
-        tip_frequencies_json = expand("auspice/measles_{build}_tip-frequencies.json", build=builds)
+        auspice_json = [f"auspice/measles_{b.replace('/', '_')}.json" for b in builds],
+        tip_frequencies_json = [f"auspice/measles_{b.replace('/', '_')}_tip-frequencies.json" for b in builds]
 
 include: "../shared/vendored/snakemake/remote_files.smk"
 include: "rules/merge_inputs.smk"

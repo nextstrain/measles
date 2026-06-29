@@ -32,7 +32,7 @@ def validate_config():
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    per_build_keys = ['build_to_gene_or_genome', "subsample", "refine", "traits", "export"]
+    per_build_keys = ["subsample", "refine", "traits", "export"]
 
     builds = set(config["builds"])
 
@@ -59,7 +59,7 @@ def validate_config():
         raise InvalidConfigError(
             f"Config 'config.nextclade' must be a dict but it is a {type(value).__name__}"
         )
-    missing_gene_or_genome_vals = set(config['build_to_gene_or_genome'].values()) - set(config['nextclade'].keys())
+    missing_gene_or_genome_vals = set([build.split("/")[0] for build in config["builds"]]) - set(config['nextclade'].keys())
     if len(missing_gene_or_genome_vals):
         raise InvalidConfigError(
             f"The keys of 'config.nextclade' must contain all necessary 'gene_of_geneome' values; "

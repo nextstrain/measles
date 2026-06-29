@@ -31,27 +31,20 @@ rule align:
             {input.sequences}
         """
 
-def get_gene_or_genome(wildcards):
-    """links the build wildcard to the gene_or_genome wildcard"""
-    ret = config['build_to_gene_or_genome'].get(wildcards.build, False)
-    if not ret:
-        raise Error(f"Config.build_to_gene_or_genome must define a mapping for the build wildcard {wildcards.build!r}")
-    return ret
-
 rule subsample:
     input:
-        config = "results/{build}/subsample_config.yaml",
-        sequences = lambda w: f"results/align_{get_gene_or_genome(w)}.fasta",
+        config = "results/{gene_or_genome}/{region}/subsample_config.yaml",
+        sequences = "results/align_{gene_or_genome}.fasta",
         metadata = "results/metadata.tsv",
-        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/subsample_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.gene_or_genome}/{w.region}/subsample_config.yaml"),
     output:
-        sequences = "results/{build}/aligned.fasta"
+        sequences = "results/{gene_or_genome}/{region}/aligned.fasta"
     params:
         strain_id = config["strain_id_field"]
     log:
-        "logs/subsample_{build}.txt",
+        "logs/subsample_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/subsample_{build}.txt",
+        "benchmarks/subsample_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

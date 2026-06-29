@@ -7,13 +7,13 @@ See Augur's usage docs for these commands for more details.
 rule tree:
     """Building tree"""
     input:
-        alignment = "results/{build}/aligned.fasta"
+        alignment = "results/{gene_or_genome}/{region}/aligned.fasta"
     output:
-        tree = "results/{build}/tree_raw.nwk"
+        tree = "results/{gene_or_genome}/{region}/tree_raw.nwk"
     log:
-        "logs/tree_{build}.txt",
+        "logs/tree_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/tree_{build}.txt",
+        "benchmarks/tree_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -32,19 +32,19 @@ rule refine:
       - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
     """
     input:
-        tree = "results/{build}/tree_raw.nwk",
-        alignment = "results/{build}/aligned.fasta",
+        tree = "results/{gene_or_genome}/{region}/tree_raw.nwk",
+        alignment = "results/{gene_or_genome}/{region}/aligned.fasta",
         metadata = "results/metadata.tsv"
     output:
-        tree = "results/{build}/tree.nwk",
-        node_data = "results/{build}/branch_lengths.json"
+        tree = "results/{gene_or_genome}/{region}/tree.nwk",
+        node_data = "results/{gene_or_genome}/{region}/branch_lengths.json"
     params:
-        args = lambda w: config['refine'][w.build],
+        args = lambda w: config['refine'][f"{w.gene_or_genome}/{w.region}"],
         strain_id = config["strain_id_field"],
     log:
-        "logs/refine_{build}.txt",
+        "logs/refine_{gene_or_genome}_{region}.txt",
     benchmark:
-        "benchmarks/refine_{build}.txt",
+        "benchmarks/refine_{gene_or_genome}_{region}.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
