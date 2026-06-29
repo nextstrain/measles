@@ -6,24 +6,24 @@ inputs:
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
 
 files:
-    reference: "measles_reference_{gene_or_genome}.gb"
-    reference_fasta: "measles_reference_{gene_or_genome}.fasta"
+    reference: "measles_reference_{gene}.gb"
+    reference_fasta: "measles_reference_{gene}.fasta"
     colors: "colors.tsv"
     auspice_config: "auspice_config_{build}.json"
     description: "description.md"
 
 # While 'build' is the canonical dataset wildcard, the initial steps of the
 # pipeline can be shared between multiple builds for performance reasons.
-# This lookup links the {build} wildcard to a {gene_or_genome} wildcard
+# This lookup links the {build} wildcard to a {gene} wildcard
 # which is used for nextclade alignment & min-length filtering, as well as
 # which references are used
-build_to_gene_or_genome:
+build_to_gene:
   N450: N450
   genome: genome
   north-america: genome
 
 nextclade:
-  # key represents {gene_or_genome} wildcard
+  # key represents {gene} wildcard
   genome: >-
       --min-seed-cover 0.01
       --min-length 5000

@@ -11,13 +11,13 @@ rule align:
         sequences = "results/sequences.fasta",
         reference = resolve_config_path(config["files"]["reference_fasta"]),
     output:
-        sequences = "results/align_{gene_or_genome}.fasta",
+        sequences = "results/align_{gene}.fasta",
     params:
-        nextclade_args = lambda w: config["nextclade"][w.gene_or_genome],
+        nextclade_args = lambda w: config["nextclade"][w.gene],
     log:
-        "logs/align_{gene_or_genome}.txt",
+        "logs/align_{gene}.txt",
     benchmark:
-        "benchmarks/align_{gene_or_genome}.txt",
+        "benchmarks/align_{gene}.txt",
     threads: workflow.cores
     shell:
         r"""
@@ -31,17 +31,17 @@ rule align:
             {input.sequences}
         """
 
-def get_gene_or_genome(wildcards):
-    """links the build wildcard to the gene_or_genome wildcard"""
-    ret = config['build_to_gene_or_genome'].get(wildcards.build, False)
+def get_gene(wildcards):
+    """links the build wildcard to the gene wildcard"""
+    ret = config['build_to_gene'].get(wildcards.build, False)
     if not ret:
-        raise Error(f"Config.build_to_gene_or_genome must define a mapping for the build wildcard {wildcards.build!r}")
+        raise Error(f"Config.build_to_gene must define a mapping for the build wildcard {wildcards.build!r}")
     return ret
 
 rule subsample:
     input:
         config = "results/{build}/subsample_config.yaml",
-        sequences = lambda w: f"results/align_{get_gene_or_genome(w)}.fasta",
+        sequences = lambda w: f"results/align_{get_gene(w)}.fasta",
         metadata = "results/metadata.tsv",
         referenced_files = lambda w: get_referenced_files(f"results/{w.build}/subsample_config.yaml"),
     output:
