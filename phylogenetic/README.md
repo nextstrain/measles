@@ -131,6 +131,14 @@ repository by running:
 Note: this only works with `nextstrain build`. Within repo input files are _not_
 supported by `nextstrain run`.
 
+### Updating example data
+
+Example data should be updated occasionally. To update, run:
+
+```bash
+nextstrain build . update_example_data --configfile build-configs/chores/config.yaml --forceall
+```
+
 ### Deploying build
 
 To run the workflow and automatically deploy the build to nextstrain.org,
