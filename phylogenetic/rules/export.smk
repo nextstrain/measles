@@ -36,7 +36,7 @@ def node_data_jsons(wildcards):
     ]
     if f"{wildcards.gene}/{wildcards.region}" not in config['traits']:
         raise Exception(f"config.traits must define an entry for '{wildcards.gene}/{wildcards.region}'")
-    if config['traits'][f"{wildcards.gene}/{wildcards.region}"] is not False:
+    if config['traits'][f"{wildcards.gene}/{wildcards.region}"] is not None:
         jsons.append(f"results/{wildcards.gene}/{wildcards.region}/traits.json",)
     return jsons
 
