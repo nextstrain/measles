@@ -58,7 +58,7 @@ def validate_config():
         raise InvalidConfigError(
             f"Config 'config.nextclade' must be a dict but it is a {type(config['nextclade']).__name__}"
         )
-    missing_gene_vals = set([build.split("/")[0] for build in config["builds"]]) - set(config['nextclade'].keys())
+    missing_gene_vals = set(config["dataset_levels"]["gene"]) - set(config['nextclade'].keys())
     if len(missing_gene_vals):
         raise InvalidConfigError(
             f"The keys of 'config.nextclade' must contain all necessary 'gene' values; "

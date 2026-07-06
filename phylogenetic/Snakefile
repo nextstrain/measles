@@ -15,8 +15,8 @@ include: "rules/config.smk"
 builds = config['builds']
 
 wildcard_constraints:
-    gene = "|".join([b.split("/")[0] for b in builds]),
-    region = "|".join([b.split("/")[1] for b in builds])
+    gene = "|".join(config["dataset_levels"]["gene"]),
+    region = "|".join(config["dataset_levels"]["region"])
 
 rule all:
     input:

@@ -1,3 +1,10 @@
+dataset_levels:
+  gene:
+    - genome
+    - N450
+  region:
+    - global
+    - north-america
 builds:
   - genome/global
   - N450/global
