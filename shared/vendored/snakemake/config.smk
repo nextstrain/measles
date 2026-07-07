@@ -2,7 +2,9 @@
 Shared functions to be used within a Snakemake workflow for handling
 workflow configs.
 """
+import copy
 import os
+import re
 import sys
 import yaml
 from collections.abc import Callable
@@ -174,3 +176,170 @@ def write_config(path, section=None):
 class NoAliasDumper(yaml.SafeDumper):
     def ignore_aliases(self, data):
         return True
+
+
+def match_pattern(pattern, dataset, levels):
+    """
+    Check if a dataset pattern matches a concrete dataset name.
+
+    *pattern* and *dataset* are slash-delimited strings. *levels* is an
+    ordered dict (from config["dataset_levels"]) defining the level names
+    and their valid values.
+
+    Supports literal, wildcard (*), and multivalue ((a|b)) pattern parts.
+    """
+    pattern_parts = pattern.split("/")
+    dataset_parts = dataset.split("/")
+
+    if len(pattern_parts) != len(dataset_parts):
+        return False
+
+    for pattern_part, dataset_part in zip(pattern_parts, dataset_parts):
+        if pattern_part == "*":
+            continue
+
+        # Multivalue: (val1|val2|...)
+        m = re.fullmatch(r'\(([^)]+)\)', pattern_part)
+        if m:
+            values = m.group(1).split("|")
+            if dataset_part not in values:
+                return False
+        elif pattern_part != dataset_part:
+            return False
+
+    return True
+
+
+def merge_configs(base, override):
+    """
+    Merge *override* config on top of *base* config.
+
+    - Dicts are merged recursively (override dicts are deep-copied).
+    - Scalars and lists from override replace base values.
+    - A ``None`` value in override deletes the corresponding key from base.
+    """
+    if not isinstance(base, dict) or not isinstance(override, dict):
+        return copy.deepcopy(override)
+
+    merged = copy.deepcopy(base)
+    for key, value in override.items():
+        if value is None:
+            merged.pop(key, None)
+        elif isinstance(value, dict) and isinstance(merged.get(key), dict):
+            merged[key] = merge_configs(merged[key], value)
+        else:
+            merged[key] = copy.deepcopy(value)
+    return merged
+
+
+def resolve_rule_config(config, rule_name, dataset, levels):
+    """
+    Resolve the configuration for a single rule and dataset by matching
+    patterns and merging in definition order.
+
+    Uses ``custom_<rule_name>`` if present, otherwise ``rule_name``.
+    Returns the merged config dict (or None if the resolved value is null).
+    """
+    custom_key = f"custom_{rule_name}"
+    block_key = custom_key if custom_key in config else rule_name
+
+    if block_key not in config:
+        raise InvalidConfigError(
+            f"Config must define a 'config.{rule_name}' section"
+        )
+
+    block = config[block_key]
+    if not isinstance(block, dict):
+        raise InvalidConfigError(
+            f"Config 'config.{block_key}' must be a dict keyed by dataset pattern, "
+            f"but it is a {type(block).__name__}"
+        )
+
+    result = {}
+    matched = False
+    for pattern, pattern_config in block.items():
+        if match_pattern(str(pattern), dataset, levels):
+            matched = True
+            if pattern_config is None:
+                result = None
+            elif result is None:
+                result = copy.deepcopy(pattern_config) if isinstance(pattern_config, dict) else pattern_config
+            else:
+                result = merge_configs(result, pattern_config)
+
+    if not matched:
+        raise InvalidConfigError(
+            f"No patterns in 'config.{block_key}' match dataset '{dataset}'"
+        )
+
+    return result
+
+
+def validate_rule_configs(config, rule_names, levels):
+    """
+    Validate rule configuration blocks.
+
+    For each rule name, checks:
+    - The config block exists and is a dict.
+    - Each pattern key has the correct number of slash-delimited parts.
+    - Non-wildcard, non-multivalue pattern values belong to the valid values
+      for their level.
+    """
+    level_names = list(levels.keys())
+    level_values = list(levels.values())
+    n_levels = len(level_names)
+
+    for rule_name in rule_names:
+        custom_key = f"custom_{rule_name}"
+        block_key = custom_key if custom_key in config else rule_name
+
+        if block_key not in config:
+            raise InvalidConfigError(
+                f"Config must define a 'config.{rule_name}' section"
+            )
+
+        block = config[block_key]
+        if not isinstance(block, dict):
+            raise InvalidConfigError(
+                f"Config 'config.{block_key}' must be a dict keyed by dataset pattern, "
+                f"but it is a {type(block).__name__}"
+            )
+
+        for pattern in block:
+            parts = str(pattern).split("/")
+            if len(parts) != n_levels:
+                raise InvalidConfigError(
+                    f"Pattern '{pattern}' in 'config.{block_key}' has {len(parts)} "
+                    f"part(s), but {n_levels} are required ({'/'.join(level_names)})"
+                )
+
+            for i, part in enumerate(parts):
+                if part == "*":
+                    continue
+
+                # Multivalue: (val1|val2|...)
+                m = re.fullmatch(r'\(([^)]+)\)', part)
+                if m:
+                    values = m.group(1).split("|")
+                else:
+                    values = [part]
+
+                for val in values:
+                    if val not in level_values[i]:
+                        raise InvalidConfigError(
+                            f"Value '{val}' in pattern '{pattern}' of 'config.{block_key}' "
+                            f"is not a valid value for level '{level_names[i]}'. "
+                            f"Valid values: {level_values[i]}"
+                        )
+
+
+def write_rule_config(path, data, dataset):
+    """
+    Write a resolved rule config to a YAML file with a dataset header comment.
+    """
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    with open(path, 'w') as f:
+        f.write(f"# {dataset}\n")
+        yaml.dump(data, f, sort_keys=False, Dumper=NoAliasDumper)
+    print(f"Saved config for '{dataset}' to {path!r}.", file=sys.stderr)
+
