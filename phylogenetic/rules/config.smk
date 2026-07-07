@@ -55,7 +55,7 @@ def validate_config():
     # gene wildcard values must be present in the nextclade config entry
     if not isinstance(config['nextclade'], dict):
         raise InvalidConfigError(
-            f"Config 'config.nextclade' must be a dict but it is a {type(value).__name__}"
+            f"Config 'config.nextclade' must be a dict but it is a {type(config['nextclade']).__name__}"
         )
     missing_gene_vals = set([build.split("/")[0] for build in config["builds"]]) - set(config['nextclade'].keys())
     if len(missing_gene_vals):
