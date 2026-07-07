@@ -5,8 +5,6 @@ OUTPUTS:
 
     results/run_config.yaml
 """
-from textwrap import dedent
-
 
 def main():
     normalize_config()
@@ -75,10 +73,6 @@ def write_subsample_config():
         else:
             section = ["subsample", build]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
-
-
-def indented_list(xs, prefix):
-    return f"\n{prefix}".join(xs)
 
 
 try:
