@@ -35,7 +35,6 @@ rule all:
 # If there are build specific customizations, they should be added with the
 # custom_rules imported below to ensure that the core workflow is not complicated
 # by build specific rules.
-include: "rules/fetch_from_ncbi.smk"
 include: "rules/fetch_from_ppx.smk"
 include: "rules/curate.smk"
 include: "rules/nextclade.smk"
