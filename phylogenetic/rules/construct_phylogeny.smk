@@ -70,7 +70,8 @@ rule refine:
         coalescent = _get_refine_param("coalescent"),
         date_inference = _get_refine_param("date_inference"),
         clock_filter_iqd = _get_refine_param("clock_filter_iqd"),
-        strain_id = config["strain_id_field"]
+        strain_id = config["strain_id_field"],
+        divergence_units = _get_refine_param("divergence_units")
     log:
         "logs/refine_{build}.txt",
     benchmark:
@@ -91,5 +92,6 @@ rule refine:
             --date-confidence \
             --date-inference {params.date_inference} \
             --clock-filter-iqd {params.clock_filter_iqd} \
-            --stochastic-resolve
+            --stochastic-resolve \
+            --divergence-units {params.divergence_units}
         """
