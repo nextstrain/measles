@@ -60,10 +60,12 @@ refine:
         coalescent: "opt"
         date_inference: "marginal"
         clock_filter_iqd: 8
+        divergence_units: "mutations-per-site"
     N450:
         coalescent: "opt"
         date_inference: "marginal"
         clock_filter_iqd: 4
+        divergence_units: "mutations-per-site"
 ancestral:
     inference: "joint"
 # trait reconstruction applies only to the "genome" build
