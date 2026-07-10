@@ -8,6 +8,8 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
+* 10 July 2026: phylogenetic - non-breaking changes to the `refine` params. Divergence units are now exposed
+  to the default `config.yaml` so that they are configurable as `mutations` versus `mutations-per-site`.
 * 17 April 2026: phylogenetic - backwards compatible changes to support build specific refine params. [#122][]
     - Build specific params can be defined as `refine.<build>.<param_name>`
     - Previous refine params for all builds (`refine.<param_name>`) still work as expected
