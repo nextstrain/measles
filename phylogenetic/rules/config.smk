@@ -7,6 +7,14 @@ OUTPUTS:
     results/{build}/subsample_config.yaml
 """
 
+def get_gene(build: str):
+    """links the build wildcard to the gene wildcard"""
+    ret = config['build_to_gene'].get(build, False)
+    if not ret:
+        raise Error(f"Config.build_to_gene must define a mapping for the build wildcard {build!r}")
+    return ret
+
+
 def main():
     normalize_config()
     validate_config()

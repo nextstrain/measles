@@ -35,7 +35,7 @@ rule translate:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
         # reference uses wildcard gene, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w)})
+        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)})
     output:
         node_data = "results/{build}/aa_muts.json"
     log:

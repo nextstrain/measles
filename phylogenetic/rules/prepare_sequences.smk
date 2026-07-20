@@ -31,17 +31,10 @@ rule align:
             {input.sequences}
         """
 
-def get_gene(wildcards):
-    """links the build wildcard to the gene wildcard"""
-    ret = config['build_to_gene'].get(wildcards.build, False)
-    if not ret:
-        raise Error(f"Config.build_to_gene must define a mapping for the build wildcard {wildcards.build!r}")
-    return ret
-
 rule subsample:
     input:
         config = "results/{build}/subsample_config.yaml",
-        sequences = lambda w: f"results/align_{get_gene(w)}.fasta",
+        sequences = lambda w: f"results/align_{get_gene(w.build)}.fasta",
         metadata = "results/metadata.tsv",
         referenced_files = lambda w: get_referenced_files(f"results/{w.build}/subsample_config.yaml"),
     output:
