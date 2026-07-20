@@ -4,6 +4,7 @@ This part of the workflow deals with configuration.
 OUTPUTS:
 
     results/run_config.yaml
+    results/{build}/subsample_config.yaml
 """
 
 def main():
