@@ -7,7 +7,9 @@ additional_inputs:
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
 
 # restrict the builds to only the 2 we currently upload
-builds: ['genome', 'N450']
+builds:
+  - genome/global
+  - N450/global
 
 custom_rules:
   - build-configs/nextstrain-automation/deploy.smk

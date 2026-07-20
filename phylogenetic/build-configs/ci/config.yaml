@@ -6,14 +6,14 @@ inputs:
       sequences: example_data/sequences.fasta
 
 subsample:
-    genome:
+    genome/global:
         samples:
             early:
                 min_date: 1950
                 max_date: 2017
             late:
                 min_date: 2017
-    N450:
+    N450/global:
         samples:
             early:
                 min_date: 1950

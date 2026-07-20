@@ -7,12 +7,9 @@ OUTPUTS:
     results/{build}/subsample_config.yaml
 """
 
-def get_gene(build: str):
-    """links the build wildcard to the gene wildcard"""
-    ret = config['build_to_gene'].get(build, False)
-    if not ret:
-        raise Error(f"Config.build_to_gene must define a mapping for the build wildcard {build!r}")
-    return ret
+def get_gene(build: str) -> str:
+    """Extract the gene from a multi-part build string (e.g. 'genome/global' -> 'genome')."""
+    return build.split("/")[0]
 
 
 def main():
@@ -39,7 +36,7 @@ def validate_config():
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    per_build_keys = ['build_to_gene', "subsample", "refine", "traits", "export"]
+    per_build_keys = ["subsample", "refine", "traits", "export"]
 
     builds = set(config["builds"])
 
@@ -66,7 +63,7 @@ def validate_config():
         raise InvalidConfigError(
             f"Config 'config.nextclade' must be a dict but it is a {type(config['nextclade']).__name__}"
         )
-    missing_gene_vals = set(config['build_to_gene'].values()) - set(config['nextclade'].keys())
+    missing_gene_vals = set([get_gene(build) for build in config["builds"]]) - set(config['nextclade'].keys())
     if len(missing_gene_vals):
         raise InvalidConfigError(
             f"The keys of 'config.nextclade' must contain all necessary 'gene' values; "

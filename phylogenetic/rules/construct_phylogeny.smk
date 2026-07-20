@@ -11,9 +11,9 @@ rule tree:
     output:
         tree = "results/{build}/tree_raw.nwk"
     log:
-        "logs/tree_{build}.txt",
+        "logs/{build}/tree.txt",
     benchmark:
-        "benchmarks/tree_{build}.txt",
+        "benchmarks/{build}/tree.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -42,9 +42,9 @@ rule refine:
         args = lambda w: config['refine'][w.build],
         strain_id = config["strain_id_field"],
     log:
-        "logs/refine_{build}.txt",
+        "logs/{build}/refine.txt",
     benchmark:
-        "benchmarks/refine_{build}.txt",
+        "benchmarks/{build}/refine.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

@@ -42,9 +42,9 @@ rule subsample:
     params:
         strain_id = config["strain_id_field"]
     log:
-        "logs/subsample_{build}.txt",
+        "logs/{build}/subsample.txt",
     benchmark:
-        "benchmarks/subsample_{build}.txt",
+        "benchmarks/{build}/subsample.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

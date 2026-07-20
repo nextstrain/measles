@@ -15,9 +15,9 @@ rule ancestral:
     params:
         inference = config["ancestral"]["inference"]
     log:
-        "logs/ancestral_{build}.txt",
+        "logs/{build}/ancestral.txt",
     benchmark:
-        "benchmarks/ancestral_{build}.txt",
+        "benchmarks/{build}/ancestral.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -39,9 +39,9 @@ rule translate:
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
-        "logs/translate_{build}.txt",
+        "logs/{build}/translate.txt",
     benchmark:
-        "benchmarks/translate_{build}.txt",
+        "benchmarks/{build}/translate.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -65,9 +65,9 @@ rule traits:
         sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
-        "logs/traits_{build}.txt",
+        "logs/{build}/traits.txt",
     benchmark:
-        "benchmarks/traits_{build}.txt",
+        "benchmarks/{build}/traits.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

@@ -55,15 +55,15 @@ rule export:
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
-        auspice_json = "auspice/measles_{build}.json"
+        auspice_json = "results/auspice/measles/{build}.json"
     params:
         strain_id = config["strain_id_field"],
         metadata_columns = lambda w: config["export"][w.build]["metadata_columns"],
         warning = warning,
     log:
-        "logs/export_{build}.txt",
+        "logs/{build}/export.txt",
     benchmark:
-        "benchmarks/export_{build}.txt",
+        "benchmarks/{build}/export.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -96,11 +96,11 @@ rule tip_frequencies:
         narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
         wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
-        tip_freq = "auspice/measles_{build}_tip-frequencies.json"
+        tip_freq = "results/auspice/measles/{build}_tip-frequencies.json"
     log:
-        "logs/tip_frequencies_{build}.txt",
+        "logs/{build}/tip_frequencies.txt",
     benchmark:
-        "benchmarks/tip_frequencies_{build}.txt",
+        "benchmarks/{build}/tip_frequencies.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -115,4 +115,17 @@ rule tip_frequencies:
             --narrow-bandwidth {params.narrow_bandwidth} \
             --wide-bandwidth {params.wide_bandwidth} \
             --output {output.tip_freq}
+        """
+
+rule copy_export:
+    input:
+        auspice_json = lambda w: f"results/auspice/measles/{w.build_with_underscores.replace('_', '/')}.json",
+        tip_freq = lambda w: f"results/auspice/measles/{w.build_with_underscores.replace('_', '/')}_tip-frequencies.json"
+    output:
+        auspice_json = "auspice/measles_{build_with_underscores}.json",
+        tip_freq = "auspice/measles_{build_with_underscores}_tip-frequencies.json"
+    shell:
+        """
+        cp {input.auspice_json} {output.auspice_json}
+        cp {input.tip_freq} {output.tip_freq}
         """
