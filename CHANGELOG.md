@@ -8,6 +8,14 @@ Changes for this project _do not_ currently follow the [Semantic Versioning rule
 Instead, changes appear below grouped by the date they were added to the workflow.
 
 ## 2026
+
+* 23 July 2026: In order to produce more relevant analyses for ongoing outbreaks, this workflow has shifted from producing only "N450" and "genome" builds to producing builds which specify their geographic resolution: "N450/global", "genome/global" and "genome/north-america". This extra versatility has required big changes to the config structure. **The following are breaking changes**:
+  * The `refine` section now expects a single argument string for each `refine.<build>` in config. This provides a consistent and flexible pattern for passing **non-file** arguments to Augur.
+  * The `traits` and `export` sections now expect per-build parameters under `<rule>.<build>`.
+  * The `builds` section and each `<rule>.<build>` section now expects build names to have the format `{gene}/…`. This allows arbitrary user-defined builds.
+* 23 July 2026: Added validation for key names under the sections `subsample`, `refine`, `traits`, `export`, and `nextclade`.
+* 23 July 2026: Updated the workflow to use multi-threaded `nextclade` for alignment in all builds.
+* 23 July 2026: Added a North America outbreak example to demonstrate proximal subsampling.
 * 10 July 2026: [Divergence units](https://docs.nextstrain.org/projects/augur/en/stable/usage/cli/refine.html) can now be configured using `refine.<build>.divergence_units`.
 * 17 April 2026: phylogenetic - backwards compatible changes to support build specific refine params. [#122][]
     - Build specific params can be defined as `refine.<build>.<param_name>`
