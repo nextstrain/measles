@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* TBD: The `subsample` section now supports pattern-matching syntax to apply parameters to multiple datasets.
 * 23 July 2026: In order to produce more relevant analyses for ongoing outbreaks, this workflow has shifted from producing only "N450" and "genome" builds to producing builds which specify their geographic resolution: "N450/global", "genome/global" and "genome/north-america". This extra versatility has required big changes to the config structure. **The following are breaking changes**:
   * The `refine` section now expects a single argument string for each `refine.<build>` in config. This provides a consistent and flexible pattern for passing **non-file** arguments to Augur.
   * The `traits` and `export` sections now expect per-build parameters under `<rule>.<build>`.
