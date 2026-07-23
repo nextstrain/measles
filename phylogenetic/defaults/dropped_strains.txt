@@ -1,3 +1,11 @@
 PP_003NB5Z # reference
 PP_0038LGX # temara.MOR/24.03
 PP_0038LFZ # Mvs/Toulon.FRA/08.07
+
+PP_006R530 # dropped as part of the initial north-america build
+PP_004LMNR # dropped as part of the initial north-america build
+PP_006UDR9 # dropped as part of the initial north-america build
+PP_006R54Y # dropped as part of the initial north-america build
+PP_006R55W # dropped as part of the initial north-america build
+PP_006JYQC # dropped as part of the initial north-america build
+PP_0049MEX # dropped as part of the initial north-america build

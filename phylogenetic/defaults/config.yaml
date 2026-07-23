@@ -1,19 +1,33 @@
-builds: ['genome', 'N450']
+builds:
+  - genome/global
+  - N450/global
+  - genome/north-america
 strain_id_field: "accession"
 inputs:
   - name: ppx_open
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
+
 files:
-    reference: "measles_reference_{build}.gb"
-    reference_fasta: "measles_reference_{build}.fasta"
+    reference: "measles_reference_{gene}.gb"
+    reference_fasta: "measles_reference_{gene}.fasta"
     colors: "colors.tsv"
-    auspice_config: "auspice_config_{build}.json"
+    auspice_config: "auspice_config/{build}.json"
     description: "description.md"
-align_and_extract_N450:
-    min_length: 400
+
+nextclade:
+  # key represents {gene} wildcard
+  genome: >-
+      --min-seed-cover 0.01
+      --min-length 5000
+      --silent
+  N450: >-
+      --min-seed-cover 0.01
+      --min-length 400
+      --silent
+
 subsample:
-    genome:
+    genome/global:
         samples:
             early:
                 max_sequences: 2000
@@ -34,7 +48,21 @@ subsample:
                     - year
                 include: include_strains_genome.txt
                 exclude: dropped_strains.txt
-    N450:
+    genome/north-america:
+        samples:
+            late:
+                max_sequences: 2000
+                min_date: "2025-01-01"
+                min_length: 5000
+                group_by:
+                    - division
+                    - year
+                exclude_where:
+                    - "genotype_ppx!=D8"
+                    - "region!=North America"
+                include: include_strains_north-america.txt
+                exclude: dropped_strains.txt
+    N450/global:
         samples:
             early:
                 max_sequences: 2000
@@ -56,28 +84,62 @@ subsample:
                 include: include_strains_N450.txt
                 exclude: dropped_strains.txt
 refine:
-    genome:
-        coalescent: "opt"
-        date_inference: "marginal"
-        clock_filter_iqd: 8
-        divergence_units: "mutations-per-site"
-    N450:
-        coalescent: "opt"
-        date_inference: "marginal"
-        clock_filter_iqd: 4
-        divergence_units: "mutations-per-site"
+    genome/global: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 8
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+    genome/north-america: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 8
+        --clock-rate 0.000425
+        --root PP_003QHNN
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+    N450/global: >-
+        --timetree
+        --coalescent opt
+        --date-inference marginal
+        --date-confidence
+        --clock-filter-iqd 4
+        --stochastic-resolve
+        --divergence-units mutations-per-site
+
+
 ancestral:
     inference: "joint"
-# trait reconstruction applies only to the "genome" build
+
+# per-build traits. If you wish traits to be skipped you must use a `False` value
+# (to avoid accidentally forgetting to fill out this part of the config)
 traits:
-    columns:
-        - country
-        - region
-    sampling_bias_correction: 3
+    genome/global:
+        columns:
+            - country
+            - region
+        sampling_bias_correction: 3
+    genome/north-america:
+        columns:
+            - division
+        sampling_bias_correction: 3
+    N450/global: False
+
+
 tip_frequencies:
     min_date: "2000-01-01"
     max_date: "6M"
     narrow_bandwidth: 0.2
     wide_bandwidth: 0.6
+
 export:
-    metadata_columns: "strain division location dataUseTerms dataUseTerms__url restrictedUntil PPX_accession INSDC_accession"
+    genome/global: &general_export
+        metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+    genome/north-america:
+      <<: *general_export
+    N450/global:
+      <<: *general_export

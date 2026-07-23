@@ -5,20 +5,46 @@ See Augur's usage docs for these commands for more details.
 """
 from augur.subsample import get_referenced_files
 
+
+rule align:
+    input:
+        sequences = "results/sequences.fasta",
+        reference = resolve_config_path(config["files"]["reference_fasta"]),
+    output:
+        sequences = "results/align_{gene}.fasta",
+    params:
+        nextclade_args = lambda w: config["nextclade"][w.gene],
+    log:
+        "logs/align_{gene}.txt",
+    benchmark:
+        "benchmarks/align_{gene}.txt",
+    threads: workflow.cores
+    shell:
+        r"""
+        exec &> >(tee {log:q})
+
+        nextclade run \
+            -j {threads} \
+            --input-ref {input.reference} \
+            --output-fasta {output.sequences} \
+            {params.nextclade_args} \
+            {input.sequences}
+        """
+
 rule subsample:
     input:
-        config = "results/genome/subsample_config.yaml",
-        sequences = "results/sequences.fasta",
+        config = "results/{build}/subsample_config.yaml",
+        sequences = lambda w: f"results/align_{get_gene(w.build)}.fasta",
         metadata = "results/metadata.tsv",
-        referenced_files = get_referenced_files("results/genome/subsample_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/subsample_config.yaml"),
     output:
-        sequences = "results/genome/subsampled.fasta"
+        sequences = "results/{build}/aligned.fasta"
     params:
         strain_id = config["strain_id_field"]
     log:
-        "logs/subsample_genome.txt",
+        "logs/{build}/subsample.txt",
     benchmark:
-        "benchmarks/subsample_genome.txt",
+        "benchmarks/{build}/subsample.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -29,30 +55,4 @@ rule subsample:
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
             --output-sequences {output.sequences}
-        """
-
-rule align:
-    """
-    Aligning sequences to {input.reference}
-      - filling gaps with N
-    """
-    input:
-        sequences = "results/genome/subsampled.fasta",
-        reference = resolve_config_path(config["files"]["reference"])({"build": "genome"})
-    output:
-        alignment = "results/genome/aligned.fasta"
-    log:
-        "logs/align_genome.txt",
-    benchmark:
-        "benchmarks/align_genome.txt",
-    shell:
-        r"""
-        exec &> >(tee {log:q})
-
-        augur align \
-            --sequences {input.sequences} \
-            --reference-sequence {input.reference} \
-            --output {output.alignment} \
-            --fill-gaps \
-            --remove-reference
         """

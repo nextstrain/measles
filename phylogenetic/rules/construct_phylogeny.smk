@@ -11,9 +11,9 @@ rule tree:
     output:
         tree = "results/{build}/tree_raw.nwk"
     log:
-        "logs/tree_{build}.txt",
+        "logs/{build}/tree.txt",
     benchmark:
-        "benchmarks/tree_{build}.txt",
+        "benchmarks/{build}/tree.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -22,34 +22,6 @@ rule tree:
             --alignment {input.alignment} \
             --output {output.tree}
         """
-
-def _get_refine_param(param_name):
-    """
-    Get refine param in a backwards compatible manner. Config can define:
-    1. params for all builds (old)
-
-        refine:
-            <param_name>: ...
-
-    2. build specific params (new)
-
-        refine:
-            <build>:
-                <param_name>: ...
-    """
-    def _inner(wildcards):
-        # Check for the old format first so that users don't need to update their
-        # configs unless they want to
-        if (all_build_param := config["refine"].get(param_name)) is not None:
-            return all_build_param
-
-        if (build_param := config["refine"].get(wildcards.build, {}).get(param_name)) is not None:
-            return build_param
-
-        raise Exception(f"Could not parse config param {param_name!r} for refine rule.",
-                        f"It should be defined as `refine.{param_name}` or `refine.{wildcards.build}.{param_name}`")
-    return _inner
-
 
 rule refine:
     """
@@ -67,15 +39,12 @@ rule refine:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/branch_lengths.json"
     params:
-        coalescent = _get_refine_param("coalescent"),
-        date_inference = _get_refine_param("date_inference"),
-        clock_filter_iqd = _get_refine_param("clock_filter_iqd"),
+        args = lambda w: config['refine'][w.build],
         strain_id = config["strain_id_field"],
-        divergence_units = _get_refine_param("divergence_units")
     log:
-        "logs/refine_{build}.txt",
+        "logs/{build}/refine.txt",
     benchmark:
-        "benchmarks/refine_{build}.txt",
+        "benchmarks/{build}/refine.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -87,11 +56,5 @@ rule refine:
             --metadata-id-columns {params.strain_id} \
             --output-tree {output.tree} \
             --output-node-data {output.node_data} \
-            --timetree \
-            --coalescent {params.coalescent} \
-            --date-confidence \
-            --date-inference {params.date_inference} \
-            --clock-filter-iqd {params.clock_filter_iqd} \
-            --stochastic-resolve \
-            --divergence-units {params.divergence_units}
+            {params.args}
         """

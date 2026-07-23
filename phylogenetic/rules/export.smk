@@ -28,28 +28,42 @@ rule colors:
             --output {output.colors}
         """
 
+def node_data_jsons(wildcards):
+    jsons = [
+        f"results/{wildcards.build}/branch_lengths.json",
+        f"results/{wildcards.build}/nt_muts.json",
+        f"results/{wildcards.build}/aa_muts.json",
+    ]
+    if wildcards.build not in config['traits']:
+        raise Exception(f"config.traits must define an entry for build {wildcards.build!r}")
+    if config['traits'][wildcards.build] is not False:
+        jsons.append(f"results/{wildcards.build}/traits.json",)
+    return jsons
+
+def warning(wildcards):
+    if value:=config["export"][wildcards.build].get("warning", False):
+        return f"--warning {value!r}"
+    return ''
+
 rule export:
     """Exporting data files for for auspice"""
     input:
         tree = "results/{build}/tree.nwk",
         metadata = "results/metadata.tsv",
-        branch_lengths = "results/{build}/branch_lengths.json",
-        nt_muts = "results/{build}/nt_muts.json",
-        aa_muts = "results/{build}/aa_muts.json",
-        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else [],
+        node_data_jsons = node_data_jsons,
         colors = "results/colors.tsv",
         auspice_config = resolve_config_path(config["files"]["auspice_config"]),
         description=resolve_config_path(config["files"]["description"])
     output:
-        auspice_json = "auspice/measles_{build}.json"
+        auspice_json = "results/auspice/measles/{build}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = config["export"]["metadata_columns"],
-        traits = lambda w: f"results/{w.build}/traits.json" if w.build == "genome" else ""
+        metadata_columns = lambda w: config["export"][w.build]["metadata_columns"],
+        warning = warning,
     log:
-        "logs/export_{build}.txt",
+        "logs/{build}/export.txt",
     benchmark:
-        "benchmarks/export_{build}.txt",
+        "benchmarks/{build}/export.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -58,9 +72,10 @@ rule export:
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --node-data {input.branch_lengths} {input.nt_muts} {input.aa_muts} {params.traits} \
+            --node-data {input.node_data_jsons} \
             --colors {input.colors} \
             --metadata-columns {params.metadata_columns} \
+            {params.warning} \
             --auspice-config {input.auspice_config} \
             --include-root-sequence-inline \
             --output {output.auspice_json} \
@@ -81,11 +96,11 @@ rule tip_frequencies:
         narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
         wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
-        tip_freq = "auspice/measles_{build}_tip-frequencies.json"
+        tip_freq = "results/auspice/measles/{build}_tip-frequencies.json"
     log:
-        "logs/tip_frequencies_{build}.txt",
+        "logs/{build}/tip_frequencies.txt",
     benchmark:
-        "benchmarks/tip_frequencies_{build}.txt",
+        "benchmarks/{build}/tip_frequencies.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -100,4 +115,17 @@ rule tip_frequencies:
             --narrow-bandwidth {params.narrow_bandwidth} \
             --wide-bandwidth {params.wide_bandwidth} \
             --output {output.tip_freq}
+        """
+
+rule copy_export:
+    input:
+        auspice_json = lambda w: f"results/auspice/measles/{w.build_with_underscores.replace('_', '/')}.json",
+        tip_freq = lambda w: f"results/auspice/measles/{w.build_with_underscores.replace('_', '/')}_tip-frequencies.json"
+    output:
+        auspice_json = "auspice/measles_{build_with_underscores}.json",
+        tip_freq = "auspice/measles_{build_with_underscores}_tip-frequencies.json"
+    shell:
+        """
+        cp {input.auspice_json} {output.auspice_json}
+        cp {input.tip_freq} {output.tip_freq}
         """

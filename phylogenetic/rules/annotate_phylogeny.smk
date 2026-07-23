@@ -15,9 +15,9 @@ rule ancestral:
     params:
         inference = config["ancestral"]["inference"]
     log:
-        "logs/ancestral_{build}.txt",
+        "logs/{build}/ancestral.txt",
     benchmark:
-        "benchmarks/ancestral_{build}.txt",
+        "benchmarks/{build}/ancestral.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -34,13 +34,14 @@ rule translate:
     input:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
-        reference = resolve_config_path(config["files"]["reference"])
+        # reference uses wildcard gene, which we create from the build wildcard
+        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)})
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
-        "logs/translate_{build}.txt",
+        "logs/{build}/translate.txt",
     benchmark:
-        "benchmarks/translate_{build}.txt",
+        "benchmarks/{build}/translate.txt",
     shell:
         r"""
         exec &> >(tee {log:q})
@@ -59,16 +60,14 @@ rule traits:
         metadata = "results/metadata.tsv"
     output:
         node_data = "results/{build}/traits.json"
-    wildcard_constraints:
-        build = "genome"
     params:
-        columns = config["traits"]["columns"],
-        sampling_bias_correction = config["traits"]["sampling_bias_correction"],
+        columns = lambda w: config["traits"][w.build]["columns"],
+        sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
-        "logs/traits_{build}.txt",
+        "logs/{build}/traits.txt",
     benchmark:
-        "benchmarks/traits_{build}.txt",
+        "benchmarks/{build}/traits.txt",
     shell:
         r"""
         exec &> >(tee {log:q})

@@ -4,11 +4,12 @@ This part of the workflow deals with configuration.
 OUTPUTS:
 
     results/run_config.yaml
+    results/{build}/subsample_config.yaml
 """
-from textwrap import dedent
 
-
-VALID_BUILDS = {"genome", "N450"}
+def get_gene(build: str) -> str:
+    """Extract the gene from a multi-part build string (e.g. 'genome/global' -> 'genome')."""
+    return build.split("/")[0]
 
 
 def main():
@@ -32,17 +33,43 @@ def validate_config():
     to provide useful error messages for common user errors and effects of
     breaking changes.
     """
-    # Validate 'builds'
-    if invalid_builds := set(config['builds']) - VALID_BUILDS:
-        raise InvalidConfigError(dedent(f"""\
-            The following names in 'builds' are not valid:
+    # Config keys whose value must be a dict keyed by build name, with one entry
+    # for each build listed in config.builds. (Extra values are allowed so that
+    # you can specify a custom subset of builds via --config or similar.)
+    per_build_keys = ["subsample", "refine", "traits", "export"]
 
-                {indented_list(invalid_builds, "                ")}
+    builds = set(config["builds"])
 
-            Valid builds are:
+    for key in per_build_keys:
+        if key not in config:
+            raise InvalidConfigError(f"Config must define a 'config.{key}' section")
 
-                {indented_list(VALID_BUILDS, "                ")}
-            """))
+        value = config[key]
+        if not isinstance(value, dict):
+            raise InvalidConfigError(
+                f"Config 'config.{key}' must be a dict keyed by build name, "
+                f"but it is a {type(value).__name__}"
+            )
+
+        missing_builds = builds - set(value)
+        if len(missing_builds):
+            raise InvalidConfigError(
+                f"The keys of 'config.{key}' must contain all requested builds; "
+                f"you are currently missing ({', '.join(sorted(missing_builds))})"
+            )
+
+    # gene wildcard values must be present in the nextclade config entry
+    if not isinstance(config['nextclade'], dict):
+        raise InvalidConfigError(
+            f"Config 'config.nextclade' must be a dict but it is a {type(config['nextclade']).__name__}"
+        )
+    missing_gene_vals = set([get_gene(build) for build in config["builds"]]) - set(config['nextclade'].keys())
+    if len(missing_gene_vals):
+        raise InvalidConfigError(
+            f"The keys of 'config.nextclade' must contain all necessary 'gene' values; "
+            f"you are currently missing ({', '.join(sorted(missing_gene_vals))})"
+        )
+
 
 
 def write_subsample_config():
@@ -52,10 +79,6 @@ def write_subsample_config():
         else:
             section = ["subsample", build]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
-
-
-def indented_list(xs, prefix):
-    return f"\n{prefix}".join(xs)
 
 
 try:
