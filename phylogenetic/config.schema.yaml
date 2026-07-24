@@ -1,0 +1,146 @@
+$schema: "https://json-schema.org/draft/2020-12/schema"
+title: Measles Phylogenetic Workflow Configuration
+description: >-
+  This is the schema for the Nextstrain measles phylogenetic workflow's
+  configuration file.
+
+$defs:
+  per_build_map: &per_build_map
+    type: object
+    additionalProperties: false
+    propertyNames:
+      title: Build name
+      description: Build name (e.g. 'genome/global')
+
+  per_gene_map: &per_gene_map
+    type: object
+    additionalProperties: false
+    propertyNames:
+      title: Gene name
+      description: Gene name (e.g. 'genome' or 'N450')
+
+  input_item:
+    type: object
+    additionalProperties: false
+    required:
+      - name
+    anyOf:
+      - required: [metadata]
+      - required: [sequences]
+    properties:
+      name:
+        type: string
+      metadata:
+        type: string
+      sequences:
+        type: string
+
+  # An argument string passed directly to a command in the workflow. To be
+  # parsed/validated by the command at run time (e.g. argparse).
+  argument_string:
+    type: string
+
+type: object
+additionalProperties: false
+properties:
+  builds:
+    type: [string, array]
+    items:
+      type: string
+    minItems: 1
+  strain_id_field:
+    type: string
+  inputs:
+    type: array
+    items:
+      $ref: "#/$defs/input_item"
+  additional_inputs:
+    type: array
+    items:
+      $ref: "#/$defs/input_item"
+  files:
+    type: object
+    additionalProperties: false
+    properties:
+      reference:
+        type: string
+      reference_fasta:
+        type: string
+      auspice_config:
+        type: string
+      description:
+        type: string
+  nextclade:
+    <<: *per_gene_map
+    description: Map of gene name strings (e.g. 'genome' or 'N450') to argument strings.
+    patternProperties:
+      "^.*$":
+        $ref: "#/$defs/argument_string"
+  subsample: &subsample_config
+    <<: *per_build_map
+    description: >-
+      Subsampling configuration. When using --configfile, it is recommended to
+      use 'custom_subsample' instead to ignore default subsampling configuration.
+    patternProperties:
+      "^.*$":
+        $ref: "https://nextstrain.org/schemas/augur/subsample-config/v1"
+  custom_subsample:
+    <<: *subsample_config
+    description: >-
+      Custom subsampling configuration. When using --configfile, this is
+      recommended over 'subsample' to ignore default subsampling configuration.
+  refine:
+    <<: *per_build_map
+    description: Map of build name strings (e.g. 'genome/global') to argument strings.
+    patternProperties:
+      "^.*$":
+        $ref: "#/$defs/argument_string"
+  ancestral:
+    type: object
+    additionalProperties: false
+    properties:
+      inference:
+        type: string
+  traits:
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        oneOf:
+          - type: boolean
+          - type: object
+            additionalProperties: false
+            properties:
+              columns:
+                type: array
+                items:
+                  type: string
+              sampling_bias_correction:
+                type: number
+  tip_frequencies:
+    type: object
+    additionalProperties: false
+    properties:
+      min_date:
+        type: [string, number]
+      max_date:
+        type: [string, number]
+      narrow_bandwidth:
+        type: number
+      wide_bandwidth:
+        type: number
+  export:
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        type: object
+        additionalProperties: false
+        properties:
+          metadata_columns:
+            type: string
+          warning:
+            type: string
+  custom_rules:
+    type: array
+    description: Custom Snakemake rule files to include.
+    items:
+      type: string

@@ -6,6 +6,12 @@ OUTPUTS:
     results/run_config.yaml
     results/{build}/subsample_config.yaml
 """
+import jsonschema
+import sys
+import yaml
+from augur.validate import validate_json, ValidateError
+from pathlib import Path
+
 
 def get_gene(build: str) -> str:
     """Extract the gene from a multi-part build string (e.g. 'genome/global' -> 'genome')."""
@@ -13,10 +19,13 @@ def get_gene(build: str) -> str:
 
 
 def main():
+    dump_and_validate(
+        "results/run_config.yaml",
+        Path(workflow.basedir) / "config.schema.yaml"
+    )
     normalize_config()
-    validate_config()
+    validate_config_values()
     write_subsample_config()
-    write_config("results/run_config.yaml")
 
 
 def normalize_config():
@@ -25,51 +34,52 @@ def normalize_config():
         config['builds'] = [config['builds']]
 
 
-def validate_config():
+# TODO: move this to nextstrain/shared
+def dump_and_validate(dump_path, schema_path):
     """
-    Validate the config.
+    Write Snakemake's 'config' variable to a file, then validate it against the
+    schema. Do both in the same function so that the validation output can
+    easily reference the path of the dumped config for inspection.
+    """
+    global config
 
-    This could be improved with a schema definition file, but for now it serves
-    to provide useful error messages for common user errors and effects of
-    breaking changes.
+    write_config(dump_path)
+
+    with open(schema_path, "r") as f:
+        raw_schema = yaml.safe_load(f)
+
+    Validator = jsonschema.validators.validator_for(raw_schema)
+    validator = Validator(raw_schema)
+
+    try:
+        validate_json(config, validator, dump_path)
+    except ValidateError as e:
+        print(f"ERROR: {e}", file=sys.stderr)
+        exit(1)
+
+
+def validate_config_values():
     """
+    Perform custom value checks that can't be handled by schema validation.
+    """
+    global config
+
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    per_build_keys = ["subsample", "refine", "traits", "export"]
-
-    builds = set(config["builds"])
-
-    for key in per_build_keys:
-        if key not in config:
-            raise InvalidConfigError(f"Config must define a 'config.{key}' section")
-
-        value = config[key]
-        if not isinstance(value, dict):
-            raise InvalidConfigError(
-                f"Config 'config.{key}' must be a dict keyed by build name, "
-                f"but it is a {type(value).__name__}"
-            )
-
-        missing_builds = builds - set(value)
-        if len(missing_builds):
+    for key in ["subsample", "refine", "traits", "export"]:
+        if missing_builds := set(config["builds"]) - set(config[key]):
             raise InvalidConfigError(
                 f"The keys of 'config.{key}' must contain all requested builds; "
                 f"you are currently missing ({', '.join(sorted(missing_builds))})"
             )
 
     # gene wildcard values must be present in the nextclade config entry
-    if not isinstance(config['nextclade'], dict):
-        raise InvalidConfigError(
-            f"Config 'config.nextclade' must be a dict but it is a {type(config['nextclade']).__name__}"
-        )
-    missing_gene_vals = set([get_gene(build) for build in config["builds"]]) - set(config['nextclade'].keys())
-    if len(missing_gene_vals):
+    if missing_gene_vals := set([get_gene(build) for build in config["builds"]]) - set(config['nextclade'].keys()):
         raise InvalidConfigError(
             f"The keys of 'config.nextclade' must contain all necessary 'gene' values; "
             f"you are currently missing ({', '.join(sorted(missing_gene_vals))})"
         )
-
 
 
 def write_subsample_config():
