@@ -9,7 +9,7 @@ from augur.subsample import get_referenced_files
 rule align:
     input:
         sequences = "results/sequences.fasta",
-        reference = resolve_config_path(config["files"]["reference_fasta"]),
+        reference = lambda w: config["align"][w.gene]["reference"],
     output:
         sequences = "results/align_{gene}.fasta",
     params:

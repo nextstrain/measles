@@ -58,18 +58,26 @@ properties:
     type: array
     items:
       $ref: "#/$defs/input_item"
-  files:
-    type: object
-    additionalProperties: false
-    properties:
-      reference:
-        type: string
-      reference_fasta:
-        type: string
-      auspice_config:
-        type: string
-      description:
-        type: string
+  align:
+    <<: *per_gene_map
+    patternProperties:
+      "^.*$":
+        type: object
+        additionalProperties: false
+        properties:
+          reference:
+            type: string
+            format: filepath
+  translate:
+    <<: *per_gene_map
+    patternProperties:
+      "^.*$":
+        type: object
+        additionalProperties: false
+        properties:
+          reference:
+            type: string
+            format: filepath
   nextclade:
     <<: *per_gene_map
     description: Map of gene name strings (e.g. 'genome' or 'N450') to argument strings.
@@ -96,11 +104,17 @@ properties:
       "^.*$":
         $ref: "#/$defs/argument_string"
   ancestral:
-    type: object
-    additionalProperties: false
-    properties:
-      inference:
-        type: string
+    <<: *per_gene_map
+    patternProperties:
+      "^.*$":
+        type: object
+        additionalProperties: false
+        properties:
+          inference:
+            type: string
+          reference:
+            type: string
+            format: filepath
   traits:
     <<: *per_build_map
     patternProperties:
@@ -139,6 +153,12 @@ properties:
             type: string
           warning:
             type: string
+          auspice_config:
+            type: string
+            format: filepath
+          description:
+            type: string
+            format: filepath
   custom_rules:
     type: array
     description: Custom Snakemake rule files to include.

@@ -10,11 +10,11 @@ rule ancestral:
     input:
         tree = "results/{build}/tree.nwk",
         alignment = "results/{build}/aligned.fasta",
-        root = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)}),
+        root = lambda w: config["ancestral"][get_gene(w.build)]["reference"],
     output:
         node_data = "results/{build}/nt_muts.json"
     params:
-        inference = config["ancestral"]["inference"]
+        inference = lambda w: config["ancestral"][get_gene(w.build)]["inference"],
     log:
         "logs/{build}/ancestral.txt",
     benchmark:
@@ -37,7 +37,7 @@ rule translate:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
         # reference uses wildcard gene, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)})
+        reference = lambda w: config["translate"][get_gene(w.build)]["reference"]
     output:
         node_data = "results/{build}/aa_muts.json"
     log:

@@ -12,9 +12,6 @@ additional_inputs:
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
 
-files:
-    auspice_config: "auspice_config.json"
-
 subsample:
     genome/north-america-outbreak-example:
         samples:
@@ -60,6 +57,7 @@ traits:
 export:
     genome/north-america-outbreak-example:
       metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+      auspice_config: "auspice_config.json"
       warning: >-
         This dataset represents an example usage of augur subsample with proximity sampling
         to focus on Montana measles cases

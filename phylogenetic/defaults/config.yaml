@@ -8,11 +8,17 @@ inputs:
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
 
-files:
-    reference: "measles_reference_{gene}.gb"
-    reference_fasta: "measles_reference_{gene}.fasta"
-    auspice_config: "auspice_config/{build}.json"
-    description: "description.md"
+align:
+    genome:
+        reference: "measles_reference_genome.fasta"
+    N450:
+        reference: "measles_reference_N450.fasta"
+
+translate:
+    genome:
+        reference: "measles_reference_genome.gb"
+    N450:
+        reference: "measles_reference_N450.gb"
 
 nextclade:
   # key represents {gene} wildcard
@@ -112,7 +118,12 @@ refine:
 
 
 ancestral:
-    inference: "joint"
+    genome:
+        reference: "measles_reference_genome.gb"
+        inference: "joint"
+    N450:
+        reference: "measles_reference_N450.gb"
+        inference: "joint"
 
 # per-build traits. If you wish traits to be skipped you must use a `False` value
 # (to avoid accidentally forgetting to fill out this part of the config)
@@ -138,7 +149,11 @@ tip_frequencies:
 export:
     genome/global: &general_export
         metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+        auspice_config: "auspice_config/genome/global.json"
+        description: "description.md"
     genome/north-america:
-      <<: *general_export
+        <<: *general_export
+        auspice_config: "auspice_config/genome/north-america.json"
     N450/global:
-      <<: *general_export
+        <<: *general_export
+        auspice_config: "auspice_config/N450/global.json"

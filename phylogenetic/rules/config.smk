@@ -7,8 +7,10 @@ OUTPUTS:
     results/{build}/subsample_config.yaml
 """
 import jsonschema
+import os
 import sys
 import yaml
+from augur.config import resolve_filepaths
 from augur.validate import validate_json, ValidateError
 from pathlib import Path
 
@@ -19,23 +21,34 @@ def get_gene(build: str) -> str:
 
 
 def main():
-    dump_and_validate(
-        "results/run_config.yaml",
-        Path(workflow.basedir) / "config.schema.yaml"
-    )
-    normalize_config()
+    schema = load_yaml(Path(workflow.basedir) / "config.schema.yaml")
+    dump_and_validate("results/run_config.yaml", schema)
+    normalize_config(schema)
     validate_config_values()
     write_subsample_config()
 
 
-def normalize_config():
+# TODO: move this to nextstrain/shared
+def load_yaml(path):
+    """
+    Load a YAML file from a filepath.
+    """
+    with open(path, "r") as f:
+        return yaml.safe_load(f)
+
+
+def normalize_config(schema):
     # Normalize scalar string to a single-item list
     if isinstance(config['builds'], str):
         config['builds'] = [config['builds']]
 
+    # Resolve filepaths
+    search_paths = [Path(p) for p in os.environ["AUGUR_SEARCH_PATHS"].split(":")]
+    resolve_filepaths(config, search_paths, schema)
+
 
 # TODO: move this to nextstrain/shared
-def dump_and_validate(dump_path, schema_path):
+def dump_and_validate(dump_path, schema):
     """
     Write Snakemake's 'config' variable to a file, then validate it against the
     schema. Do both in the same function so that the validation output can
@@ -45,11 +58,8 @@ def dump_and_validate(dump_path, schema_path):
 
     write_config(dump_path)
 
-    with open(schema_path, "r") as f:
-        raw_schema = yaml.safe_load(f)
-
-    Validator = jsonschema.validators.validator_for(raw_schema)
-    validator = Validator(raw_schema)
+    Validator = jsonschema.validators.validator_for(schema)
+    validator = Validator(schema)
 
     try:
         validate_json(config, validator, dump_path)
@@ -74,12 +84,15 @@ def validate_config_values():
                 f"you are currently missing ({', '.join(sorted(missing_builds))})"
             )
 
-    # gene wildcard values must be present in the nextclade config entry
-    if missing_gene_vals := set([get_gene(build) for build in config["builds"]]) - set(config['nextclade'].keys()):
-        raise InvalidConfigError(
-            f"The keys of 'config.nextclade' must contain all necessary 'gene' values; "
-            f"you are currently missing ({', '.join(sorted(missing_gene_vals))})"
-        )
+    # Config keys whose value must be a dict keyed by gene name, with one entry
+    # for each gene in requested builds.
+    genes = set(get_gene(build) for build in config["builds"])
+    for key in ["align", "translate", "nextclade"]:
+        if missing_genes := genes - set(config[key]):
+            raise InvalidConfigError(
+                f"The keys of 'config.{key}' must contain all necessary genes; "
+                f"you are currently missing ({', '.join(sorted(missing_genes))})"
+            )
 
 
 def write_subsample_config():

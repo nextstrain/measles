@@ -52,8 +52,8 @@ rule export:
         metadata = "results/metadata.tsv",
         node_data_jsons = node_data_jsons,
         colors = "results/colors.tsv",
-        auspice_config = resolve_config_path(config["files"]["auspice_config"]),
-        description=resolve_config_path(config["files"]["description"])
+        auspice_config = lambda w: config["export"][w.build]["auspice_config"],
+        description = lambda w: config["export"][w.build]["description"],
     output:
         auspice_json = "results/auspice/measles/{build}.json"
     params:
