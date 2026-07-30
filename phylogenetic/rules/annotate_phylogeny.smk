@@ -9,7 +9,8 @@ rule ancestral:
     """Reconstructing ancestral sequences and mutations"""
     input:
         tree = "results/{build}/tree.nwk",
-        alignment = "results/{build}/aligned.fasta"
+        alignment = "results/{build}/aligned.fasta",
+        root = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)}),
     output:
         node_data = "results/{build}/nt_muts.json"
     params:
@@ -26,7 +27,8 @@ rule ancestral:
             --tree {input.tree} \
             --alignment {input.alignment} \
             --output-node-data {output.node_data} \
-            --inference {params.inference}
+            --inference {params.inference} \
+            --root-sequence {input.root}
         """
 
 rule translate:
