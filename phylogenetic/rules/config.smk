@@ -6,10 +6,9 @@ OUTPUTS:
     results/run_config.yaml
     results/{build}/subsample_config.yaml
 """
-import jsonschema
 import sys
 import yaml
-from augur.validate import validate_json, ValidateError
+from augur.validate import load_json_schema_locally, validate_json, ValidateError
 from pathlib import Path
 
 
@@ -49,13 +48,9 @@ def dump_and_validate(dump_path, schema_path):
         print("WARNING: Skipping config schema validation because custom rules are defined.", file=sys.stderr)
         return
 
-    with open(schema_path, "r") as f:
-        raw_schema = yaml.safe_load(f)
-
-    Validator = jsonschema.validators.validator_for(raw_schema)
-    validator = Validator(raw_schema)
 
     try:
+        validator = load_json_schema_locally(schema_path)
         validate_json(config, validator, dump_path)
     except ValidateError as e:
         print(f"ERROR: {e}", file=sys.stderr)
