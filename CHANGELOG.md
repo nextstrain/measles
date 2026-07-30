@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* 30 July 2026: Phylogenetic workflow configuration is now validated against a strict schema. The workflow will error if your configuration has extraneous entries that were previously ignored.
 * 30 July 2026: phylogenetic - Use `files.reference` as the root sequence for `augur ancestral` to support using builds as Nextclade datsets.
 * 24 July 2026: Removed config `files.colors` from phylogenetic workflow defaults. The value has been unused since the update on 14 January 2026.
 * 23 July 2026: In order to produce more relevant analyses for ongoing outbreaks, this workflow has shifted from producing only "N450" and "genome" builds to producing builds which specify their geographic resolution: "N450/global", "genome/global" and "genome/north-america". This extra versatility has required big changes to the config structure. **The following are breaking changes**:
