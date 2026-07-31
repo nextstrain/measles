@@ -14,4 +14,7 @@ builds:
 custom_rules:
   - build-configs/nextstrain-automation/deploy.smk
 
+custom_schema:
+  - build-configs/nextstrain-automation/config.schema.yaml
+
 deploy_url: "s3://nextstrain-data"

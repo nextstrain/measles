@@ -48,6 +48,13 @@ def dump_and_validate(dump_path, schema_path):
     with open(schema_path, "r") as f:
         raw_schema = yaml.safe_load(f)
 
+    # Allow additional properties defined by custom_schema.
+    for custom_schema_path in config.get("custom_schema", []):
+        with open(custom_schema_path, "r") as f:
+            custom_schema = yaml.safe_load(f)
+        if "properties" in custom_schema:
+            raw_schema.setdefault("properties", {}).update(custom_schema["properties"])
+
     Validator = jsonschema.validators.validator_for(raw_schema)
     validator = Validator(raw_schema)
 
