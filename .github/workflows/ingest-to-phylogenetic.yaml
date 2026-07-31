@@ -129,8 +129,8 @@ jobs:
       run: |
         nextstrain build \
           phylogenetic \
-            deploy_all \
             --configfile build-configs/nextstrain-automation/config.yaml
+        nextstrain remote upload s3://nextstrain-data phylogenetic/auspice/*.json
       # Specifying artifact name to differentiate ingest build outputs from
       # the phylogenetic build outputs
       artifact-name: phylogenetic-build-output
