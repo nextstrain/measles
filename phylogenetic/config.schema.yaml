@@ -141,12 +141,6 @@ properties:
             type: string
   custom_rules:
     type: array
-    description: Custom Snakemake rule files to include.
+    description: Custom Snakemake rule files to include. If used, this will disable config schema validation.
     items:
       type: string
-  # This is only used a custom rule in `nextstrain-automation`.
-  # We can revisit this when we come to a consensus on how to handle custom
-  # params in <https://github.com/nextstrain/measles/issues/142>
-  deploy_url:
-    type: string
-    description: URL for deploying builds for nextstrain-automation
