@@ -45,6 +45,10 @@ def dump_and_validate(dump_path, schema_path):
 
     write_config(dump_path)
 
+    if "custom_rules" in config:
+        print("WARNING: Skipping config schema validation because custom rules are defined.", file=sys.stderr)
+        return
+
     with open(schema_path, "r") as f:
         raw_schema = yaml.safe_load(f)
 

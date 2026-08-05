@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* 5 August 2026: Phylogenetic workflow configuration schema is only validated when not using `custom_rules`.
 * 30 July 2026: Phylogenetic workflow configuration is now validated against a strict schema. The workflow will error if your configuration has extraneous entries that were previously ignored.
 * 30 July 2026: phylogenetic - Use `files.reference` as the root sequence for `augur ancestral` to support using builds as Nextclade datsets.
 * 24 July 2026: Removed config `files.colors` from phylogenetic workflow defaults. The value has been unused since the update on 14 January 2026.
