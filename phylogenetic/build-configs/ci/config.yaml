@@ -1,3 +1,5 @@
+$schema: "../../config.schema.yaml"
+
 # This configuration file contains the custom configurations parameters
 # for the CI workflow to run with the example data.
 builds:

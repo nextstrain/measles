@@ -43,6 +43,27 @@ $defs:
 type: object
 additionalProperties: false
 properties:
+  $schema:
+    type: string
+    description: >-
+      Path or URL to the schema for this configuration file. Specify for an
+      improved editing experience in some IDEs.
+
+      Config files in external directories can reference the schema used by
+      Nextstrain using a GitHub URL in the format:
+
+          https://raw.githubusercontent.com/nextstrain/measles/{ref}/phylogenetic/config.schema.yaml
+      
+      where {ref} can be a branch or specific commit. Note that this schema only
+      covers what's expected by the unmodified workflow (i.e. it may not work
+      with custom_rules).
+
+      If you regularly update the workflow, use the value 'HEAD' to always
+      reference the latest schema. Otherwise, use the id of the last commit of
+      the workflow.
+
+      In the future, with versioned releases of the repo, we may make the file
+      available on nextstrain.org with versioned URLs.
   builds:
     type: [string, array]
     items:

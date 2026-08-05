@@ -1,3 +1,4 @@
+$schema: "../config.schema.yaml"
 builds:
   - genome/global
   - N450/global

@@ -1,3 +1,5 @@
+$schema: "../../config.schema.yaml"
+
 # Stand-alone build config demonstrating `augur subsample` proximity sampling.
 #
 # This produces a single 'genome/north-america-outbreak-example' build that
