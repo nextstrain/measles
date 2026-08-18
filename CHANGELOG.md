@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* TBD: The `refine` section in phylogenetic workflow configuration now expects configuration in YAML syntax. **This is a breaking change**.
 * 6 August 2026: Phylogenetic workflow configuration schema validation no longer requires an internet connection.
 * 5 August 2026: Phylogenetic workflow configuration schema is only validated when not using `custom_rules`.
 * 30 July 2026: Phylogenetic workflow configuration is now validated against a strict schema. The workflow will error if your configuration has extraneous entries that were previously ignored.
