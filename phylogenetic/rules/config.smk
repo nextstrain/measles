@@ -4,7 +4,7 @@ This part of the workflow deals with configuration.
 OUTPUTS:
 
     results/run_config.yaml
-    results/{build}/subsample_config.yaml
+    results/{build}/{rule}_config.yaml
 """
 import sys
 import yaml
@@ -24,7 +24,7 @@ def main():
     )
     normalize_config()
     validate_config_values()
-    write_subsample_config()
+    write_rule_configs()
 
 
 def normalize_config():
@@ -81,13 +81,19 @@ def validate_config_values():
         )
 
 
-def write_subsample_config():
+def write_rule_configs():
+    # Support "custom_subsample" section to avoid defaults inheritance from "subsample"
     for build in config["builds"]:
         if "custom_subsample" in config:
             section = ["custom_subsample", build]
         else:
             section = ["subsample", build]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
+
+    for rule in ["refine"]:
+        for build in config["builds"]:
+            section = [rule, build]
+            write_config(f"results/{build}/{rule}_config.yaml", section=section)
 
 
 try:

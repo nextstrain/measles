@@ -83,32 +83,32 @@ subsample:
                 include: include_strains_N450.txt
                 exclude: dropped_strains.txt
 refine:
-    genome/global: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
-        --divergence-units mutations-per-site
-    genome/north-america: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --clock-rate 0.000425
-        --root PP_003QHNN
-        --stochastic-resolve
-        --divergence-units mutations-per-site
-    N450/global: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 4
-        --stochastic-resolve
-        --divergence-units mutations-per-site
+    genome/global:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 8
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
+    genome/north-america:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 8
+        clock_rate: 0.000425
+        root: [PP_003QHNN]  # FIXME: considering support for scalars in Augur
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
+    N450/global:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 4
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
 
 
 ancestral:
