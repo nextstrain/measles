@@ -90,10 +90,11 @@ def write_rule_configs():
             section = ["subsample", build]
         write_config(f"results/{build}/subsample_config.yaml", section=section)
 
-    for rule in ["refine"]:
+    for rule in ["refine", "traits"]:
         for build in config["builds"]:
-            section = [rule, build]
-            write_config(f"results/{build}/{rule}_config.yaml", section=section)
+            if config[rule][build]:
+                section = [rule, build]
+                write_config(f"results/{build}/{rule}_config.yaml", section=section)
 
 
 try:

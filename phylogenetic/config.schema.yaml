@@ -118,16 +118,17 @@ properties:
     patternProperties:
       "^.*$":
         oneOf:
+          # FIXME: only allow boolean false
           - type: boolean
-          - type: object
-            additionalProperties: false
-            properties:
-              columns:
-                type: array
-                items:
-                  type: string
-              sampling_bias_correction:
-                type: number
+          - allOf:
+            - $ref: "https://nextstrain.org/schemas/augur/traits-config/v1"
+            - type: object
+              # Forbid options specified in the invoked command.
+              properties:
+                tree: false
+                metadata: false
+                metadata_id_columns: false
+                output: false
   tip_frequencies:
     type: object
     additionalProperties: false
