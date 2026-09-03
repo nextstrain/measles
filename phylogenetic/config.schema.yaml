@@ -75,6 +75,7 @@ properties:
     description: Map of gene name strings (e.g. 'genome' or 'N450') to argument strings.
     patternProperties:
       "^.*$":
+        description: "<build>"
         $ref: "#/$defs/argument_string"
   subsample: &subsample_config
     <<: *per_build_map
@@ -83,6 +84,7 @@ properties:
       use 'custom_subsample' instead to ignore default subsampling configuration.
     patternProperties:
       "^.*$":
+        description: "<build>"
         $ref: "https://nextstrain.org/schemas/augur/subsample-config/v1"
   custom_subsample:
     <<: *subsample_config
@@ -95,6 +97,7 @@ properties:
       Refine configuration.
     patternProperties:
       "^.*$":
+        description: "<build>"
         allOf:
           - $ref: "https://nextstrain.org/schemas/augur/refine-config/v1"
           - type: object
