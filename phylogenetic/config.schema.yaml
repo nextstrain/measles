@@ -108,11 +108,18 @@ properties:
               output_tree: false
               output_node_data: false
   ancestral:
-    type: object
-    additionalProperties: false
-    properties:
-      inference:
-        type: string
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/ancestral-config/v1"
+          - type: object
+            # Forbid options specified in the invoked command.
+            properties:
+              tree: false
+              alignment: false
+              output_node_data: false
+              root_sequence: false # FIXME: move this to config?
   traits:
     <<: *per_build_map
     patternProperties:

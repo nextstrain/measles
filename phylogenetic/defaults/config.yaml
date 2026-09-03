@@ -112,7 +112,12 @@ refine:
 
 
 ancestral:
-    inference: "joint"
+    genome/global:
+        inference: "joint"
+    genome/north-america:
+        inference: "joint"
+    N450/global:
+        inference: "joint"
 
 # per-build traits. If you wish traits to be skipped you must use a `False` value
 # (to avoid accidentally forgetting to fill out this part of the config)
