@@ -112,7 +112,15 @@ refine:
 
 
 ancestral:
-    inference: "joint"
+    genome/global:
+        root_sequence: "measles_reference_genome.gb"
+        inference: "joint"
+    genome/north-america:
+        root_sequence: "measles_reference_genome.gb"
+        inference: "joint"
+    N450/global:
+        root_sequence: "measles_reference_N450.gb"
+        inference: "joint"
 
 # per-build traits. If you wish traits to be skipped you must use a `False` value
 # (to avoid accidentally forgetting to fill out this part of the config)

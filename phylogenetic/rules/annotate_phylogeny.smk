@@ -10,11 +10,10 @@ rule ancestral:
     input:
         tree = "results/{build}/tree.nwk",
         alignment = "results/{build}/aligned.fasta",
-        root = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)}),
+        config = "results/{build}/ancestral_config.yaml",
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/ancestral_config.yaml"),
     output:
         node_data = "results/{build}/nt_muts.json"
-    params:
-        inference = config["ancestral"]["inference"]
     log:
         "logs/{build}/ancestral.txt",
     benchmark:
@@ -24,11 +23,10 @@ rule ancestral:
         exec &> >(tee {log:q})
 
         augur ancestral \
+            --config {input.config} \
             --tree {input.tree} \
             --alignment {input.alignment} \
-            --output-node-data {output.node_data} \
-            --inference {params.inference} \
-            --root-sequence {input.root}
+            --output-node-data {output.node_data}
         """
 
 rule translate:
