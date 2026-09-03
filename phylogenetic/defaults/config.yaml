@@ -122,10 +122,12 @@ traits:
             - country
             - region
         sampling_bias_correction: 3
+        confidence: True
     genome/north-america:
         columns:
             - division
         sampling_bias_correction: 3
+        confidence: True
     N450/global: False
 
 
