@@ -56,15 +56,14 @@ rule translate:
         """
 
 rule traits:
-    """Inferring ancestral traits for {params.columns!s}"""
+    """Inferring ancestral traits"""
     input:
+        config = "results/{build}/traits_config.yaml",
         tree = "results/{build}/tree.nwk",
         metadata = "results/metadata.tsv"
     output:
         node_data = "results/{build}/traits.json"
     params:
-        columns = lambda w: config["traits"][w.build]["columns"],
-        sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
         "logs/{build}/traits.txt",
@@ -75,11 +74,9 @@ rule traits:
         exec &> >(tee {log:q})
 
         augur traits \
+            --config {input.config} \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output {output.node_data} \
-            --columns {params.columns} \
-            --confidence \
-            --sampling-bias-correction {params.sampling_bias_correction}
+            --output {output.node_data}
         """
