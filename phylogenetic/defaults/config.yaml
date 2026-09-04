@@ -9,7 +9,6 @@ inputs:
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
 
 files:
-    reference: "measles_reference_{gene}.gb"
     reference_fasta: "measles_reference_{gene}.fasta"
     auspice_config: "auspice_config/{build}.json"
     description: "description.md"
@@ -138,6 +137,13 @@ traits:
         confidence: True
     N450/global: False
 
+translate:
+    genome/global:
+        reference_sequence: "measles_reference_genome.gb"
+    genome/north-america:
+        reference_sequence: "measles_reference_genome.gb"
+    N450/global:
+        reference_sequence: "measles_reference_N450.gb"
 
 tip_frequencies:
     min_date: "2000-01-01"
