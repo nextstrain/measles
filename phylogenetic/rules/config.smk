@@ -41,7 +41,7 @@ def validate_config_values():
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    for key in ["ancestral", "subsample", "refine", "traits", "export"]:
+    for key in ["ancestral", "subsample", "refine", "traits", "translate", "export"]:
         if missing_builds := set(config["builds"]) - set(config[key]):
             raise InvalidConfigError(
                 f"The keys of 'config.{key}' must contain all requested builds; "
@@ -68,7 +68,7 @@ def write_rule_configs(schema_path):
         }
         write_config(f"results/{build}/subsample_config.yaml", section=[subsample_key, build])
 
-    for rule in ["ancestral", "refine", "traits"]:
+    for rule in ["ancestral", "refine", "traits", "translate"]:
         for build in config["builds"]:
             if config[rule][build]:
                 config[rule][build] = {
