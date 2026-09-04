@@ -16,13 +16,14 @@ def get_gene(build: str) -> str:
 
 
 def main():
+    schema_path = Path(workflow.basedir) / "config.schema.yaml"
     dump_and_validate(
         "results/run_config.yaml",
-        Path(workflow.basedir) / "config.schema.yaml"
+        schema_path
     )
     normalize_config()
     validate_config_values()
-    write_rule_configs()
+    write_rule_configs(schema_path)
 
 
 def normalize_config():
@@ -55,20 +56,55 @@ def validate_config_values():
         )
 
 
-def write_rule_configs():
+def write_rule_configs(schema_path):
+    schema = load_json_schema_locally(schema_path).schema
+
     # Support "custom_subsample" section to avoid defaults inheritance from "subsample"
     for build in config["builds"]:
-        if "custom_subsample" in config:
-            section = ["custom_subsample", build]
-        else:
-            section = ["subsample", build]
-        write_config(f"results/{build}/subsample_config.yaml", section=section)
+        subsample_key = "custom_subsample" if "custom_subsample" in config else "subsample"
+        config[subsample_key][build] = {
+            "$schema": get_external_ref(schema["properties"][subsample_key]),
+            **config[subsample_key][build],
+        }
+        write_config(f"results/{build}/subsample_config.yaml", section=[subsample_key, build])
 
     for rule in ["refine", "traits"]:
         for build in config["builds"]:
             if config[rule][build]:
-                section = [rule, build]
-                write_config(f"results/{build}/{rule}_config.yaml", section=section)
+                config[rule][build] = {
+                    # Add $schema for augur.config.get_referenced_files().
+                    # This isn't entirely accurate because the workflow config
+                    # takes a subset of the Augur command's config schema
+                    # (implemented via allOf), but the nuance doesn't matter for
+                    # get_referenced_files().
+                    "$schema": get_external_ref(schema["properties"][rule]),
+
+                    **config[rule][build],
+                }
+                write_config(f"results/{build}/{rule}_config.yaml", section=[rule, build])
+
+
+def get_external_ref(rule_schema):
+    """Recursively search for a $ref URL in a rule's schema definition."""
+    # Check mappings (patternProperties, build name patterns, etc.).
+    if isinstance(rule_schema, dict):
+        # Found!
+        if "$ref" in rule_schema and rule_schema["$ref"].startswith("https://"):
+            return rule_schema["$ref"]
+
+        # Check within each mapping value.
+        for val in rule_schema.values():
+            if ref := get_external_ref(val):
+                return ref
+
+    # Check within allOf/oneOf entries.
+    elif isinstance(rule_schema, list):
+        for item in rule_schema:
+            if ref := get_external_ref(item):
+                return ref
+
+    # No matching $ref found in this branch (dead end).
+    return None
 
 
 try:

@@ -3,7 +3,7 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
-from augur.subsample import get_referenced_files
+from augur.config import get_referenced_files
 
 
 rule align:
