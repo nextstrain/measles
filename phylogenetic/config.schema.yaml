@@ -135,6 +135,18 @@ properties:
                 metadata: false
                 metadata_id_columns: false
                 output: false
+  translate:
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/translate-config/v1"
+          - type: object
+            # Forbid options specified in the invoked command.
+            properties:
+              tree: false
+              ancestral_sequences: false
+              output: false
   tip_frequencies:
     type: object
     additionalProperties: false

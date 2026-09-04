@@ -32,10 +32,10 @@ rule ancestral:
 rule translate:
     """Translating amino acid sequences"""
     input:
+        config = "results/{build}/translate_config.yaml",
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
-        # reference uses wildcard gene, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)})
+        # FIXME: referenced_files = lambda w: get_referenced_files(f"results/{w.build}/translate_config.yaml"),
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
@@ -47,9 +47,9 @@ rule translate:
         exec &> >(tee {log:q})
 
         augur translate \
+            --config {input.config} \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
-            --reference-sequence {input.reference} \
             --output {output.node_data}
         """
 
