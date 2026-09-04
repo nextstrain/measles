@@ -94,6 +94,7 @@ def write_rule_configs():
         for build in config["builds"]:
             if config[rule][build]:
                 section = [rule, build]
+                # FIXME: add $schema for get_referenced_files
                 write_config(f"results/{build}/{rule}_config.yaml", section=section)
 
 
