@@ -84,18 +84,15 @@ def validate_config_values():
 def write_rule_configs():
     # Support "custom_subsample" section to avoid defaults inheritance from "subsample"
     for build in config["builds"]:
-        if "custom_subsample" in config:
-            section = ["custom_subsample", build]
-        else:
-            section = ["subsample", build]
-        write_config(f"results/{build}/subsample_config.yaml", section=section)
+        subsample_key = "custom_subsample" if "custom_subsample" in config else "subsample"
+        config[subsample_key][build]["$schema"] = f"https://nextstrain.org/schemas/augur/subsample-config/v1"
+        write_config(f"results/{build}/subsample_config.yaml", section=[subsample_key, build])
 
     for rule in ["ancestral", "refine", "traits", "translate"]:
         for build in config["builds"]:
             if config[rule][build]:
-                section = [rule, build]
-                # FIXME: add $schema for get_referenced_files
-                write_config(f"results/{build}/{rule}_config.yaml", section=section)
+                config[rule][build]["$schema"] = f"https://nextstrain.org/schemas/augur/{rule}-config/v1"
+                write_config(f"results/{build}/{rule}_config.yaml", section=[rule, build])
 
 
 try:

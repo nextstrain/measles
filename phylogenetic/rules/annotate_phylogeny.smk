@@ -11,7 +11,7 @@ rule ancestral:
         config = "results/{build}/ancestral_config.yaml",
         tree = "results/{build}/tree.nwk",
         alignment = "results/{build}/aligned.fasta",
-        # FIXME: referenced_files = lambda w: get_referenced_files(f"results/{w.build}/ancestral_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/ancestral_config.yaml"),
     output:
         node_data = "results/{build}/nt_muts.json"
     log:
@@ -35,7 +35,7 @@ rule translate:
         config = "results/{build}/translate_config.yaml",
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
-        # FIXME: referenced_files = lambda w: get_referenced_files(f"results/{w.build}/translate_config.yaml"),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/translate_config.yaml"),
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
