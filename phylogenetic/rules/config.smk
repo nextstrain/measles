@@ -4,7 +4,7 @@ This part of the workflow deals with configuration.
 OUTPUTS:
 
     results/run_config.yaml
-    results/{build}/subsample_config.yaml
+    results/{build}/{rule}_config.yaml
 """
 import sys
 import yaml
@@ -24,7 +24,7 @@ def main():
     )
     normalize_config()
     validate_config_values()
-    write_subsample_config()
+    write_rule_configs()
 
 
 def normalize_config():
@@ -66,7 +66,7 @@ def validate_config_values():
     # Config keys whose value must be a dict keyed by build name, with one entry
     # for each build listed in config.builds. (Extra values are allowed so that
     # you can specify a custom subset of builds via --config or similar.)
-    for key in ["subsample", "refine", "traits", "export"]:
+    for key in ["ancestral", "subsample", "refine", "traits", "translate", "export"]:
         if missing_builds := set(config["builds"]) - set(config[key]):
             raise InvalidConfigError(
                 f"The keys of 'config.{key}' must contain all requested builds; "
@@ -81,13 +81,18 @@ def validate_config_values():
         )
 
 
-def write_subsample_config():
+def write_rule_configs():
+    # Support "custom_subsample" section to avoid defaults inheritance from "subsample"
     for build in config["builds"]:
-        if "custom_subsample" in config:
-            section = ["custom_subsample", build]
-        else:
-            section = ["subsample", build]
-        write_config(f"results/{build}/subsample_config.yaml", section=section)
+        subsample_key = "custom_subsample" if "custom_subsample" in config else "subsample"
+        config[subsample_key][build]["$schema"] = f"https://nextstrain.org/schemas/augur/subsample-config/v1"
+        write_config(f"results/{build}/subsample_config.yaml", section=[subsample_key, build])
+
+    for rule in ["ancestral", "refine", "traits", "translate"]:
+        for build in config["builds"]:
+            if config[rule][build]:
+                config[rule][build]["$schema"] = f"https://nextstrain.org/schemas/augur/{rule}-config/v1"
+                write_config(f"results/{build}/{rule}_config.yaml", section=[rule, build])
 
 
 try:

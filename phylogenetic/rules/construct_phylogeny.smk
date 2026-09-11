@@ -24,14 +24,8 @@ rule tree:
         """
 
 rule refine:
-    """
-    Refining tree
-      - estimate timetree
-      - use {params.coalescent} coalescent timescale
-      - estimate {params.date_inference} node dates
-      - filter tips more than {params.clock_filter_iqd} IQDs from clock expectation
-    """
     input:
+        config = "results/{build}/refine_config.yaml",
         tree = "results/{build}/tree_raw.nwk",
         alignment = "results/{build}/aligned.fasta",
         metadata = "results/metadata.tsv"
@@ -39,7 +33,6 @@ rule refine:
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/branch_lengths.json"
     params:
-        args = lambda w: config['refine'][w.build],
         strain_id = config["strain_id_field"],
     log:
         "logs/{build}/refine.txt",
@@ -56,5 +49,5 @@ rule refine:
             --metadata-id-columns {params.strain_id} \
             --output-tree {output.tree} \
             --output-node-data {output.node_data} \
-            {params.args}
+            --config {input.config}
         """

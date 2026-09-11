@@ -8,13 +8,12 @@ See Augur's usage docs for these commands for more details.
 rule ancestral:
     """Reconstructing ancestral sequences and mutations"""
     input:
+        config = "results/{build}/ancestral_config.yaml",
         tree = "results/{build}/tree.nwk",
         alignment = "results/{build}/aligned.fasta",
-        root = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)}),
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/ancestral_config.yaml"),
     output:
         node_data = "results/{build}/nt_muts.json"
-    params:
-        inference = config["ancestral"]["inference"]
     log:
         "logs/{build}/ancestral.txt",
     benchmark:
@@ -24,20 +23,19 @@ rule ancestral:
         exec &> >(tee {log:q})
 
         augur ancestral \
+            --config {input.config} \
             --tree {input.tree} \
             --alignment {input.alignment} \
-            --output-node-data {output.node_data} \
-            --inference {params.inference} \
-            --root-sequence {input.root}
+            --output-node-data {output.node_data}
         """
 
 rule translate:
     """Translating amino acid sequences"""
     input:
+        config = "results/{build}/translate_config.yaml",
         tree = "results/{build}/tree.nwk",
         node_data = "results/{build}/nt_muts.json",
-        # reference uses wildcard gene, which we create from the build wildcard
-        reference = lambda w: resolve_config_path(config["files"]["reference"])({'gene': get_gene(w.build)})
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/translate_config.yaml"),
     output:
         node_data = "results/{build}/aa_muts.json"
     log:
@@ -49,22 +47,21 @@ rule translate:
         exec &> >(tee {log:q})
 
         augur translate \
+            --config {input.config} \
             --tree {input.tree} \
             --ancestral-sequences {input.node_data} \
-            --reference-sequence {input.reference} \
             --output {output.node_data}
         """
 
 rule traits:
-    """Inferring ancestral traits for {params.columns!s}"""
+    """Inferring ancestral traits"""
     input:
+        config = "results/{build}/traits_config.yaml",
         tree = "results/{build}/tree.nwk",
         metadata = "results/metadata.tsv"
     output:
         node_data = "results/{build}/traits.json"
     params:
-        columns = lambda w: config["traits"][w.build]["columns"],
-        sampling_bias_correction = lambda w: config["traits"][w.build]["sampling_bias_correction"],
         strain_id = config["strain_id_field"]
     log:
         "logs/{build}/traits.txt",
@@ -75,11 +72,9 @@ rule traits:
         exec &> >(tee {log:q})
 
         augur traits \
+            --config {input.config} \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --output {output.node_data} \
-            --columns {params.columns} \
-            --confidence \
-            --sampling-bias-correction {params.sampling_bias_correction}
+            --output {output.node_data}
         """

@@ -91,31 +91,62 @@ properties:
       recommended over 'subsample' to ignore default subsampling configuration.
   refine:
     <<: *per_build_map
-    description: Map of build name strings (e.g. 'genome/global') to argument strings.
+    description: >-
+      Refine configuration.
     patternProperties:
       "^.*$":
-        $ref: "#/$defs/argument_string"
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/refine-config/v1"
+          - type: object
+            # Forbid options specified in the invoked command.
+            properties:
+              tree: false
+              alignment: false
+              metadata: false
+              metadata_delimiters: false
+              metadata_id_columns: false
+              output_tree: false
+              output_node_data: false
   ancestral:
-    type: object
-    additionalProperties: false
-    properties:
-      inference:
-        type: string
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/ancestral-config/v1"
+          - type: object
+            # Forbid options specified in the invoked command.
+            properties:
+              tree: false
+              alignment: false
+              output_node_data: false
   traits:
     <<: *per_build_map
     patternProperties:
       "^.*$":
         oneOf:
+          # FIXME: only allow boolean false
           - type: boolean
+          - allOf:
+            - $ref: "https://nextstrain.org/schemas/augur/traits-config/v1"
+            - type: object
+              # Forbid options specified in the invoked command.
+              properties:
+                tree: false
+                metadata: false
+                metadata_id_columns: false
+                output: false
+  translate:
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/translate-config/v1"
           - type: object
-            additionalProperties: false
+            # Forbid options specified in the invoked command.
             properties:
-              columns:
-                type: array
-                items:
-                  type: string
-              sampling_bias_correction:
-                type: number
+              tree: false
+              ancestral_sequences: false
+              output: false
   tip_frequencies:
     type: object
     additionalProperties: false

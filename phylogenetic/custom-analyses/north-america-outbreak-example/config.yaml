@@ -43,13 +43,13 @@ subsample:
 
 refine:
     genome/north-america-outbreak-example:
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
-        --divergence-units mutations-per-site
+        timetree: True
+        coalescent:  opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 8
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
 
 traits:
     genome/north-america-outbreak-example:
