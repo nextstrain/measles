@@ -8,7 +8,9 @@ underlying issue. S3 credentials errors are similarly confusing and we attempt
 to check these ourselves to improve UX here.
 """
 
+import os
 from urllib.parse import urlparse
+from snakemake.io import get_flag_value, AnnotatedString
 
 # Keep a list of known public buckets, which we'll allow uncredentialled (unsigned) access to
 # We could make this config-definable in the future
@@ -99,7 +101,7 @@ def _storage_http(*, keep_local, retries) -> snakemake.storage.StorageProviderPr
     return _storage_registry['http']
 
 
-def path_or_url(uri, *, keep_local=True, retries=2) -> str:
+def path_or_url(uri, *, keep_local=True, retries=2) -> str | AnnotatedString:
     """
     Intended for use in Snakemake inputs / outputs to transparently use remote
     resources. Returns the URI wrapped by an applicable storage plugin. Local
@@ -142,12 +144,16 @@ def path_or_url(uri, *, keep_local=True, retries=2) -> str:
 
     if info.scheme=='s3':
         try:
-            return _storage_s3(bucket=info.netloc, keep_local=keep_local, retries=retries)(uri)
+            so = _storage_s3(bucket=info.netloc, keep_local=keep_local, retries=retries)(uri)
+            _printAnnotatedString(so)
+            return _local_if_cached(so) if _allow_offline() else so
         except RemoteFilesMissingCredentials as e:
             raise Exception(f"AWS credentials are required to access {uri!r}") from e
 
     if info.scheme=='https':
-        return _storage_http(keep_local=keep_local, retries=retries)(uri)
+        so = _storage_http(keep_local=keep_local, retries=retries)(uri)
+        _printAnnotatedString(so)
+        return _local_if_cached(so) if _allow_offline() else so
     elif info.scheme=='http':
         raise Exception(f"HTTP remote file support is not implemented in nextstrain workflows (attempting to access {uri!r}).\n"
             "Please use an HTTPS address instead.")
@@ -157,3 +163,50 @@ def path_or_url(uri, *, keep_local=True, retries=2) -> str:
             "Please get in touch if you require this functionality and we can add it to our workflows")
 
     raise Exception(f"Input address {uri!r} (scheme={info.scheme!r}) is from a non-supported remote")
+
+def _allow_offline() -> bool:
+    """
+    Offline mode is opt-in via the NEXTSTRAIN_OFFLINE environment variable. When
+    enabled, remote inputs which are already present in the local storage cache
+    are used as-is, without contacting the remote (no existence probe, no
+    re-download). This allows a workflow to run from a previously cached copy
+    without network access.
+    """
+    return os.environ.get("NEXTSTRAIN_ALLOW_OFFLINE", "") not in ("", "0", "false")
+
+def _local_if_cached(wrapped: AnnotatedString) -> str | AnnotatedString:
+    """
+    Given a storage-wrapped input (an AnnotatedString carrying a `storage_object`
+    flag), return the plain local cache path if that file already exists on disk.
+    Stripping the storage flag makes Snakemake treat it as an ordinary local
+    input, so existence is checked via `os.path.exists` rather than a remote
+    probe. If the cached file is absent we return the wrapped object unchanged,
+    preserving the normal retrieval / MissingInputException behaviour.
+    """
+    so = get_flag_value(wrapped, "storage_object")
+    if so is None:
+        raise Exception("_local_if_cached must be called with a storage object AnnotatedString. Provided argument: ", wrapped)
+    local = so.local_path()
+
+    # FOLLOWING LINES FOR DEBUGGING ONLY - TO REMOVE TODO XXX
+    print("\n_local_if_cached()")
+    if local.exists():
+        print("local.exists() is True -> returning the plain string", str(local))
+    else:
+        print("local.exists() is False -> returning the AnnotatedString (storage object) unchanged")
+    print()
+    return str(local) if local.exists() else wrapped
+
+def _printAnnotatedString(x): # REMOVE FUNCTION TODO XXX DEBUGGING ONLY
+    print("-"*20, "_printAnnotatedString ", "-"*20)
+    print("value  :", repr(str(x)))
+    print("type   :", type(x).__name__)
+    print("flags  :", getattr(x, "flags", {}))
+    print("callable:", getattr(x, "callable", None))
+    so = getattr(x, "flags", {}).get("storage_object")
+    if so:
+        print("  local_path:", so.local_path())
+        print("  query     :", so.query)
+        print("  retrieve  :", so.retrieve)
+        print("  keep_local:", so.keep_local)
+    print("-"*80)
