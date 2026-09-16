@@ -1,0 +1,13 @@
+include: "../shared/vendored/snakemake/remote_files.smk"
+
+URI = "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
+
+rule all:
+    input:
+        metadata = path_or_url(URI)
+    output:
+        metadata = "results/debug.metadata.tsv",
+    shell:
+        r"""
+        augur read-file {input.metadata:q} > {output.metadata:q}
+        """

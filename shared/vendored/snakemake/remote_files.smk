@@ -8,7 +8,10 @@ underlying issue. S3 credentials errors are similarly confusing and we attempt
 to check these ourselves to improve UX here.
 """
 
+import socket
 from urllib.parse import urlparse
+from snakemake.io import get_flag_value, AnnotatedString
+from snakemake.logging import logger
 
 # Keep a list of known public buckets, which we'll allow uncredentialled (unsigned) access to
 # We could make this config-definable in the future
@@ -99,7 +102,7 @@ def _storage_http(*, keep_local, retries) -> snakemake.storage.StorageProviderPr
     return _storage_registry['http']
 
 
-def path_or_url(uri, *, keep_local=True, retries=2) -> str:
+def path_or_url(uri, *, keep_local=True, retries=2) -> str | AnnotatedString:
     """
     Intended for use in Snakemake inputs / outputs to transparently use remote
     resources. Returns the URI wrapped by an applicable storage plugin. Local
@@ -142,12 +145,16 @@ def path_or_url(uri, *, keep_local=True, retries=2) -> str:
 
     if info.scheme=='s3':
         try:
-            return _storage_s3(bucket=info.netloc, keep_local=keep_local, retries=retries)(uri)
+            so = _storage_s3(bucket=info.netloc, keep_local=keep_local, retries=retries)(uri)
+            _printAnnotatedString(so)
+            return _local_if_offline(so, _detect_online_s3)
         except RemoteFilesMissingCredentials as e:
             raise Exception(f"AWS credentials are required to access {uri!r}") from e
 
     if info.scheme=='https':
-        return _storage_http(keep_local=keep_local, retries=retries)(uri)
+        so = _storage_http(keep_local=keep_local, retries=retries)(uri)
+        _printAnnotatedString(so)
+        return _local_if_offline(so, _detect_online_http)
     elif info.scheme=='http':
         raise Exception(f"HTTP remote file support is not implemented in nextstrain workflows (attempting to access {uri!r}).\n"
             "Please use an HTTPS address instead.")
@@ -157,3 +164,99 @@ def path_or_url(uri, *, keep_local=True, retries=2) -> str:
             "Please get in touch if you require this functionality and we can add it to our workflows")
 
     raise Exception(f"Input address {uri!r} (scheme={info.scheme!r}) is from a non-supported remote")
+
+# Memoise online-detection results so that repeated path_or_url() calls within a
+# single workflow invocation don't each incur a network probe. Keyed by a
+# provider-specific string (e.g. an S3 bucket or an HTTP host).
+_online_status = {}
+
+def _is_online(key: str, probe) -> bool:
+    """Run (and cache) a reachability *probe* for the resource identified by *key*."""
+    if key not in _online_status:
+        _online_status[key] = probe()
+        logger.debug(f"Online detection for {key!r}: {_online_status[key]}")
+    return _online_status[key]
+
+def _detect_online_s3(so) -> bool:
+    """
+    Reachability probe for S3: issue a HEAD request against the bucket. Any
+    response from the endpoint — including 403/404 — means we are online; only
+    connection-level failures (no route, DNS failure, timeout, refused) are
+    treated as offline.
+    """
+    import botocore.exceptions as botoexc
+    def probe() -> bool:
+        try:
+            so.provider.s3c.meta.client.head_bucket(Bucket=so.bucket)
+        except (botoexc.ConnectionError, botoexc.ConnectionClosedError):
+            return False
+        except Exception:
+            return True  # reached the endpoint (e.g. 403/404), so we're online
+        return True
+    return _is_online(f"s3:{so.bucket}", probe)
+
+def _detect_online_http(so) -> bool:
+    """
+    Reachability probe for HTTP(S): open (and immediately close) a TCP connection
+    to the resource's host. A successful connection means we are online.
+    """
+    parsed = urlparse(so.query)
+    host = parsed.hostname
+    port = parsed.port or (443 if parsed.scheme == "https" else 80)
+    def probe() -> bool:
+        try:
+            socket.create_connection((host, port), timeout=5).close()
+        except OSError:
+            return False
+        return True
+    return _is_online(f"http:{host}:{port}", probe)
+
+def _local_if_offline(wrapped: AnnotatedString, detect_online) -> str | AnnotatedString:
+    """
+    Given a storage-wrapped input (an AnnotatedString carrying a `storage_object`
+    flag), transparently fall back to the local cache copy *only* when we detect
+    that the remote is unreachable:
+
+      * If no cached copy exists we return the wrapped object unchanged — there is
+        nothing to fall back to, so the normal retrieval / MissingInputException
+        behaviour applies.
+      * If a cached copy exists but the remote is reachable (*detect_online*
+        returns True) we still return the wrapped object, so Snakemake performs
+        its usual existence check and freshness revalidation (re-downloading if
+        the remote copy is newer).
+      * Only if a cached copy exists *and* the remote is unreachable do we strip
+        the storage flag and return the plain local path. Snakemake then treats it
+        as an ordinary local input (existence via `os.path.exists`, no network),
+        allowing the workflow to run offline from cache.
+    """
+    so = get_flag_value(wrapped, "storage_object")
+    if so is None:
+        raise Exception("_local_if_offline must be called with a storage object AnnotatedString. Provided argument: ", wrapped)
+    local = so.local_path()
+
+    if not local.exists():
+        print(">>>> Cached file not on disk -- returning StorageObject unchanged")
+        return wrapped
+    if detect_online(so):
+        print(">>>> Cached file on disk and we're online -- returning StorageObject unchanged")
+        return wrapped
+
+    logger.warning(
+        f"Remote appears to be unreachable; using the cached copy of {so.query} "
+        f"at {local} without revalidation."
+    )
+    return str(local)
+
+def _printAnnotatedString(x): # REMOVE FUNCTION TODO XXX DEBUGGING ONLY
+    print("-"*20, "_printAnnotatedString ", "-"*20)
+    print("value  :", repr(str(x)))
+    print("type   :", type(x).__name__)
+    print("flags  :", getattr(x, "flags", {}))
+    print("callable:", getattr(x, "callable", None))
+    so = getattr(x, "flags", {}).get("storage_object")
+    if so:
+        print("  local_path:", so.local_path())
+        print("  query     :", so.query)
+        print("  retrieve  :", so.retrieve)
+        print("  keep_local:", so.keep_local)
+    print("-"*80)
