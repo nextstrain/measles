@@ -136,7 +136,13 @@ properties:
         additionalProperties: false
         properties:
           metadata_columns:
-            type: string
+            type: array
+            items:
+              type: string
+          color_by_metadata:
+            type: array
+            items:
+              type: string
           warning:
             type: string
   custom_rules:

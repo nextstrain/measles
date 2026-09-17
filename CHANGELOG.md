@@ -9,6 +9,8 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* 17 September 2026: phylogenetic - `export.<build>.metadata_columns` now expects a list of strings, instead of a single space-delimited string. **This is a breaking change.**
+* 17 September 2026: phylogenetic - Added support for `export.<build>.color_by_metadata`.
 * 6 August 2026: Phylogenetic workflow configuration schema validation no longer requires an internet connection.
 * 5 August 2026: Phylogenetic workflow configuration schema is only validated when not using `custom_rules`.
 * 30 July 2026: Phylogenetic workflow configuration is now validated against a strict schema. The workflow will error if your configuration has extraneous entries that were previously ignored.
