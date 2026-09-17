@@ -74,7 +74,7 @@ rule export:
             --metadata-id-columns {params.strain_id} \
             --node-data {input.node_data_jsons} \
             --colors {input.colors} \
-            --metadata-columns {params.metadata_columns} \
+            --metadata-columns {params.metadata_columns:q} \
             {params.warning} \
             --auspice-config {input.auspice_config} \
             --include-root-sequence-inline \

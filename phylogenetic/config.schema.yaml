@@ -136,7 +136,9 @@ properties:
         additionalProperties: false
         properties:
           metadata_columns:
-            type: string
+            type: array
+            items:
+              type: string
           warning:
             type: string
   custom_rules:

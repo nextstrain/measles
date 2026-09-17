@@ -59,7 +59,14 @@ traits:
 
 export:
     genome/north-america-outbreak-example:
-      metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+      metadata_columns:
+        - strain
+        - division
+        - location
+        - dataUseTerms
+        - restrictedUntil
+        - PPX_accession
+        - INSDC_accession
       warning: >-
         This dataset represents an example usage of augur subsample with proximity sampling
         to focus on Montana measles cases

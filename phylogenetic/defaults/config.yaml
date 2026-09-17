@@ -137,7 +137,14 @@ tip_frequencies:
 
 export:
     genome/global: &general_export
-        metadata_columns: "strain division location dataUseTerms restrictedUntil PPX_accession INSDC_accession"
+        metadata_columns:
+            - strain
+            - division
+            - location
+            - dataUseTerms
+            - restrictedUntil
+            - PPX_accession
+            - INSDC_accession
     genome/north-america:
       <<: *general_export
     N450/global:
