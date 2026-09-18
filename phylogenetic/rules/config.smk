@@ -7,8 +7,6 @@ OUTPUTS:
     results/{build}/subsample_config.yaml
 """
 import sys
-import yaml
-from augur.validate import load_json_schema_locally, validate_json, ValidateError
 from pathlib import Path
 
 
@@ -31,30 +29,6 @@ def normalize_config():
     # Normalize scalar string to a single-item list
     if isinstance(config['builds'], str):
         config['builds'] = [config['builds']]
-
-
-# TODO: move this to nextstrain/shared
-def dump_and_validate(dump_path, schema_path):
-    """
-    Write Snakemake's 'config' variable to a file, then validate it against the
-    schema. Do both in the same function so that the validation output can
-    easily reference the path of the dumped config for inspection.
-    """
-    global config
-
-    write_config(dump_path)
-
-    if "custom_rules" in config:
-        print("WARNING: Skipping config schema validation because custom rules are defined.", file=sys.stderr)
-        return
-
-
-    try:
-        validator = load_json_schema_locally(schema_path)
-        validate_json(config, validator, dump_path)
-    except ValidateError as e:
-        print(f"ERROR: {e}", file=sys.stderr)
-        exit(1)
 
 
 def validate_config_values():
