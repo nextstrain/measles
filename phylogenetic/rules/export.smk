@@ -77,13 +77,11 @@ rule tip_frequencies:
     """
     input:
         tree = "results/{build}/tree.nwk",
-        metadata = "results/metadata.tsv"
+        metadata = "results/metadata.tsv",
+        config = "results/{build}/tip_frequencies_config.yaml",
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/tip_frequencies_config.yaml"),
     params:
         strain_id = config["strain_id_field"],
-        min_date = config["tip_frequencies"]["min_date"],
-        max_date = config["tip_frequencies"]["max_date"],
-        narrow_bandwidth = config["tip_frequencies"]["narrow_bandwidth"],
-        wide_bandwidth = config["tip_frequencies"]["wide_bandwidth"]
     output:
         tip_freq = "results/auspice/measles/{build}_tip-frequencies.json"
     log:
@@ -95,14 +93,10 @@ rule tip_frequencies:
         exec &> >(tee {log:q})
 
         augur frequencies \
-            --method kde \
+            --config {input.config} \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
-            --min-date {params.min_date} \
-            --max-date {params.max_date} \
-            --narrow-bandwidth {params.narrow_bandwidth} \
-            --wide-bandwidth {params.wide_bandwidth} \
             --output {output.tip_freq}
         """
 

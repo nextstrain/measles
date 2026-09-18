@@ -142,17 +142,19 @@ properties:
               ancestral_sequences: false
               output: false
   tip_frequencies:
-    type: object
-    additionalProperties: false
-    properties:
-      min_date:
-        type: [string, number]
-      max_date:
-        type: [string, number]
-      narrow_bandwidth:
-        type: number
-      wide_bandwidth:
-        type: number
+    <<: *per_build_map
+    patternProperties:
+      "^.*$":
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/frequencies-config/v1"
+
+          # Forbid options specified in the invoked command.
+          - type: object
+            properties:
+              tree: false
+              metadata: false
+              metadata_id_columns: false
+              output: false
   export:
     <<: *per_build_map
     patternProperties:

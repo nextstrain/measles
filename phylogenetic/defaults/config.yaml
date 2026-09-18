@@ -144,10 +144,16 @@ translate:
         reference_sequence: "measles_reference_N450.gb"
 
 tip_frequencies:
-    min_date: "2000-01-01"
-    max_date: "6M"
-    narrow_bandwidth: 0.2
-    wide_bandwidth: 0.6
+    genome/global: &general_tip_frequencies
+        method: kde
+        min_date: "2000-01-01"
+        max_date: "6M"
+        narrow_bandwidth: 0.2
+        wide_bandwidth: 0.6
+    genome/north-america:
+      <<: *general_tip_frequencies
+    N450/global:
+      <<: *general_tip_frequencies
 
 export:
     genome/global: &general_export
