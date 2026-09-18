@@ -40,16 +40,6 @@ def node_data_jsons(wildcards):
         jsons.append(f"results/{wildcards.build}/traits.json",)
     return jsons
 
-def color_by_metadata(wildcards):
-    if values:=config["export"][wildcards.build].get("color_by_metadata", False):
-        return ["--color-by-metadata", *values]
-    return []
-
-def warning(wildcards):
-    if value:=config["export"][wildcards.build].get("warning", False):
-        return f"--warning {value!r}"
-    return ''
-
 rule export:
     """Exporting data files for for auspice"""
     input:
@@ -57,15 +47,12 @@ rule export:
         metadata = "results/metadata.tsv",
         node_data_jsons = node_data_jsons,
         colors = "results/colors.tsv",
-        auspice_config = resolve_config_path(config["files"]["auspice_config"]),
-        description=resolve_config_path(config["files"]["description"])
+        config = "results/{build}/export_config.yaml",
+        referenced_files = lambda w: get_referenced_files(f"results/{w.build}/export_config.yaml"),
     output:
         auspice_json = "results/auspice/measles/{build}.json"
     params:
         strain_id = config["strain_id_field"],
-        metadata_columns = lambda w: config["export"][w.build]["metadata_columns"],
-        color_by_metadata = color_by_metadata,
-        warning = warning,
     log:
         "logs/{build}/export.txt",
     benchmark:
@@ -75,18 +62,13 @@ rule export:
         exec &> >(tee {log:q})
 
         augur export v2 \
+            --config {input.config} \
             --tree {input.tree} \
             --metadata {input.metadata} \
             --metadata-id-columns {params.strain_id} \
             --node-data {input.node_data_jsons} \
             --colors {input.colors} \
-            --metadata-columns {params.metadata_columns:q} \
-            {params.color_by_metadata:q} \
-            {params.warning} \
-            --auspice-config {input.auspice_config} \
-            --include-root-sequence-inline \
-            --output {output.auspice_json} \
-            --description {input.description}
+            --output {output.auspice_json}
         """
 
 rule tip_frequencies:

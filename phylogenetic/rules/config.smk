@@ -68,7 +68,7 @@ def write_rule_configs(schema_path):
         }
         write_config(f"results/{build}/subsample_config.yaml", section=[subsample_key, build])
 
-    for rule in ["ancestral", "refine", "traits", "translate"]:
+    for rule in ["ancestral", "export", "refine", "traits", "translate"]:
         for build in config["builds"]:
             if config[rule][build]:
                 config[rule][build] = {

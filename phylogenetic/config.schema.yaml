@@ -64,10 +64,6 @@ properties:
     properties:
       reference_fasta:
         type: string
-      auspice_config:
-        type: string
-      description:
-        type: string
   nextclade:
     <<: *per_gene_map
     description: Map of gene name strings (e.g. 'genome' or 'N450') to argument strings.
@@ -161,19 +157,17 @@ properties:
     <<: *per_build_map
     patternProperties:
       "^.*$":
-        type: object
-        additionalProperties: false
-        properties:
-          metadata_columns:
-            type: array
-            items:
-              type: string
-          color_by_metadata:
-            type: array
-            items:
-              type: string
-          warning:
-            type: string
+        allOf:
+          - $ref: "https://nextstrain.org/schemas/augur/export-v2-config/v1"
+          - type: object
+            # Forbid options specified in the invoked command.
+            properties:
+              tree: false
+              metadata: false
+              metadata_id_columns: false
+              node-data: false
+              colors: false
+              output: false
   custom_rules:
     type: array
     description: Custom Snakemake rule files to include. If used, this will disable config schema validation.

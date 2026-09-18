@@ -10,8 +10,6 @@ inputs:
 
 files:
     reference_fasta: "measles_reference_{gene}.fasta"
-    auspice_config: "auspice_config/{build}.json"
-    description: "description.md"
 
 nextclade:
   # key represents {gene} wildcard
@@ -153,6 +151,9 @@ tip_frequencies:
 
 export:
     genome/global: &general_export
+        auspice_config: "auspice_config/genome/global.json"
+        include_root_sequence_inline: true
+        description: "description.md"
         metadata_columns:
             - strain
             - division
@@ -163,5 +164,7 @@ export:
             - INSDC_accession
     genome/north-america:
       <<: *general_export
+      auspice_config: "auspice_config/genome/north-america.json"
     N450/global:
       <<: *general_export
+      auspice_config: "auspice_config/N450/global.json"
