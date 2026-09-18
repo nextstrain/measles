@@ -3,13 +3,13 @@ This part of the workflow prepares sequences for constructing the phylogenetic t
 
 See Augur's usage docs for these commands for more details.
 """
-from augur.subsample import get_referenced_files
+from augur.config import get_referenced_files
 
 
 rule align:
     input:
         sequences = "results/sequences.fasta",
-        reference = resolve_config_path(config["files"]["reference_fasta"]),
+        reference = resolve_config_path(config["align"]["reference"]),
     output:
         sequences = "results/align_{gene}.fasta",
     params:

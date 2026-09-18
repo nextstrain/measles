@@ -8,11 +8,8 @@ inputs:
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences.fasta.zst"
 
-files:
-    reference: "measles_reference_{gene}.gb"
-    reference_fasta: "measles_reference_{gene}.fasta"
-    auspice_config: "auspice_config/{build}.json"
-    description: "description.md"
+align:
+    reference: "measles_reference_{gene}.fasta"
 
 nextclade:
   # key represents {gene} wildcard
@@ -83,36 +80,44 @@ subsample:
                 include: include_strains_N450.txt
                 exclude: dropped_strains.txt
 refine:
-    genome/global: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --stochastic-resolve
-        --divergence-units mutations-per-site
-    genome/north-america: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 8
-        --clock-rate 0.000425
-        --root PP_003QHNN
-        --stochastic-resolve
-        --divergence-units mutations-per-site
-    N450/global: >-
-        --timetree
-        --coalescent opt
-        --date-inference marginal
-        --date-confidence
-        --clock-filter-iqd 4
-        --stochastic-resolve
-        --divergence-units mutations-per-site
+    genome/global:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 8
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
+    genome/north-america:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 8
+        clock_rate: 0.000425
+        root: PP_003QHNN
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
+    N450/global:
+        timetree: True
+        coalescent: opt
+        date_inference: marginal
+        date_confidence: True
+        clock_filter_iqd: 4
+        stochastic_resolve: True
+        divergence_units: mutations-per-site
 
 
 ancestral:
-    inference: "joint"
+    genome/global:
+        root_sequence: "measles_reference_genome.gb"
+        inference: "joint"
+    genome/north-america:
+        root_sequence: "measles_reference_genome.gb"
+        inference: "joint"
+    N450/global:
+        root_sequence: "measles_reference_N450.gb"
+        inference: "joint"
 
 # per-build traits. If you wish traits to be skipped you must use a `False` value
 # (to avoid accidentally forgetting to fill out this part of the config)
@@ -122,21 +127,39 @@ traits:
             - country
             - region
         sampling_bias_correction: 3
+        confidence: True
     genome/north-america:
         columns:
             - division
         sampling_bias_correction: 3
+        confidence: True
     N450/global: False
 
+translate:
+    genome/global:
+        reference_sequence: "measles_reference_genome.gb"
+    genome/north-america:
+        reference_sequence: "measles_reference_genome.gb"
+    N450/global:
+        reference_sequence: "measles_reference_N450.gb"
 
 tip_frequencies:
-    min_date: "2000-01-01"
-    max_date: "6M"
-    narrow_bandwidth: 0.2
-    wide_bandwidth: 0.6
+    genome/global: &general_tip_frequencies
+        method: kde
+        min_date: "2000-01-01"
+        max_date: "6M"
+        narrow_bandwidth: 0.2
+        wide_bandwidth: 0.6
+    genome/north-america:
+      <<: *general_tip_frequencies
+    N450/global:
+      <<: *general_tip_frequencies
 
 export:
     genome/global: &general_export
+        auspice_config: "auspice_config/genome/global.json"
+        include_root_sequence_inline: true
+        description: "description.md"
         metadata_columns:
             - strain
             - division
@@ -147,5 +170,7 @@ export:
             - INSDC_accession
     genome/north-america:
       <<: *general_export
+      auspice_config: "auspice_config/genome/north-america.json"
     N450/global:
       <<: *general_export
+      auspice_config: "auspice_config/N450/global.json"
