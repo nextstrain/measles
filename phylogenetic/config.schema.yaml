@@ -63,15 +63,11 @@ properties:
     description: >-
       Whether to use remote input files. When re-running the workflow in the
       same analysis directory, set to False to use the locally cached input files.
-  files:
+  align:
     type: object
     additionalProperties: false
     properties:
-      reference_fasta:
-        type: string
-      auspice_config:
-        type: string
-      description:
+      reference:
         type: string
   nextclade:
     <<: *per_gene_map
@@ -169,6 +165,10 @@ properties:
         type: object
         additionalProperties: false
         properties:
+          auspice_config:
+            type: string
+          description:
+            type: string
           metadata_columns:
             type: array
             items:
