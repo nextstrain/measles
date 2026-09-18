@@ -58,11 +58,11 @@ properties:
     type: array
     items:
       $ref: "#/$defs/input_item"
-  files:
+  align:
     type: object
     additionalProperties: false
     properties:
-      reference_fasta:
+      reference:
         type: string
   nextclade:
     <<: *per_gene_map
