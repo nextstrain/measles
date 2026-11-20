@@ -9,3 +9,6 @@ PP_006R54Y # dropped as part of the initial north-america build
 PP_006R55W # dropped as part of the initial north-america build
 PP_006JYQC # dropped as part of the initial north-america build
 PP_0049MEX # dropped as part of the initial north-america build
+
+PP_003MH5V # MVi/Marseille.FRA/26.18/1[D8], partial genome aligns poorly: 1210 of 1582 branch mutations are gaps
+PP_003NLF4 # MVs/Riga.LVA/2020[B3]SSPE, SSPE case, hypermutated

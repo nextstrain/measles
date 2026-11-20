@@ -185,3 +185,197 @@ PP_004J0KN	division	Ontario  # MVs/Ontario.CAN/20.24[B3]
 PP_003QUXT	division	Ontario  # MVs/Ontario.CAN/47.24[D8]
 PP_003RAKZ	division	Ontario  # MVs/Ontario.CAN/5.25/10[A]
 PP_003RANT	division	Ontario  # MVs/Ontario.CAN/5.25/10[A]
+#
+# Vaccine-derived genotype A sequences. These are Edmonston-lineage vaccine
+# virus recovered from vaccine-associated illness, so their collection date
+# reflects when the vaccine reaction was sampled rather than the age of the
+# virus, which distorts molecular clock estimates. Mask the date so these
+# sequences do not anchor the clock; the genuine 1954 Edmonston-era isolates
+# are dated above and are not masked. Original dates are kept as comments.
+PP_003GFQ3	date	XXXX-XX-XX  # 2001-07-31, MVi/Osaka.JPN/31.01[A]
+PP_003AB6N	date	XXXX-XX-XX  # 2002, MVs/Caserta.ITA/27.02/2[A]
+PP_003AB7L	date	XXXX-XX-XX  # 2002, MVs/Ascoli.ITA/30.02/5[A]
+PP_003GFYM	date	XXXX-XX-XX  # 2002-07-08, MVi/Osaka.JPN/28.02[A]
+PP_0038LGX	date	XXXX-XX-XX  # 2003, Mvi/temara.MOR/24.03
+PP_003GFN7	date	XXXX-XX-XX  # 2003-11-25, MVi/Osaka.JPN/48.03[A]
+PP_00381GG	date	XXXX-XX-XX  # 2004-05-07, MVs/Almeria.ESP/22.04[A]
+PP_0037FSH	date	XXXX-XX-XX  # 2005-01-27, MVs/Taichung.TWN/04.05
+PP_0037FTF	date	XXXX-XX-XX  # 2005-03-28, MVs/Taipei.TWN/13.05
+PP_0034JXA	date	XXXX-XX-XX  # 2006, Mvs/Chiba C.JPN/21.06/1[A]
+PP_0034K20	date	XXXX-XX-XX  # 2006, Mvs/Chiba C.JPN/22.06[A]
+PP_0034K5U	date	XXXX-XX-XX  # 2006, Mvs/Chiba C.JPN/26.06[A]
+PP_0036YKG	date	XXXX-XX-XX  # 2006-04, SSI.06-38
+PP_00381EL	date	XXXX-XX-XX  # 2006-05-17, MVs/Madrid.ESP/20.06[A]
+PP_00381FJ	date	XXXX-XX-XX  # 2006-06-15, MVs/Madrid.ESP/24.06[A]
+PP_003QEJZ	date	XXXX-XX-XX  # 2006-10-27, Edmonston
+PP_0037FUD	date	XXXX-XX-XX  # 2007-01-02, MVs/Taipei.TWN/01.07
+PP_0034QNN	date	XXXX-XX-XX  # 2007-02-28, MVi/Yamagata.Jpn/9.07
+PP_0037SDZ	date	XXXX-XX-XX  # 2007-03, MVs/Soria.ESP/13.07/1[A-vaccine]
+PP_0037SEX	date	XXXX-XX-XX  # 2007-03, MVs/Soria.ESP/13.07/2[A-vaccine]
+PP_0037FVB	date	XXXX-XX-XX  # 2007-08-21, MVs/Tainan.TWN/31.07/2
+PP_00383L5	date	XXXX-XX-XX  # 2008, Mvs/Nice.FRA/14.08[A]
+PP_00383M3	date	XXXX-XX-XX  # 2008, Mvs/Haut-Rhin.FRA/16.08[A]
+PP_0037SC1	date	XXXX-XX-XX  # 2008-04, MVs/Cadiz.ESP/14.08/320[A-vaccine]
+PP_0039Z54	date	XXXX-XX-XX  # 2008-06, MVs/AlAwabi.OMN/25.08/1[A]
+PP_00381CQ	date	XXXX-XX-XX  # 2008-06-26, MVs/Alicante.ESP/25.08[A]
+PP_0034GL0	date	XXXX-XX-XX  # 2009, Mvs/Fukuoka.JP/26-09/69[A]
+PP_00383WK	date	XXXX-XX-XX  # 2009, Akhalesh_1
+PP_0038VP7	date	XXXX-XX-XX  # 2009-11-11, MVi/UP.IND/45.09/2 [A]
+PP_003995U	date	XXXX-XX-XX  # 2010, Leningrad-16
+PP_003996S	date	XXXX-XX-XX  # 2010, Leningrad-16
+PP_0037XYP	date	XXXX-XX-XX  # 2010-04, MVs/Lille.FRA/15.10
+PP_0034GMY	date	XXXX-XX-XX  # 2010-06, Mvs/Fukuoka.JPN/24.10/25[A]
+PP_003B6LW	date	XXXX-XX-XX  # 2010-09-26, MVi/Sichuan.CHN/40.10/1/[A-VL]
+PP_003B6MU	date	XXXX-XX-XX  # 2010-11-12, MVs/Yunnan.CHN/47.10/1/[A-VL]
+PP_00398QQ	date	XXXX-XX-XX  # 2011-01, A/Catalonia/XAR971/2011
+PP_0039MD0	date	XXXX-XX-XX  # 2011-01, MVs/Penang.MYS/53.10/53/[A]
+PP_0039MGU	date	XXXX-XX-XX  # 2011-02, MVs/N9.MYS/8.11/48/[A-vaccine]
+PP_003E2CB	date	XXXX-XX-XX  # 2011-07-04, MVi/Suzhou.CHN/28.11/1[A]
+PP_003AD4Q	date	XXXX-XX-XX  # 2011-09, MVs/Sur.OMN/36.11/[A]
+PP_003AD5N	date	XXXX-XX-XX  # 2011-09, MVs/Mazyoona.OMN/37.11/[A]
+PP_003B35W	date	XXXX-XX-XX  # 2012, MVs/Nana-Mambere.CAF/100.12/19[A-vaccine]
+PP_003B37S	date	XXXX-XX-XX  # 2012, MVs/Ouham.CAF/126.12/25[A-vaccine]
+PP_003BD4N	date	XXXX-XX-XX  # 2012-02, MVs/UmmSalalMohd.QAT/7.12/[A]
+PP_003AL97	date	XXXX-XX-XX  # 2012-03, MVs/Sohar.OMN/10.12/[A]
+PP_003ALB3	date	XXXX-XX-XX  # 2012-04, MVs/Ibra.OMN/16.12/[A]
+PP_003BC3R	date	XXXX-XX-XX  # 2012-06, MVs/NewSouthWales.AUS/23.12/[A-vaccine]
+PP_003BC4P	date	XXXX-XX-XX  # 2012-12, MVs/Victoria.AUS/52.12/[A-vaccine]
+PP_0034QMQ	date	XXXX-XX-XX  # 2012-12-11, MVi/Yamagata.Jpn/50.12
+PP_003AZBQ	date	XXXX-XX-XX  # 2012-12-27, MVs/HongKong.CHN/52.12[A]
+PP_003BV8Y	date	XXXX-XX-XX  # 2013, vaccine Leningrad-16
+PP_003BV9W	date	XXXX-XX-XX  # 2013, vaccine Leningrad-16
+PP_003BVAU	date	XXXX-XX-XX  # 2013, vaccine Leningrad-16
+PP_003C9W5	date	XXXX-XX-XX  # 2013, MVs/Beijing.CHN/11.13/01[A]
+PP_003CAKS	date	XXXX-XX-XX  # 2013, MVs/Beijing.CHN/19.13/14[A]
+PP_003BLJL	date	XXXX-XX-XX  # 2013-01, MVs/Paris.FRA/2.13/[A]
+PP_003KV2T	date	XXXX-XX-XX  # 2013-01-16, Germany/PP_003KV2T.1/2013-01-16
+PP_003BLKJ	date	XXXX-XX-XX  # 2013-02, MVs/La Gaubretiere.FRA/06.13/[A]
+PP_003CWM2	date	XXXX-XX-XX  # 2013-02, MVs/Istanbul.TUR/6.13/[A-vaccine]
+PP_003BCD5	date	XXXX-XX-XX  # 2013-04, MVs/Salalah.OMN/16.13/[A-vaccine]
+PP_003CJ5D	date	XXXX-XX-XX  # 2013-04, MVs/Uppsala.SWE/14.13/[A-vaccine]
+PP_003CKZP	date	XXXX-XX-XX  # 2013-04, MVi/Brussels.BEL/17.13/[A]
+PP_003BLT2	date	XXXX-XX-XX  # 2013-05, MVs/Douai.FRA/19.13/[A-vaccine]
+PP_003CKYR	date	XXXX-XX-XX  # 2013-05, MVs/Hornu.BEL/21.13/[A]
+PP_003CL0M	date	XXXX-XX-XX  # 2013-07, MVs/Hornu.BEL/30.13/[A]
+PP_003BJYU	date	XXXX-XX-XX  # 2013-07-25, MVs/HongKong.CHN/28.13[A-vaccine]
+PP_003QGSF	date	XXXX-XX-XX  # 2013-08-04, MVs/Queensland/AUS/31.13/[A]
+PP_003J0E0	date	XXXX-XX-XX  # 2013-09-19, MVs/Queensland.AUS/38.13
+PP_003K74B	date	XXXX-XX-XX  # 2013-09-19, MVs/Queensland.AUS/38.13[A]
+PP_003K7CV	date	XXXX-XX-XX  # 2013-09-19, MVs/Queensland.AUS/38.13[A]
+PP_003QGTD	date	XXXX-XX-XX  # 2013-09-26, MVs/Queensland/AUS/39.13/[A]
+PP_003J7S2	date	XXXX-XX-XX  # 2013-10, MVs/Brisbane.AUS/42.13/[A]
+PP_003J07E	date	XXXX-XX-XX  # 2013-10-02, MVs/Queensland.AUS/40.13[A]
+PP_003K759	date	XXXX-XX-XX  # 2013-10-02, MVs/Queensland.AUS/40.13[A]
+PP_003J0FY	date	XXXX-XX-XX  # 2013-10-17, MVs/Queensland.AUS/42.13
+PP_003K7DT	date	XXXX-XX-XX  # 2013-10-17, MVs/Queensland.AUS/42.13[A]
+PP_003QGUB	date	XXXX-XX-XX  # 2013-11-03, MVs/Queensland/AUS/44.13/[A]
+PP_003CC8D	date	XXXX-XX-XX  # 2014-01, MVs/Barka.OMN/3.14/[A]
+PP_003CJVY	date	XXXX-XX-XX  # 2014-01, MVs/Uppsala.SWE/4.14/[A-vaccine]
+PP_003CURW	date	XXXX-XX-XX  # 2014-01, MVs/Sohar.OMN/03.14/[A]
+PP_003PZER	date	XXXX-XX-XX  # 2014-02-18, MVi/ShanDong.CHN/8.14[A]
+PP_003J8Q5	date	XXXX-XX-XX  # 2014-03, MVs/Queensland.AUS/12.14/[A]
+PP_003PZKE	date	XXXX-XX-XX  # 2014-03-06, MVi/ShanDong.CHN/10.14[A]
+PP_003D6Z0	date	XXXX-XX-XX  # 2014-04, MVs/Muscat.OMN/15.14/[A]
+PP_003J8TZ	date	XXXX-XX-XX  # 2014-04, MVs/Brisbane.AUS/14.14/3[A]
+PP_003J0GW	date	XXXX-XX-XX  # 2014-04-14, MVs/Queensland.AUS/14.14
+PP_003K767	date	XXXX-XX-XX  # 2014-04-14, MVs/Queensland.AUS/38.13[A]
+PP_003K7ER	date	XXXX-XX-XX  # 2014-04-14, MVs/Queensland.AUS/14.14[A]
+PP_003PZQ4	date	XXXX-XX-XX  # 2014-04-22, MVi/ShanDong.CHN/17.14[A]
+PP_0034X98	date	XXXX-XX-XX  # 2014-05-21, MVs/Osaka.JPN/21.14/3[A]
+PP_003CX6Y	date	XXXX-XX-XX  # 2014-06-23, MeV-eGFP_Edm-tag
+PP_003D6RG	date	XXXX-XX-XX  # 2014-07, MVs/Nakhal.OMN/30.14/[A]
+PP_003J08C	date	XXXX-XX-XX  # 2014-07-06, MVs/Queensland.AUS/27.14[A]
+PP_003K775	date	XXXX-XX-XX  # 2014-07-06, MVs/Queensland.AUS/27.14[A]
+PP_003K7FP	date	XXXX-XX-XX  # 2014-07-06, MVs/Queensland.AUS/27.14[A]
+PP_003D6QJ	date	XXXX-XX-XX  # 2014-08, MVs/Sur.OMN/34.14/[A]
+PP_003DBD2	date	XXXX-XX-XX  # 2014-11, MVs/Sur.OMN/46.14/[A-vaccine]
+PP_003DBE0	date	XXXX-XX-XX  # 2014-11, MVs/Salalah.OMN/48.14/[A]
+PP_003DBFY	date	XXXX-XX-XX  # 2014-12, MVs/Sur.OMN/49.14/[A]
+PP_003DBGW	date	XXXX-XX-XX  # 2014-12, MVs/Ibra.OMN/51.14/[A-vaccine]
+PP_003J09A	date	XXXX-XX-XX  # 2015-01-21, MVs/Queensland.AUS/4.15[A]
+PP_003K783	date	XXXX-XX-XX  # 2015-01-21, MVs/Queensland.AUS/4.15[A]
+PP_003K7GM	date	XXXX-XX-XX  # 2015-01-21, MVs/Queensland.AUS/4.15[A]
+PP_003DR70	date	XXXX-XX-XX  # 2015-03-19, MVs/Palermo.ITA/12.15[A-vaccine]
+PP_003DR8Y	date	XXXX-XX-XX  # 2015-03-19, MVs/Palermo.ITA/12.15[A-vaccine]
+PP_003DWVJ	date	XXXX-XX-XX  # 2015-04, MVs/Rus.OMN/14.15/[A-vaccine]
+PP_003PZHJ	date	XXXX-XX-XX  # 2015-04-05, MVi/ShanDong.CHN/14.15[A]
+PP_003FLDP	date	XXXX-XX-XX  # 2015-04-23, MVs/Jiangxi.CHN/17.15/1[A]
+PP_003FLEM	date	XXXX-XX-XX  # 2015-04-23, MVs/Jiangxi.CHN/17.15/2[A]
+PP_003E3KV	date	XXXX-XX-XX  # 2015-07-11, MVs/HongKong.CHN/28.15/[A-vaccine]
+PP_0076M0U	date	XXXX-XX-XX  # 2015-08, CAM/RB
+PP_003J0A8	date	XXXX-XX-XX  # 2015-09-20, MVs/Queensland.AUS/28.15[A]
+PP_003FX04	date	XXXX-XX-XX  # 2015-10-06, Mvs/SapporoC.JPN/41.15/1[A]
+PP_003FX12	date	XXXX-XX-XX  # 2015-10-07, Mvs/SapporoC.JPN/41.15/2[A]
+PP_003FX20	date	XXXX-XX-XX  # 2015-10-07, Mvs/SapporoC.JPN/41.15/3[A]
+PP_003EDHP	date	XXXX-XX-XX  # 2015-12-22, MVs/HongKong.CHN/51.15[A-vaccine]
+PP_003J0B6	date	XXXX-XX-XX  # 2016-01-18, MVs/Queensland.AUS/3.16[A]
+PP_003K7HJ	date	XXXX-XX-XX  # 2016-01-18, MVs/Queensland.AUS/3.16[A]
+PP_003FX7Q	date	XXXX-XX-XX  # 2016-02-15, AIK-C
+PP_003J0C4	date	XXXX-XX-XX  # 2016-02-16, MVs/Queensland.AUS/7.16[A]
+PP_003K791	date	XXXX-XX-XX  # 2016-02-16, MVs/Queensland.AUS/7.16[A]
+PP_003K7JG	date	XXXX-XX-XX  # 2016-02-16, MVs/Queensland.AUS/7.16[A]
+PP_003PZR2	date	XXXX-XX-XX  # 2016-03-04, MVi/ShanDong.CHN/10.16[A]
+PP_003EKVT	date	XXXX-XX-XX  # 2016-03-07, MVs/HongKong.CHN/09.16/[A-vaccine]
+PP_003EKWR	date	XXXX-XX-XX  # 2016-03-14, MVs/HongKong.CHN/10.16/[A-vaccine]
+PP_003PZMA	date	XXXX-XX-XX  # 2016-06-30, MVi/ShanDong.CHN/27.16[A]
+PP_003F07M	date	XXXX-XX-XX  # 2016-07-12, MVs/HongKong.CHN/28.16/[A-vaccine]
+PP_003J0D2	date	XXXX-XX-XX  # 2016-07-19, MVs/Queensland.AUS/29.16[A]
+PP_003K7AZ	date	XXXX-XX-XX  # 2016-07-19, MVs/Queensland.AUS/29.16[A]
+PP_003K7KE	date	XXXX-XX-XX  # 2016-07-19, MVs/Queensland.AUS/29.16[A]
+PP_003PZLC	date	XXXX-XX-XX  # 2016-07-30, MVi/ShanDong.CHN/31.16/1[A]
+PP_003F98A	date	XXXX-XX-XX  # 2016-10-21, MVs/HongKong.CHN/42.16/[A-vaccine]
+PP_003JA4A	date	XXXX-XX-XX  # 2016-11, MVs/Queensland.AUS/49.16/
+PP_003JRRL	date	XXXX-XX-XX  # 2017-02, MVs/Iasi.ROU/5.17/[A-Vaccine]
+PP_003JRSJ	date	XXXX-XX-XX  # 2017-03, MVs/Bucuresti.ROU/9.17/[A-Vaccine]
+PP_003K7BX	date	XXXX-XX-XX  # 2017-03-02, MVs/Queensland.AUS/9.17[A]
+PP_003PZDT	date	XXXX-XX-XX  # 2017-03-07, MVi/ShanDong.CHN/10.17[A]
+PP_003K8AY	date	XXXX-XX-XX  # 2017-03-20, MeV/08/ZJ/CHN/2017
+PP_003GU13	date	XXXX-XX-XX  # 2017-04, Mvs/Padova.ITA/17.17/2
+PP_003PZFP	date	XXXX-XX-XX  # 2017-07-24, MVi/ShanDong.CHN/30.17[A]
+PP_003GY7M	date	XXXX-XX-XX  # 2017-08-14, MVs/HongKong.CHN/32.17[A]
+PP_003PZS0	date	XXXX-XX-XX  # 2017-10-04, MVi/ShanDong.CHN/40.17[A]
+PP_003PZP6	date	XXXX-XX-XX  # 2018-02-02, MVi/ShanDong.CHN/4.18[A]
+PP_003PZN8	date	XXXX-XX-XX  # 2018-07-09, MVi/ShanDong.CHN/27.18[A]
+PP_003PZGM	date	XXXX-XX-XX  # 2018-08-10, MVi/ShanDong.CHN/31.18[A]
+PP_003GE67	date	XXXX-XX-XX  # 2019, MVs/Yokohama.JPN/47.19[A]
+PP_003N456	date	XXXX-XX-XX  # 2019-01, MVs/Marseille.FRA/4.19/2[A]
+PP_003G5T7	date	XXXX-XX-XX  # 2019-02-01, MVs/OsakaC.JPN/5.19 [A]
+PP_003L674	date	XXXX-XX-XX  # 2019-03-25, MVs/Jiangxi.CHN/30.19/1[A-vaccine]
+PP_003N4XM	date	XXXX-XX-XX  # 2019-04, MVs/Marseille.FRA/17.19/2[A]
+PP_003K62G	date	XXXX-XX-XX  # 2019-04-01, MVs/Marseille.FRA/17.2019/5825[A]
+PP_003PZ59	date	XXXX-XX-XX  # 2019-05-04, MVi/ShanDong.CHN/18.19[A]
+PP_003PZ67	date	XXXX-XX-XX  # 2019-05-31, MVi/ShanDong.CHN/22.19[A]
+PP_003N4AW	date	XXXX-XX-XX  # 2019-06, MVs/Marseille.FRA/26.19/3[A]
+PP_003GA6B	date	XXXX-XX-XX  # 2019-07-05, MVs/KobeC.JPN/27.19/19MR61[A]
+PP_003PZCV	date	XXXX-XX-XX  # 2019-07-27, MVi/ShanDong.CHN/30.19[A]
+PP_003PZUW	date	XXXX-XX-XX  # 2020-08-06, MVi/ShanDong.CHN/31.20[A]
+PP_003PZXQ	date	XXXX-XX-XX  # 2020-09-02, MVi/ShanDong.CHN/34.20/1[A]
+PP_003PZVU	date	XXXX-XX-XX  # 2020-09-03, MVi/ShanDong.CHN/34.20/2[A]
+PP_003PZ83	date	XXXX-XX-XX  # 2020-09-17, MVi/ShanDong.CHN/36.20[A]
+PP_003PZ75	date	XXXX-XX-XX  # 2020-11-24, MVi/ShanDong.CHN/50.20[A]
+PP_003NH7P	date	XXXX-XX-XX  # 2021, MVs/California.USA/43.20[A]
+PP_003PZYN	date	XXXX-XX-XX  # 2021-01-20, MVi/ShanDong.CHN/3.21[A]
+PP_003PZAZ	date	XXXX-XX-XX  # 2021-02-09, MVi/ShanDong.CHN/5.21[A]
+PP_003PZZL	date	XXXX-XX-XX  # 2021-03-04, MVi/ShanDong.CHN/8.21[A]
+PP_003PZ91	date	XXXX-XX-XX  # 2021-04-07, MVi/ShanDong.CHN/13.21/2[A]
+PP_003Q00G	date	XXXX-XX-XX  # 2021-04-09, MVi/ShanDong.CHN/13.21/1[A]
+PP_003PZWS	date	XXXX-XX-XX  # 2021-05-09, MVi/ShanDong.CHN/18.21[A]
+PP_003PZBX	date	XXXX-XX-XX  # 2021-05-27, MVi/ShanDong.CHN/20.21[A]
+PP_003Q01E	date	XXXX-XX-XX  # 2021-08-04, MVi/ShanDong.CHN/29.21[A]
+PP_003Q048	date	XXXX-XX-XX  # 2022-04-05, MVi/ShanDong.CHN/14.22[A]
+PP_003Q03A	date	XXXX-XX-XX  # 2022-04-14, MVi/ShanDong.CHN/15.22[A]
+PP_003Q056	date	XXXX-XX-XX  # 2022-05-16, MVi/ShanDong.CHN/20.22[A]
+PP_003Q064	date	XXXX-XX-XX  # 2022-07-30, MVi/ShanDong.CHN/31.22[A]
+PP_003Q8CJ	date	XXXX-XX-XX  # 2022-09-21, MVs/Villupuram.IND/38.22/[A](MIBE)
+PP_007L30H	date	XXXX-XX-XX  # 2023, MeVVacDI__K01711.1
+PP_007L31F	date	XXXX-XX-XX  # 2023, MeVVacAI__K01711.1
+PP_003Q8BL	date	XXXX-XX-XX  # 2023-09-29, MVs/Sao Paulo.BRA/38.23[A]
+PP_003QEE8	date	XXXX-XX-XX  # 2024-02-03, MVs/Pakistan.PAK/03.27[B3]
+PP_003QEG4	date	XXXX-XX-XX  # 2024-04-18, MVs/ASTURIAS.ESP/16.24/1[A]
+PP_0080BZG	date	XXXX-XX-XX  # 2024-07-13, MVs/Gansu.CHN/28.24/3/[G]
+PP_0080C0E	date	XXXX-XX-XX  # 2024-07-21, MVs/Gansu.CHN/29.24/2/[G]
+PP_0080C1C	date	XXXX-XX-XX  # 2024-09-10, MVs/Gansu.CHN/36.24/[G]
+PP_003RAKZ	date	XXXX-XX-XX  # 2025-02-10, MVs/Ontario.CAN/5.25/10[A]
+PP_003RANT	date	XXXX-XX-XX  # 2025-02-10, MVs/Ontario.CAN/5.25/10[A]
+PP_003RALX	date	XXXX-XX-XX  # 2025-03-13, attenuated Edmonston Enders (Moraten)
+PP_003RAMV	date	XXXX-XX-XX  # 2025-03-13, attenuated Edmonston Enders (Moraten)
