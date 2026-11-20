@@ -9,6 +9,7 @@ Instead, changes appear below grouped by the date they were added to the workflo
 
 ## 2026
 
+* TBD: phylogenetic - workflow configuration has been reworked for most rules to have build-specific sections with flexibility to the full set of options provided by the underlying command. **This is a breaking change**.
 * 14 October 2026: phylogenetic - support use of cached remote inputs.
     * See https://github.com/nextstrain/shared/pull/87 for more details.
 * 17 September 2026: phylogenetic - `export.<build>.metadata_columns` now expects a list of strings, instead of a single space-delimited string. **This is a breaking change.**
