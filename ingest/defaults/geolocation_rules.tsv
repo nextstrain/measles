@@ -7,3 +7,17 @@
 
 # Standardize country names
 */Viet Nam/*/*	Asia/Vietnam/*/*
+
+# Standardize US state names submitted without spaces (e.g. "NewMexico" is
+# titlecased to "Newmexico"); augur's default rules already cover "Newyork"
+*/USA/Newjersey/*	North America/USA/New Jersey/*
+*/USA/Newmexico/*	North America/USA/New Mexico/*
+*/USA/Rhodeisland/*	North America/USA/Rhode Island/*
+
+# Split combined division and location
+*/USA/Washington,King/*	North America/USA/Washington/King County
+*/USA/Illinois, Chicago/*	North America/USA/Illinois/Chicago
+
+# Cities submitted as divisions
+*/USA/Berkley/*	North America/USA/California/Berkeley
+*/Canada/Montreal/*	North America/Canada/Quebec/Montreal

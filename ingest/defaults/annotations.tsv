@@ -146,3 +146,42 @@ PP_003REE6	date	1988-XX-XX
 PP_003RFUA	date	1994-XX-XX
 PP_003RG1W	date	1990-XX-XX
 PP_003RG8G	date	1971-XX-XX
+#
+# Delaware Public Health Lab isolates submitted with collection dates years
+# before the DE-2026 accession year (likely date of birth); restrict to 2026
+PP_0080YV3	date	2026-XX-XX  # DE-2026-0015, submitted as 2000-07-18
+PP_0080YXZ	date	2026-XX-XX  # DE-2026-0017, submitted as 2017-12-03
+PP_0080YZV	date	2026-XX-XX  # DE-2026-0019, submitted as 2004-05-17
+PP_0080Z0T	date	2026-XX-XX  # DE-2026-0020, submitted as 2020-01-15
+#
+# Division and location missing from metadata but given in WHO-format isolate name
+PP_0035A27	division	Ontario  # MVs/Hamilton.CAN/9.01
+PP_0035A27	location	Hamilton
+PP_0035AHA	division	Ontario  # MVs/Hamilton.CAN/11.01
+PP_0035AHA	location	Hamilton
+PP_0035AGD	division	Ontario  # MVs/Toronto.CAN/8.01/1
+PP_0035AGD	location	Toronto
+PP_0035AFF	division	British Columbia  # MVs/Vancouver.CAN/6.01/1
+PP_0035AFF	location	Vancouver
+PP_0035AJ8	division	Alberta  # MVs/Calgary.CAN/20.01/1
+PP_0035AJ8	location	Calgary
+PP_0035AK6	division	Alberta  # MVs/Calgary.CAN/21.01
+PP_0035AK6	location	Calgary
+PP_0035BBN	division	Illinois  # MVi/Chicago.USA/89/1
+PP_0035BBN	location	Chicago
+PP_0037BTK	division	Ontario  # MVs/Ontario.CAN/11.08[A]
+PP_0037BUH	division	Ontario  # MVs/Ontario.CAN/12.08[D8]
+PP_0037BVF	division	Ontario  # MVs/Ontario.CAN/15.08[D4]
+PP_004J0LL	division	Ontario  # MVs/Ontario.CAN/13.24[D8]
+PP_004J0C3	division	Quebec  # MVi/Quebec.CAN/14.24[B3]
+PP_004J0MJ	division	Quebec  # MVs/Quebec.CAN/15.24[D8]
+PP_004J0D1	division	Quebec  # MVs/Quebec.CAN/16.24[B3]
+PP_004J0EZ	division	Quebec  # MVs/Quebec.CAN/16.24/2[B3]
+PP_004J0FX	division	Ontario  # MVs/Ontario.CAN/16.24[B3]
+PP_004J0GV	division	Ontario  # MVs/Ontario.CAN/18.24[B3]
+PP_004J0HS	division	Ontario  # MVs/Ontario.CAN/17.24/2[B3]
+PP_004J0JQ	division	Ontario  # MVi/Ontario.CAN/18.24/2[B3]
+PP_004J0KN	division	Ontario  # MVs/Ontario.CAN/20.24[B3]
+PP_003QUXT	division	Ontario  # MVs/Ontario.CAN/47.24[D8]
+PP_003RAKZ	division	Ontario  # MVs/Ontario.CAN/5.25/10[A]
+PP_003RANT	division	Ontario  # MVs/Ontario.CAN/5.25/10[A]
