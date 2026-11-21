@@ -6,10 +6,11 @@ additional_inputs:
     metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
 
-# restrict the builds to only the 2 we currently upload
+# the builds we upload to nextstrain.org
 builds:
   - genome/global
   - N450/global
+  - genome/north-america
 
 custom_rules:
   - build-configs/nextstrain-automation/deploy.smk
