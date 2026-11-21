@@ -63,7 +63,7 @@
     "division"
   ],
   "display_defaults": {
-    "map_triplicate": false,
+    "map_triplicate": true,
     "color_by": "division",
     "geo_resolution": "division"
   },
