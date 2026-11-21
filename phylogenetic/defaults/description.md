@@ -1,10 +1,12 @@
-We gratefully acknowledge the authors, originating and submitting laboratories of the genetic sequences and metadata for sharing their work. Please note that although data generators have generously shared data in an open fashion, that does not mean there should be free license to publish on this data. Data generators should be cited where possible and collaborations should be sought in some circumstances. Please try to avoid scooping someone else's work. Reach out if uncertain.
+We gratefully acknowledge the authors, originating and submitting laboratories of the genetic sequences and metadata for sharing their work via INSDC or Pathoplexus. Please note that data from Pathoplexus comes with specific data use terms that need to be abided by. If data are shared under RESTRICTED terms, you can not use these data in publications without collaborating with the group that generated the data, please consult the [Data Use Terms of Pathoplexus](https://pathoplexus.org/about/terms-of-use/restricted-data) for details. Even if data are shared without restrictions, that does not mean there should be free license to publish on this data. Data generators should be cited where possible and collaborations should be sought in some circumstances. Please try to avoid scooping someone else's work. Reach out if uncertain.
 
-We maintain two views of measles evolution:
+We maintain three views of measles evolution:
 
-The first is [`measles/genome`](https://nextstrain.org/measles/genome), which uses full genome sequences.
+The first is [`measles/genome/global`](https://nextstrain.org/measles/genome/global), which uses full genome sequences.
 
-The second is [`measles/N450`](https://nextstrain.org/measles/N450), which uses a 450bp region of the N gene ("N450") that is frequently sequenced for measles. Since many more N450 sequences are available on NCBI GenBank than full genome sequences, the N450 phylogeny incorporates more samples than the full genome phylogeny. This phylogeny also includes the [28 reference strains that the WHO has used to define measles genotypes](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1).
+The second is [`measles/N450/global`](https://nextstrain.org/measles/N450/global), which uses a 450bp region of the N gene ("N450") that is frequently sequenced for measles. Since many more N450 sequences are available on NCBI GenBank than full genome sequences, the N450 phylogeny incorporates more samples than the full genome phylogeny. This phylogeny also includes the [28 reference strains that the WHO has used to define measles genotypes](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1).
+
+The third is [`measles/genome/north-america`](https://nextstrain.org/measles/genome/north-america), which focuses on recent spread in North America. It uses full genome sequences of genotype D8 viruses collected in North America since January 2025, subsampled by state or province.
 
 #### Analysis
 Our bioinformatic processing workflow can be found at [github.com/nextstrain/measles](https://github.com/nextstrain/measles) and includes:
@@ -14,7 +16,7 @@ Our bioinformatic processing workflow can be found at [github.com/nextstrain/mea
 - genotype assignment using the [measles/N450/WHO-2012 Nextclade dataset](https://clades.nextstrain.org/?dataset-name=nextstrain/measles/N450/WHO-2012) based on [genotype definitions provided by the WHO](https://iris.who.int/bitstream/handle/10665/241889/WER8709_73-80.PDF?sequence=1)
 
 #### Underlying data
-We source sequence data and metadata from [Pathoplexus](https://pathoplexus.org) which ingests data from INSDC and provides data from INSDC together with data that were submitted directly to Pathoplexus. See our [ingest configuration file](https://github.com/nextstrain/rsv/blob/master/ingest/config/config.yaml).
+We source sequence data and metadata from [Pathoplexus](https://pathoplexus.org) which ingests data from INSDC and provides data from INSDC together with data that were submitted directly to Pathoplexus. See our [ingest configuration file](https://github.com/nextstrain/measles/blob/main/ingest/defaults/config.yaml).
 Curated sequences and metadata are available as flat files at the links below.
 The data in the files provided below is the subset of data from Pathoplexus under the OPEN [data use terms](https://pathoplexus.org/about/terms-of-use/data-use-terms). In the metadata files below, each sequence contains a field specifying the data use terms of this sequence and a link to the data use terms.
 
