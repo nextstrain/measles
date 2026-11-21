@@ -1,0 +1,11 @@
+# Opt in to RESTRICTED Pathoplexus data for local runs:
+#
+#   nextstrain build phylogenetic --configfile build-configs/restricted/config.yaml
+#
+# NOTE: These files contain restricted sequences. If you are using these in
+# your own analysis, please refer to the Pathoplexus Data Use Terms.
+# <https://pathoplexus.org/about/terms-of-use/restricted-data>
+additional_inputs:
+  - name: ppx_restricted
+    metadata: "s3://nextstrain-data/files/workflows/measles/metadata_restricted.tsv.zst"
+    sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
