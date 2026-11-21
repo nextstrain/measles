@@ -60,7 +60,9 @@ subsample:
                     - "genotype_ppx!=D8"
                     - "region!=North America"
                 include: include_strains_north-america.txt
-                exclude: dropped_strains.txt
+                exclude:
+                    - dropped_strains.txt
+                    - dropped_strains_north-america.txt
     N450/global:
         samples:
             early:
