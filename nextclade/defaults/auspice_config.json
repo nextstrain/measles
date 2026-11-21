@@ -1,7 +1,7 @@
 {
   "title": "Real-time tracking of measles virus evolution",
   "maintainers": [
-    {"name": "Kim Andrews", "url": "https://bedford.io/team/kim-andrews/"},
+    {"name": "Trevor Bedford", "url": "https://bedford.io/team/trevor-bedford/"},
     {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
   ],
   "build_url": "https://github.com/nextstrain/measles",

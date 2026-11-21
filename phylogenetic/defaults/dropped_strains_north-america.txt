@@ -1,0 +1,14 @@
+# excluded from the genome/north-america build only, in addition to dropped_strains.txt
+# these real recent North American viruses but fall outside of the diversity of the
+# outbreak clade
+PP_007ASHE
+PP_007C96G
+PP_007FFWP
+PP_007K771
+PP_007KTHU
+PP_007N7J6
+PP_0070EN2
+PP_0070GXG
+PP_0070K08
+PP_0070KFC
+PP_0080Q4U

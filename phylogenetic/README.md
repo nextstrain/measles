@@ -99,6 +99,9 @@ additional_inputs:
     sequences: "s3://nextstrain-data/files/workflows/measles/sequences_restricted.fasta.zst"
 ```
 
+This config is also available as [build-configs/restricted/config.yaml](build-configs/restricted/config.yaml)
+and can be added to a local run with `--configfile build-configs/restricted/config.yaml`.
+
 ### Adding your own data
 
 If you want to add your own data to the default input, specify your inputs with
