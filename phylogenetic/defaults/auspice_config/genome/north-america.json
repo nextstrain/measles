@@ -1,7 +1,8 @@
 {
   "title": "Genomic surveillance of 2025-2026 North America measles outbreak",
   "maintainers": [
-    {"name": "Trevor Bedford", "url": "https://bedford.io/team/trevor-bedford/"}
+    {"name": "Trevor Bedford", "url": "https://bedford.io/team/trevor-bedford/"},
+    {"name": "the Nextstrain team", "url": "https://nextstrain.org/team"}
   ],
   "data_provenance": [
     {
